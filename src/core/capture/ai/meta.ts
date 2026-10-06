@@ -58,14 +58,16 @@ export async function generateGuideMeta(
   provider: string,
   model: string,
   apiKey: string,
+  baseUrl?: string,
 ): Promise<GuideMeta | null> {
   if (steps.length === 0) return null;
 
   const formatted = steps.map((s, i) => `${i + 1}. [${s.url}] ${s.description}`).join('\n');
-  const settings = await localStorage.get(['aiLanguage']);
+  const settings = await localStorage.get(['aiLanguage', 'omnirouteBaseUrl']);
   const locale = (settings.aiLanguage as string) || 'en';
+  const omnirouteBaseUrl = baseUrl || (settings.omnirouteBaseUrl as string) || undefined;
   const prompt = GUIDE_META_PROMPT.replace('{{steps}}', formatted) + getLanguageSuffix(locale);
-  const aiModel = createModel(provider, model, apiKey);
+  const aiModel = createModel(provider, model, apiKey, omnirouteBaseUrl);
 
   try {
     const { object } = await generateObject({

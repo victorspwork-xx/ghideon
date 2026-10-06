@@ -67,6 +67,14 @@ describe('validateApiKey', () => {
     expect(init.headers.Authorization).toBe('Bearer sk-deepseek');
   });
 
+  it('checks an omniroute key or default endpoint against omniroute baseUrl', async () => {
+    fetchMock.mockResolvedValue({ ok: true, status: 200 });
+    expect(await validateApiKey('omniroute', '', 'http://localhost:20128/v1')).toEqual({ valid: true });
+    const [url, init] = fetchMock.mock.calls[0];
+    expect(url).toBe('http://localhost:20128/v1/models');
+    expect(init.headers.Authorization).toBe('Bearer omniroute');
+  });
+
   it('gives up rather than spinning forever when a host never answers', async () => {
     fetchMock.mockResolvedValue({ ok: true, status: 200 });
     await validateApiKey('openai', 'sk-key');

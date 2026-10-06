@@ -42,7 +42,9 @@ export const captureMachine = createMachine({
           target: CaptureState.RECORDING,
           actions: assign({
             currentGuideId: () => crypto.randomUUID(),
-            stepCount: 0,
+            // New guides get a cover block at index 0, so start action-step
+            // indexing at 1. Insert-into-existing has no cover block, start at 0.
+            stepCount: ({ event }) => (event.insertTargetGuideId === undefined ? 1 : 0),
             currentUrl: ({ event }) => event.url ?? '',
             insertTargetGuideId: ({ event }) => event.insertTargetGuideId ?? null,
             insertAtIndex: ({ event }) => event.insertAtIndex ?? null,

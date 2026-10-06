@@ -1,7 +1,15 @@
+import { AI_PROVIDERS } from '@/core/capture/ai/models';
 import { CaptureState } from '@/core/capture/machine';
 import { hasVoiceApiKey, VOICE_KEY_SETTINGS } from '@/core/capture/voice/api-key';
+import type { NarrationUpdate } from '@/core/capture/voice/narration-updates';
 import { narrationUpdates } from '@/core/capture/voice/narration-updates';
-import { applyNarrationToSteps, findExistingStepIds, getStepsForGuide } from '@/core/guides/service';
+import {
+  applyNarrationToSteps,
+  findExistingStepIds,
+  getStepsForGuide,
+  notifyGuidesChanged,
+  updateStepDescription,
+} from '@/core/guides/service';
 import { localStorage, onMessage as onRuntimeMessage } from '@/lib/browser-api';
 import { logger } from '@/lib/logger';
 import {
@@ -181,8 +189,8 @@ export async function startVoiceNarration(tabId?: number): Promise<void> {
   }
 }
 
-function stepMarks(steps: Array<{ id: string; timestamp: number }>): VoiceStepMark[] {
-  return steps.map((step) => ({ stepId: step.id, timestamp: step.timestamp }));
+function stepMarks(steps: Array<{ id: string; timestamp: number; blockType?: string }>): VoiceStepMark[] {
+  return steps.map((step) => ({ stepId: step.id, timestamp: step.timestamp, isCover: step.blockType === 'cover' }));
 }
 
 async function recoverNarration(guideId: string): Promise<void> {
@@ -263,6 +271,59 @@ export async function stopVoiceNarration(guideId: string): Promise<void> {
   }
 }
 
+async function polishNarrationSteps(updates: readonly NarrationUpdate[]): Promise<void> {
+  const settings = await localStorage.get(['aiApiKey', 'aiProvider', 'aiModel', 'aiLanguage']);
+  if (!settings.aiApiKey || updates.length === 0) return;
+
+  const provider = (settings.aiProvider as string) || 'openai';
+  const defaultModel = AI_PROVIDERS[provider]?.defaultModel || 'gpt-4o-mini';
+  const model = (settings.aiModel as string) || defaultModel;
+  const locale = (settings.aiLanguage as string) || 'en';
+
+  try {
+    const { generateText } = await import('ai');
+    const { createModel } = await import('@/core/capture/ai/provider');
+    const { getLanguageSuffix } = await import('@/core/capture/ai/prompts');
+    const aiModel = createModel(provider, model, settings.aiApiKey as string);
+
+    let changed = false;
+    await Promise.allSettled(
+      updates.map(async ({ stepId, description }) => {
+        try {
+          const prompt =
+            `You are refining a spoken voice narration into a clear, concise step instruction for a browser workflow guide.\n` +
+            `Spoken transcription: "${description}"\n\n` +
+            `Rules:\n` +
+            `- Write a single concise imperative sentence (e.g., "Click the Settings icon", "Enter your username").\n` +
+            `- Remove speech disfluencies and filler words ("um", "uh", "so yeah").\n` +
+            `- Keep all specific labels, names, and buttons mentioned.\n` +
+            `- Output only the polished instruction, no quotes or commentary.` +
+            getLanguageSuffix(locale);
+
+          const { text } = await generateText({
+            model: aiModel,
+            prompt,
+            maxOutputTokens: 100,
+          });
+
+          const polished = text.trim().replace(/^["“']|["”']$/g, '');
+          if (polished && polished !== description) {
+            await updateStepDescription(stepId, polished);
+            changed = true;
+          }
+        } catch (err) {
+          logger.warn('voice: AI polish failed for step', stepId, err);
+        }
+      }),
+    );
+    if (changed) {
+      notifyGuidesChanged({ type: 'mutated' });
+    }
+  } catch (err) {
+    logger.warn('voice: AI polish setup failed', err);
+  }
+}
+
 async function applyNarration(guideId: string, result: VoiceResultEvent['result']): Promise<void> {
   const final = transcribingGuideId === guideId;
   try {
@@ -271,6 +332,9 @@ async function applyNarration(guideId: string, result: VoiceResultEvent['result'
     const surviving = await findExistingStepIds(narrated);
     const updates = narrationUpdates(result, surviving);
     await applyNarrationToSteps(updates);
+    void polishNarrationSteps(updates).catch((err) => {
+      logger.warn('voice: background narration polish failed', err);
+    });
     const narratedIds = updates.map((update) => update.stepId);
     discardDeferred(guideId, narratedIds);
     recordNarrated(guideId, narratedIds);

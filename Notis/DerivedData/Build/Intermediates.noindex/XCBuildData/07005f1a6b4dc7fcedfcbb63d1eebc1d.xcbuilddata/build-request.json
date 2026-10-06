@@ -1,0 +1,63 @@
+{
+  "buildCommand" : {
+    "command" : "build",
+    "skipDependencies" : false,
+    "style" : "buildOnly"
+  },
+  "configuredTargets" : [
+    {
+      "guid" : "5b783ae7559c226e2d73f20b2688b79aca579386170605c3f7e66bd088455201"
+    }
+  ],
+  "containerPath" : "/Users/victorspinu/Desktop/Mimikro/Notis/Notis.xcodeproj",
+  "continueBuildingAfterErrors" : false,
+  "dependencyScope" : "workspace",
+  "enableIndexBuildArena" : false,
+  "hideShellScriptEnvironment" : false,
+  "parameters" : {
+    "action" : "build",
+    "activeArchitecture" : "undefined_arch",
+    "activeRunDestination" : {
+      "disableOnlyActiveArch" : true,
+      "hostTargetedPlatform" : null,
+      "platform" : "iphonesimulator",
+      "sdk" : "iphonesimulator27.0",
+      "sdkVariant" : "iphonesimulator",
+      "supportedArchitectures" : [
+        "i386",
+        "x86_64"
+      ],
+      "targetArchitecture" : "undefined_arch"
+    },
+    "arenaInfo" : {
+      "buildIntermediatesPath" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex",
+      "buildProductsPath" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Products",
+      "derivedDataPath" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData",
+      "indexDataStoreFolderPath" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Index.noindex/DataStore",
+      "indexEnableDataStore" : true,
+      "indexPCHPath" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Index.noindex/PrecompiledHeaders",
+      "pchPath" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/PrecompiledHeaders"
+    },
+    "configurationName" : "Debug",
+    "overrides" : {
+      "commandLine" : {
+        "table" : {
+
+        }
+      },
+      "synthesized" : {
+        "table" : {
+          "ACTION" : "build",
+          "ENABLE_PREVIEWS" : "NO",
+          "ENABLE_XOJIT_PREVIEWS" : "YES"
+        }
+      }
+    }
+  },
+  "schemeCommand" : "launch",
+  "showNonLoggedProgress" : true,
+  "useDryRun" : false,
+  "useImplicitDependencies" : true,
+  "useLegacyBuildLocations" : false,
+  "useParallelTargets" : true
+}

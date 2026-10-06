@@ -16,10 +16,10 @@ export function variantLabel(variant: CalloutVariant): string {
   return i18n.t(VARIANT_LABEL_KEYS[variant]);
 }
 
-export const DEFAULT_CALLOUT_COLOR = '#4F46E5';
+export const DEFAULT_CALLOUT_COLOR = '#0057C8';
 
 const VARIANT_ACCENTS: Record<CalloutVariant, string> = {
-  info: '#4F46E5',
+  info: '#0057C8',
   warning: '#D97706',
   error: '#DC2626',
   success: '#059669',

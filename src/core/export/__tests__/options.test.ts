@@ -30,6 +30,7 @@ describe('normaliseExportOptions', () => {
       stepDescriptions: DEFAULT_EXPORT_OPTIONS.stepDescriptions,
       resolution: DEFAULT_EXPORT_OPTIONS.resolution,
       gifQuality: DEFAULT_EXPORT_OPTIONS.gifQuality,
+      includeVoice: DEFAULT_EXPORT_OPTIONS.includeVoice,
     });
   });
 

@@ -1,4 +1,4 @@
-import { History, Loader2, Play, Sparkles } from 'lucide-react';
+import { ChevronsUp, History, Loader2, Play, Sparkles, Volume2 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { TypeAnimation } from 'react-type-animation';
 import { i18n } from '#imports';
@@ -9,9 +9,13 @@ import {
   getGuide,
   getScreenshotsForSteps,
   onGuidesChanged,
+  shiftDescriptionsBack,
   updateGuideDescription,
   updateGuideTitle,
+  updateStepAudioMuted,
+  updateStepAudioText,
   updateStepDescription,
+  updateStepTitle,
 } from '@/core/guides/service';
 import type { SnapshotLike } from '@/core/guides/snapshot-diff';
 import type { Guide, Screenshot, Snapshot, Step } from '@/core/guides/types';
@@ -25,8 +29,12 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/components/ui/tool
 import AnnotationEditor from '@/ui/shared/AnnotationEditor';
 import { useAskAi } from '@/ui/shared/AskAi';
 import FaviconImg from '@/ui/shared/FaviconImg';
+
 import { guideDescriptionErrorMessage } from '@/ui/shared/guide-description-error';
+import TextToVoiceBar from '@/ui/shared/TextToVoiceBar';
 import Toast from '@/ui/shared/Toast';
+import { useTextToVoice } from '@/ui/shared/useTextToVoice';
+
 import GuideStepList from './components/GuideStepList';
 import VersionHistoryPanel from './components/VersionHistoryPanel';
 
@@ -98,9 +106,20 @@ export default function GuideContent({ guideId, initialStepId, initialTool }: Gu
   const [generating, setGenerating] = useState(false);
   const [hasApiKey, setHasApiKey] = useState(false);
   const [descriptionError, setDescriptionError] = useState<string | null>(null);
+  const [showVoiceBar, setShowVoiceBar] = useState(false);
   const titleRef = useRef('');
   const appliedInitialRef = useRef(false);
   const editingDescriptionRef = useRef(false);
+
+  const stepsForVoice = useMemo(() => {
+    if (preview && previewData?.snapshotId === preview.id) return previewData.steps;
+    return data?.steps ?? [];
+  }, [preview, previewData, data?.steps]);
+
+  const voice = useTextToVoice({
+    steps: stepsForVoice,
+    onStepChange: (stepId) => scrollToStep(stepId),
+  });
 
   const loadGuide = useCallback(async () => {
     const result = await getGuide(guideId);
@@ -185,11 +204,35 @@ export default function GuideContent({ guideId, initialStepId, initialTool }: Gu
     }
   }, [guideId]);
 
+  const handleTitleChange = useCallback(async (stepId: string, title: string) => {
+    await updateStepTitle(stepId, title);
+    setData((prev) => {
+      if (!prev) return prev;
+      return { ...prev, steps: prev.steps.map((s) => (s.id === stepId ? { ...s, title } : s)) };
+    });
+  }, []);
+
   const handleDescriptionChange = useCallback(async (stepId: string, description: string) => {
     await updateStepDescription(stepId, description);
     setData((prev) => {
       if (!prev) return prev;
       return { ...prev, steps: prev.steps.map((s) => (s.id === stepId ? { ...s, description } : s)) };
+    });
+  }, []);
+
+  const handleAudioTextChange = useCallback(async (stepId: string, audioText: string) => {
+    await updateStepAudioText(stepId, audioText);
+    setData((prev) => {
+      if (!prev) return prev;
+      return { ...prev, steps: prev.steps.map((s) => (s.id === stepId ? { ...s, audioText } : s)) };
+    });
+  }, []);
+
+  const handleAudioMutedChange = useCallback(async (stepId: string, audioMuted: boolean) => {
+    await updateStepAudioMuted(stepId, audioMuted);
+    setData((prev) => {
+      if (!prev) return prev;
+      return { ...prev, steps: prev.steps.map((s) => (s.id === stepId ? { ...s, audioMuted } : s)) };
     });
   }, []);
 
@@ -200,6 +243,11 @@ export default function GuideContent({ guideId, initialStepId, initialTool }: Gu
     },
     [guideId, loadGuide],
   );
+
+  const handleShiftDescriptions = useCallback(async () => {
+    await shiftDescriptionsBack(guideId);
+    await loadGuide();
+  }, [guideId, loadGuide]);
 
   const handleOpenEditor = useCallback(
     async (stepId: string, tool: 'annotate' | 'redact' | 'crop' | 'target') => {
@@ -321,131 +369,6 @@ export default function GuideContent({ guideId, initialStepId, initialTool }: Gu
             </div>
           )}
 
-          <div className={untitledPending ? 'min-h-[88px]' : ''}>
-            {untitledPending ? (
-              <div className="text-[32px] font-extrabold leading-tight animate-gradient-text bg-[length:300%_100%] bg-clip-text text-transparent bg-gradient-to-r from-muted-foreground via-violet to-muted-foreground max-w-[480px]">
-                {i18n.t('fullview_writingTitle')}
-              </div>
-            ) : animatingTitle ? (
-              <div className="relative text-[32px] font-extrabold leading-tight">
-                <div className="invisible" aria-hidden="true">
-                  {animatingTitle}
-                </div>
-                <div className="absolute inset-0 text-foreground">
-                  <TypeAnimation
-                    sequence={[
-                      animatingTitle,
-                      () => {
-                        titleRef.current = animatingTitle;
-                        setTitle(animatingTitle);
-                        setTypingTitle(null);
-                      },
-                    ]}
-                    speed={70}
-                    cursor={false}
-                  />
-                  <span className="inline-block w-[3px] h-[30px] bg-violet ml-0.5 align-text-bottom animate-blink" />
-                </div>
-              </div>
-            ) : editing && !preview ? (
-              <textarea
-                ref={(el) => {
-                  if (el) {
-                    el.style.height = '0';
-                    el.style.height = `${el.scrollHeight}px`;
-                  }
-                }}
-                value={title}
-                rows={1}
-                onChange={(e) => {
-                  setTitle(e.target.value);
-                  setGuideTitle(e.target.value);
-                  const el = e.target;
-                  el.style.height = '0';
-                  el.style.height = `${el.scrollHeight}px`;
-                }}
-                onBlur={handleTitleBlur}
-                className="text-[32px] font-extrabold bg-transparent border-b-2 border-transparent hover:border-border focus:outline-none focus:border-accent w-full p-0 text-foreground resize-none leading-tight overflow-hidden"
-              />
-            ) : (
-              <h1 className="text-[32px] font-extrabold leading-tight text-foreground whitespace-pre-wrap break-words">
-                {preview ? preview.title : title}
-              </h1>
-            )}
-          </div>
-
-          {!preview && (
-            <div className="mt-3">
-              {metaGenerating ? (
-                <div className="max-w-[720px] text-[15px] leading-relaxed animate-gradient-text bg-[length:300%_100%] bg-clip-text text-transparent bg-gradient-to-r from-muted-foreground via-violet to-muted-foreground">
-                  {i18n.t('fullview_writingDescription')}
-                </div>
-              ) : editing ? (
-                <div className="flex items-start gap-2 max-w-[720px]">
-                  <textarea
-                    ref={(el) => {
-                      if (el) {
-                        el.style.height = '0';
-                        el.style.height = `${el.scrollHeight}px`;
-                      }
-                    }}
-                    value={description}
-                    rows={2}
-                    onChange={(e) => {
-                      setDescription(e.target.value);
-                      const el = e.target;
-                      el.style.height = '0';
-                      el.style.height = `${el.scrollHeight}px`;
-                    }}
-                    onFocus={() => {
-                      editingDescriptionRef.current = true;
-                    }}
-                    onSelect={askAi.onSelect}
-                    onBlur={handleGuideDescriptionBlur}
-                    placeholder={i18n.t('editor.descriptionPlaceholder')}
-                    className="flex-1 resize-none overflow-hidden bg-transparent p-0 text-[15px] leading-relaxed text-muted-foreground placeholder:text-muted-foreground/60 border-b-2 border-transparent hover:border-border focus:outline-none focus:border-accent"
-                  />
-                  {hasApiKey && <span className="shrink-0 mt-0.5">{askAi.trigger}</span>}
-                  {hasApiKey &&
-                    (() => {
-                      const busy = generating || metaGenerating;
-                      const label = description
-                        ? i18n.t('editor.regenerateDescription')
-                        : i18n.t('editor.generateDescription');
-                      return (
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <button
-                              type="button"
-                              onClick={() => {
-                                if (busy) return;
-                                void handleGenerateDescription();
-                              }}
-                              aria-disabled={busy}
-                              aria-label={label}
-                              className="shrink-0 mt-0.5 p-1 rounded-md text-muted-foreground hover:text-accent hover:bg-secondary transition-colors aria-disabled:cursor-not-allowed aria-disabled:hover:text-muted-foreground aria-disabled:hover:bg-transparent"
-                            >
-                              {busy ? (
-                                <Loader2 size={15} className="animate-spin text-accent" />
-                              ) : (
-                                <Sparkles size={15} />
-                              )}
-                            </button>
-                          </TooltipTrigger>
-                          <TooltipContent>{label}</TooltipContent>
-                        </Tooltip>
-                      );
-                    })()}
-                  <Toast message={descriptionError} onDismiss={() => setDescriptionError(null)} />
-                </div>
-              ) : (
-                description && (
-                  <p className="max-w-[720px] text-[15px] leading-relaxed text-muted-foreground">{description}</p>
-                )
-              )}
-            </div>
-          )}
-
           <div className="flex items-center gap-1.5 mt-2 mb-4 flex-wrap">
             <span className="inline-flex items-center text-[11px] font-medium text-muted-foreground bg-card border border-border px-2.5 py-0.5 rounded-full">
               {formatDate(data.guide.createdAt)}
@@ -461,6 +384,43 @@ export default function GuideContent({ guideId, initialStepId, initialTool }: Gu
                 {domain}
               </span>
             )}
+            {viewSteps.length > 0 && (
+              <button
+                type="button"
+                onClick={() => {
+                  setShowVoiceBar((prev) => {
+                    if (prev) voice.stop();
+                    return !prev;
+                  });
+                }}
+                className={`inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-0.5 rounded-full transition-colors border ${
+                  showVoiceBar || voice.isPlaying
+                    ? 'bg-accent text-white border-accent'
+                    : 'text-purple border-border bg-card hover:border-accent hover:text-accent'
+                } ${!editing && !preview ? 'ml-auto' : ''}`}
+              >
+                <Volume2 size={12} />
+                {i18n.t('editor.textToVoice')}
+              </button>
+            )}
+            {editing && !preview && viewSteps.length > 1 && (
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <button
+                    type="button"
+                    onClick={handleShiftDescriptions}
+                    className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-0.5 rounded-full transition-colors border text-muted-foreground border-border bg-card hover:border-accent hover:text-accent"
+                  >
+                    <ChevronsUp size={12} />
+                    {i18n.t('editor.shiftDescriptions') || 'Shift descriptions ↑'}
+                  </button>
+                </TooltipTrigger>
+                <TooltipContent className="max-w-[240px] text-center">
+                  {i18n.t('editor.shiftDescriptionsHint') ||
+                    'Move all titles, descriptions and audio texts one step earlier. Useful when AI descriptions refer to the next step.'}
+                </TooltipContent>
+              </Tooltip>
+            )}
             {!editing && !preview && viewSteps.length > 0 && (
               <button
                 onClick={() => {
@@ -468,7 +428,7 @@ export default function GuideContent({ guideId, initialStepId, initialTool }: Gu
                   void sendMessage('startGuideMe', { guideId });
                 }}
                 disabled={!viewSteps.some((s) => s.elementMeta)}
-                className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-primary-foreground bg-primary hover:bg-primary/90 px-3 py-0.5 rounded-full transition-colors disabled:opacity-30 disabled:cursor-not-allowed ml-auto"
+                className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-primary-foreground bg-primary hover:bg-primary/90 px-3 py-0.5 rounded-full transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 <Play size={11} />
                 {i18n.t('fullview_guideMe')}
@@ -476,11 +436,28 @@ export default function GuideContent({ guideId, initialStepId, initialTool }: Gu
             )}
           </div>
 
+          {showVoiceBar && (
+            <div className="mb-4 sticky top-4 z-30">
+              <TextToVoiceBar
+                voice={voice}
+                totalSteps={viewSteps.length}
+                onClose={() => {
+                  setShowVoiceBar(false);
+                  voice.stop();
+                }}
+              />
+            </div>
+          )}
+
           <GuideStepList
+            guide={data.guide}
             guideId={guideId}
             steps={viewSteps}
             screenshots={viewScreenshots}
+            onTitleChange={handleTitleChange}
             onDescriptionChange={handleDescriptionChange}
+            onAudioTextChange={handleAudioTextChange}
+            onAudioMutedChange={handleAudioMutedChange}
             onDelete={handleDeleteStep}
             onOpenEditor={handleOpenEditor}
             onReorder={(newSteps) => setData((prev) => (prev ? { ...prev, steps: newSteps } : prev))}
@@ -491,6 +468,8 @@ export default function GuideContent({ guideId, initialStepId, initialTool }: Gu
               openSidebar();
               void startInsertRecording(targetGuideId, insertAtIndex, tabId);
             }}
+            activeVoiceStepId={voice.isPlaying || voice.isPaused ? voice.activeStepId : null}
+            onSpeakStep={voice.speakSingleStep}
           />
         </div>
 

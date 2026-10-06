@@ -23,7 +23,7 @@ describe('captureMachine', () => {
     expect(snap.context.currentGuideId).toBeTypeOf('string');
     expect(snap.context.currentGuideId).toHaveLength(36);
     expect(snap.context.currentUrl).toBe('https://example.com');
-    expect(snap.context.stepCount).toBe(0);
+    expect(snap.context.stepCount).toBe(1);
   });
 
   it('transitions RECORDING → IDLE on STOP_RECORDING and resets context', () => {
@@ -44,13 +44,13 @@ describe('captureMachine', () => {
     actor.send({ type: 'START_RECORDING', url: 'https://example.com' });
 
     actor.send({ type: 'USER_ACTION' });
-    expect(actor.getSnapshot().context.stepCount).toBe(1);
-
-    actor.send({ type: 'USER_ACTION' });
     expect(actor.getSnapshot().context.stepCount).toBe(2);
 
     actor.send({ type: 'USER_ACTION' });
     expect(actor.getSnapshot().context.stepCount).toBe(3);
+
+    actor.send({ type: 'USER_ACTION' });
+    expect(actor.getSnapshot().context.stepCount).toBe(4);
   });
 
   it('stays IDLE when STOP_RECORDING is sent in IDLE state', () => {

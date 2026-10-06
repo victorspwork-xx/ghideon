@@ -1,0 +1,249 @@
+{
+  "" : {
+    "diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/Notis-primary.dia",
+    "emit-module-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/Notis-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/Notis-primary-emit-module.dia",
+    "pch" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/Notis-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/Notis-primary.swiftdeps"
+  },
+  "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+    "index-unit-output-path" : "/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps",
+    "swiftmodule" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/GeneratedAssetSymbols~partial.swiftmodule"
+  },
+  "/Users/victorspinu/Desktop/Mimikro/Notis/NotisApp/Sources/App/NotisApp.swift" : {
+    "const-values" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/NotisApp.swiftconstvalues",
+    "dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/NotisApp.d",
+    "diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/NotisApp.dia",
+    "index-unit-output-path" : "/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/NotisApp.o",
+    "llvm-bc" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/NotisApp.bc",
+    "object" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/NotisApp.o",
+    "swift-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/NotisApp.swiftdeps",
+    "swiftmodule" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/NotisApp~partial.swiftmodule"
+  },
+  "/Users/victorspinu/Desktop/Mimikro/Notis/NotisApp/Sources/Models/Meeting.swift" : {
+    "const-values" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/Meeting.swiftconstvalues",
+    "dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/Meeting.d",
+    "diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/Meeting.dia",
+    "index-unit-output-path" : "/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/Meeting.o",
+    "llvm-bc" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/Meeting.bc",
+    "object" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/Meeting.o",
+    "swift-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/Meeting.swiftdeps",
+    "swiftmodule" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/Meeting~partial.swiftmodule"
+  },
+  "/Users/victorspinu/Desktop/Mimikro/Notis/NotisApp/Sources/Models/ProviderConfig.swift" : {
+    "const-values" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/ProviderConfig.swiftconstvalues",
+    "dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/ProviderConfig.d",
+    "diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/ProviderConfig.dia",
+    "index-unit-output-path" : "/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/ProviderConfig.o",
+    "llvm-bc" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/ProviderConfig.bc",
+    "object" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/ProviderConfig.o",
+    "swift-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/ProviderConfig.swiftdeps",
+    "swiftmodule" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/ProviderConfig~partial.swiftmodule"
+  },
+  "/Users/victorspinu/Desktop/Mimikro/Notis/NotisApp/Sources/Services/AI/AIConnectionValidator.swift" : {
+    "const-values" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AIConnectionValidator.swiftconstvalues",
+    "dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AIConnectionValidator.d",
+    "diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AIConnectionValidator.dia",
+    "index-unit-output-path" : "/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AIConnectionValidator.o",
+    "llvm-bc" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AIConnectionValidator.bc",
+    "object" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AIConnectionValidator.o",
+    "swift-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AIConnectionValidator.swiftdeps",
+    "swiftmodule" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AIConnectionValidator~partial.swiftmodule"
+  },
+  "/Users/victorspinu/Desktop/Mimikro/Notis/NotisApp/Sources/Services/AI/AIServiceProtocol.swift" : {
+    "const-values" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AIServiceProtocol.swiftconstvalues",
+    "dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AIServiceProtocol.d",
+    "diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AIServiceProtocol.dia",
+    "index-unit-output-path" : "/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AIServiceProtocol.o",
+    "llvm-bc" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AIServiceProtocol.bc",
+    "object" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AIServiceProtocol.o",
+    "swift-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AIServiceProtocol.swiftdeps",
+    "swiftmodule" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AIServiceProtocol~partial.swiftmodule"
+  },
+  "/Users/victorspinu/Desktop/Mimikro/Notis/NotisApp/Sources/Services/AI/GeminiClient.swift" : {
+    "const-values" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/GeminiClient.swiftconstvalues",
+    "dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/GeminiClient.d",
+    "diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/GeminiClient.dia",
+    "index-unit-output-path" : "/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/GeminiClient.o",
+    "llvm-bc" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/GeminiClient.bc",
+    "object" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/GeminiClient.o",
+    "swift-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/GeminiClient.swiftdeps",
+    "swiftmodule" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/GeminiClient~partial.swiftmodule"
+  },
+  "/Users/victorspinu/Desktop/Mimikro/Notis/NotisApp/Sources/Services/AI/GroqClient.swift" : {
+    "const-values" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/GroqClient.swiftconstvalues",
+    "dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/GroqClient.d",
+    "diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/GroqClient.dia",
+    "index-unit-output-path" : "/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/GroqClient.o",
+    "llvm-bc" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/GroqClient.bc",
+    "object" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/GroqClient.o",
+    "swift-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/GroqClient.swiftdeps",
+    "swiftmodule" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/GroqClient~partial.swiftmodule"
+  },
+  "/Users/victorspinu/Desktop/Mimikro/Notis/NotisApp/Sources/Services/AI/MeetingProcessingPipeline.swift" : {
+    "const-values" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MeetingProcessingPipeline.swiftconstvalues",
+    "dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MeetingProcessingPipeline.d",
+    "diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MeetingProcessingPipeline.dia",
+    "index-unit-output-path" : "/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MeetingProcessingPipeline.o",
+    "llvm-bc" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MeetingProcessingPipeline.bc",
+    "object" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MeetingProcessingPipeline.o",
+    "swift-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MeetingProcessingPipeline.swiftdeps",
+    "swiftmodule" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MeetingProcessingPipeline~partial.swiftmodule"
+  },
+  "/Users/victorspinu/Desktop/Mimikro/Notis/NotisApp/Sources/Services/AI/OmniRouteClient.swift" : {
+    "const-values" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/OmniRouteClient.swiftconstvalues",
+    "dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/OmniRouteClient.d",
+    "diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/OmniRouteClient.dia",
+    "index-unit-output-path" : "/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/OmniRouteClient.o",
+    "llvm-bc" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/OmniRouteClient.bc",
+    "object" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/OmniRouteClient.o",
+    "swift-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/OmniRouteClient.swiftdeps",
+    "swiftmodule" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/OmniRouteClient~partial.swiftmodule"
+  },
+  "/Users/victorspinu/Desktop/Mimikro/Notis/NotisApp/Sources/Services/Audio/AudioMerger.swift" : {
+    "const-values" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AudioMerger.swiftconstvalues",
+    "dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AudioMerger.d",
+    "diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AudioMerger.dia",
+    "index-unit-output-path" : "/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AudioMerger.o",
+    "llvm-bc" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AudioMerger.bc",
+    "object" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AudioMerger.o",
+    "swift-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AudioMerger.swiftdeps",
+    "swiftmodule" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AudioMerger~partial.swiftmodule"
+  },
+  "/Users/victorspinu/Desktop/Mimikro/Notis/NotisApp/Sources/Services/Audio/AudioPlayerService.swift" : {
+    "const-values" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AudioPlayerService.swiftconstvalues",
+    "dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AudioPlayerService.d",
+    "diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AudioPlayerService.dia",
+    "index-unit-output-path" : "/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AudioPlayerService.o",
+    "llvm-bc" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AudioPlayerService.bc",
+    "object" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AudioPlayerService.o",
+    "swift-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AudioPlayerService.swiftdeps",
+    "swiftmodule" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AudioPlayerService~partial.swiftmodule"
+  },
+  "/Users/victorspinu/Desktop/Mimikro/Notis/NotisApp/Sources/Services/Audio/AudioRecorderService.swift" : {
+    "const-values" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AudioRecorderService.swiftconstvalues",
+    "dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AudioRecorderService.d",
+    "diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AudioRecorderService.dia",
+    "index-unit-output-path" : "/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AudioRecorderService.o",
+    "llvm-bc" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AudioRecorderService.bc",
+    "object" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AudioRecorderService.o",
+    "swift-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AudioRecorderService.swiftdeps",
+    "swiftmodule" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/AudioRecorderService~partial.swiftmodule"
+  },
+  "/Users/victorspinu/Desktop/Mimikro/Notis/NotisApp/Sources/Services/Audio/SilentAudioPlayer.swift" : {
+    "const-values" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/SilentAudioPlayer.swiftconstvalues",
+    "dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/SilentAudioPlayer.d",
+    "diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/SilentAudioPlayer.dia",
+    "index-unit-output-path" : "/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/SilentAudioPlayer.o",
+    "llvm-bc" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/SilentAudioPlayer.bc",
+    "object" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/SilentAudioPlayer.o",
+    "swift-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/SilentAudioPlayer.swiftdeps",
+    "swiftmodule" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/SilentAudioPlayer~partial.swiftmodule"
+  },
+  "/Users/victorspinu/Desktop/Mimikro/Notis/NotisApp/Sources/Services/Storage/DataStore.swift" : {
+    "const-values" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/DataStore.swiftconstvalues",
+    "dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/DataStore.d",
+    "diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/DataStore.dia",
+    "index-unit-output-path" : "/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/DataStore.o",
+    "llvm-bc" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/DataStore.bc",
+    "object" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/DataStore.o",
+    "swift-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/DataStore.swiftdeps",
+    "swiftmodule" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/DataStore~partial.swiftmodule"
+  },
+  "/Users/victorspinu/Desktop/Mimikro/Notis/NotisApp/Sources/Services/Storage/KeychainManager.swift" : {
+    "const-values" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/KeychainManager.swiftconstvalues",
+    "dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/KeychainManager.d",
+    "diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/KeychainManager.dia",
+    "index-unit-output-path" : "/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/KeychainManager.o",
+    "llvm-bc" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/KeychainManager.bc",
+    "object" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/KeychainManager.o",
+    "swift-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/KeychainManager.swiftdeps",
+    "swiftmodule" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/KeychainManager~partial.swiftmodule"
+  },
+  "/Users/victorspinu/Desktop/Mimikro/Notis/NotisApp/Sources/Views/MainTabView.swift" : {
+    "const-values" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MainTabView.swiftconstvalues",
+    "dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MainTabView.d",
+    "diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MainTabView.dia",
+    "index-unit-output-path" : "/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MainTabView.o",
+    "llvm-bc" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MainTabView.bc",
+    "object" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MainTabView.o",
+    "swift-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MainTabView.swiftdeps",
+    "swiftmodule" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MainTabView~partial.swiftmodule"
+  },
+  "/Users/victorspinu/Desktop/Mimikro/Notis/NotisApp/Sources/Views/Meetings/ActionItemsView.swift" : {
+    "const-values" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/ActionItemsView.swiftconstvalues",
+    "dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/ActionItemsView.d",
+    "diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/ActionItemsView.dia",
+    "index-unit-output-path" : "/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/ActionItemsView.o",
+    "llvm-bc" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/ActionItemsView.bc",
+    "object" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/ActionItemsView.o",
+    "swift-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/ActionItemsView.swiftdeps",
+    "swiftmodule" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/ActionItemsView~partial.swiftmodule"
+  },
+  "/Users/victorspinu/Desktop/Mimikro/Notis/NotisApp/Sources/Views/Meetings/MeetingDetailView.swift" : {
+    "const-values" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MeetingDetailView.swiftconstvalues",
+    "dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MeetingDetailView.d",
+    "diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MeetingDetailView.dia",
+    "index-unit-output-path" : "/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MeetingDetailView.o",
+    "llvm-bc" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MeetingDetailView.bc",
+    "object" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MeetingDetailView.o",
+    "swift-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MeetingDetailView.swiftdeps",
+    "swiftmodule" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MeetingDetailView~partial.swiftmodule"
+  },
+  "/Users/victorspinu/Desktop/Mimikro/Notis/NotisApp/Sources/Views/Meetings/MeetingListView.swift" : {
+    "const-values" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MeetingListView.swiftconstvalues",
+    "dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MeetingListView.d",
+    "diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MeetingListView.dia",
+    "index-unit-output-path" : "/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MeetingListView.o",
+    "llvm-bc" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MeetingListView.bc",
+    "object" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MeetingListView.o",
+    "swift-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MeetingListView.swiftdeps",
+    "swiftmodule" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/MeetingListView~partial.swiftmodule"
+  },
+  "/Users/victorspinu/Desktop/Mimikro/Notis/NotisApp/Sources/Views/Meetings/TranscriptView.swift" : {
+    "const-values" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/TranscriptView.swiftconstvalues",
+    "dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/TranscriptView.d",
+    "diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/TranscriptView.dia",
+    "index-unit-output-path" : "/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/TranscriptView.o",
+    "llvm-bc" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/TranscriptView.bc",
+    "object" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/TranscriptView.o",
+    "swift-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/TranscriptView.swiftdeps",
+    "swiftmodule" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/TranscriptView~partial.swiftmodule"
+  },
+  "/Users/victorspinu/Desktop/Mimikro/Notis/NotisApp/Sources/Views/Record/RecordView.swift" : {
+    "const-values" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/RecordView.swiftconstvalues",
+    "dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/RecordView.d",
+    "diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/RecordView.dia",
+    "index-unit-output-path" : "/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/RecordView.o",
+    "llvm-bc" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/RecordView.bc",
+    "object" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/RecordView.o",
+    "swift-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/RecordView.swiftdeps",
+    "swiftmodule" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/RecordView~partial.swiftmodule"
+  },
+  "/Users/victorspinu/Desktop/Mimikro/Notis/NotisApp/Sources/Views/Record/WaveformVisualizer.swift" : {
+    "const-values" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/WaveformVisualizer.swiftconstvalues",
+    "dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/WaveformVisualizer.d",
+    "diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/WaveformVisualizer.dia",
+    "index-unit-output-path" : "/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/WaveformVisualizer.o",
+    "llvm-bc" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/WaveformVisualizer.bc",
+    "object" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/WaveformVisualizer.o",
+    "swift-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/WaveformVisualizer.swiftdeps",
+    "swiftmodule" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/WaveformVisualizer~partial.swiftmodule"
+  },
+  "/Users/victorspinu/Desktop/Mimikro/Notis/NotisApp/Sources/Views/Settings/SettingsView.swift" : {
+    "const-values" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/SettingsView.swiftconstvalues",
+    "dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/SettingsView.d",
+    "diagnostics" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/SettingsView.dia",
+    "index-unit-output-path" : "/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/SettingsView.o",
+    "llvm-bc" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/SettingsView.bc",
+    "object" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/SettingsView.o",
+    "swift-dependencies" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/SettingsView.swiftdeps",
+    "swiftmodule" : "/Users/victorspinu/Desktop/Mimikro/Notis/DerivedData/Build/Intermediates.noindex/Notis.build/Debug-iphonesimulator/Notis.build/Objects-normal/arm64/SettingsView~partial.swiftmodule"
+  }
+}

@@ -62,6 +62,83 @@ describe('createTranscriber', () => {
     expect(sentForm().get('model')).toBe('whisper-large-v3');
   });
 
+  it('sends whisper-1 to the DeepSeek endpoint', async () => {
+    await run({ provider: 'deepseek', apiKey: 'sk-deepseek' });
+    expect(sentTo()).toBe('https://api.deepseek.com/v1/audio/transcriptions');
+    expect(sentForm().get('model')).toBe('whisper-1');
+  });
+
+  it('sends whisper-1 to the OmniRoute endpoint', async () => {
+    await run({ provider: 'omniroute', apiKey: '' });
+    expect(sentTo()).toBe('http://localhost:20128/v1/audio/transcriptions');
+    expect(sentForm().get('model')).toBe('whisper-1');
+  });
+
+  it('supports custom baseUrl for OmniRoute', async () => {
+    await run({ provider: 'omniroute', apiKey: 'custom-key', baseUrl: 'http://custom-host:8000/v1' });
+    expect(sentTo()).toBe('http://custom-host:8000/v1/audio/transcriptions');
+    expect(sentInit().headers).toEqual({ Authorization: 'Bearer custom-key' });
+  });
+
+  it('supports Gemini model for OmniRoute transcription', async () => {
+    await run({ provider: 'omniroute', apiKey: 'custom-key', model: 'gemini-2.5-flash' });
+    expect(sentTo()).toBe('http://localhost:20128/v1/audio/transcriptions');
+    expect(sentForm().get('model')).toBe('gemini-2.5-flash');
+  });
+
+  it('falls back to chat completions on OmniRoute when audio/transcriptions fails for Gemini', async () => {
+    fetchMock
+      .mockImplementationOnce(async () => new Response('Not found', { status: 404 }))
+      .mockImplementationOnce(
+        async () =>
+          new Response(
+            JSON.stringify({
+              choices: [
+                {
+                  message: {
+                    content: JSON.stringify({
+                      text: 'Transcribed via OmniRoute Chat',
+                      segments: [{ start: 0, end: 3, text: 'Transcribed via OmniRoute Chat' }],
+                    }),
+                  },
+                },
+              ],
+            }),
+            { status: 200 },
+          ),
+      );
+
+    const res = await run({ provider: 'omniroute', apiKey: 'key', model: 'gemini-2.5-flash' });
+    expect(sentTo(1)).toBe('http://localhost:20128/v1/chat/completions');
+    expect(res.text).toBe('Transcribed via OmniRoute Chat');
+    expect(res.segments).toHaveLength(1);
+  });
+
+  it('sends audio to Gemini endpoint for google provider', async () => {
+    respondWith({
+      candidates: [
+        {
+          content: {
+            parts: [
+              {
+                text: JSON.stringify({
+                  text: 'Open the settings menu.',
+                  segments: [{ start: 0, end: 2, text: 'Open the settings menu.' }],
+                }),
+              },
+            ],
+          },
+        },
+      ],
+    });
+    const res = await run({ provider: 'google', apiKey: 'AIza-test' });
+    expect(sentTo()).toContain(
+      'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=AIza-test',
+    );
+    expect(res.text).toBe('Open the settings menu.');
+    expect(res.segments).toHaveLength(1);
+  });
+
   it('authorises with a bearer token', async () => {
     await run({ provider: 'openai', apiKey: 'sk-test' });
     expect(sentInit().method).toBe('POST');

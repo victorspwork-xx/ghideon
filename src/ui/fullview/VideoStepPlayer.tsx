@@ -156,6 +156,7 @@ export default function VideoStepPlayer({ src, chapters }: VideoStepPlayerProps)
       streamType="on-demand"
       className="flex size-full"
       style={{ backgroundColor: FRAME_FILL }}
+      artwork={[]}
     >
       <PlayerBody chapters={chapters} />
     </MediaPlayer>

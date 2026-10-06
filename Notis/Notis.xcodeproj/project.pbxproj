@@ -1,0 +1,515 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		113B7357DB220E56BD92A95A /* GroqClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C37D6E5CF34BDDE232E6FBB /* GroqClient.swift */; };
+		154384163890BEF3893FFC10 /* DataStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B327078CA6E7DF789903B9 /* DataStore.swift */; };
+		1CC740C3F5CE2C1DCF5537E1 /* MeetingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6D6B9C29372A497EF66D2CE /* MeetingListView.swift */; };
+		492CAC9854DBA8E87BC4A516 /* AudioPlayerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91230903DD1EE8A748575512 /* AudioPlayerService.swift */; };
+		504BBB4E81EDDD8DE6243F3D /* AudioRecorderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58FFA2F70DA779BBCABAFC83 /* AudioRecorderService.swift */; };
+		5234CAE1708386D403BB5990 /* AIServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 777A5C8C97F1238778B5DF6E /* AIServiceProtocol.swift */; };
+		5AD0E80050E6FEE77210C87D /* WaveformVisualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C22EA5DF7003546B6DC52C7E /* WaveformVisualizer.swift */; };
+		768E78AA73255F3EDAE08A84 /* NotisApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C491B7A9BD310D1A2508574C /* NotisApp.swift */; };
+		84AF813A8E61CF2E98FFB7D0 /* GeminiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DC973780749786F57C96764 /* GeminiClient.swift */; };
+		87C707FE7B62D659B6A29E8B /* OmniRouteClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731969231362C384F4E63160 /* OmniRouteClient.swift */; };
+		91402DB5BF9FF0197CE07BB2 /* Meeting.swift in Sources */ = {isa = PBXBuildFile; fileRef = A67C2A3C10528E963F5A643F /* Meeting.swift */; };
+		9C1EEC35DA025D2B763C2122 /* ProviderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0173B2021AE635D379910D98 /* ProviderConfig.swift */; };
+		9D708140A162CDBCCF34DDA4 /* ActionItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52F33EAB1060294F3BE1B3A /* ActionItemsView.swift */; };
+		A3154C788CC8338BC32A9E38 /* AudioMerger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD0545B70B041D3015C01BA /* AudioMerger.swift */; };
+		A54DF65BE2CEF98D191643A0 /* GoogleDriveSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A76A3E5D239B1FFBFD49328 /* GoogleDriveSyncService.swift */; };
+		A922C00E109D2F6900F437E7 /* MeetingDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6B7C17B41A347C9AFED371A /* MeetingDetailView.swift */; };
+		B128EAF25539FE877724D7F1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BD8149D2F097853008F6A62D /* Assets.xcassets */; };
+		B4DC98B82AE1819D7187B0F7 /* TranscriptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1CD946F3CD8B356C2607AC7 /* TranscriptView.swift */; };
+		C27BC21F953E3F9F4DB3B052 /* SilentAudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA21D65A0AB62678B3C15634 /* SilentAudioPlayer.swift */; };
+		C291E53FCA693CA77DC2F12E /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A5C1D2B903DDF7B7F2F18B9 /* MainTabView.swift */; };
+		C52CA5C92D0931C0AEC693B9 /* MeetingProcessingPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29048D805B57F9B7A535D04D /* MeetingProcessingPipeline.swift */; };
+		C635E756C4A78EDF10921B7F /* AudioChunker.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88573BC3DC1C6C31A5BF85D /* AudioChunker.swift */; };
+		C9E3AE434621BA42FD87C79B /* AIConnectionValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35EDCA4A6CCC2DEBB3C60BA0 /* AIConnectionValidator.swift */; };
+		E3772E43C5F218601135B2DA /* RecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3FBE992556F6998B64581E /* RecordView.swift */; };
+		EC6A7497AC23704F2AB3D2C8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD2B4D32A0B667CD03E7FAA /* SettingsView.swift */; };
+		F126FBB94B89161B6717A107 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06CCEC3730B7934EB33C3E89 /* KeychainManager.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0173B2021AE635D379910D98 /* ProviderConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderConfig.swift; sourceTree = "<group>"; };
+		06CCEC3730B7934EB33C3E89 /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		1AD0545B70B041D3015C01BA /* AudioMerger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioMerger.swift; sourceTree = "<group>"; };
+		1E3FBE992556F6998B64581E /* RecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordView.swift; sourceTree = "<group>"; };
+		29048D805B57F9B7A535D04D /* MeetingProcessingPipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingProcessingPipeline.swift; sourceTree = "<group>"; };
+		2DD2B4D32A0B667CD03E7FAA /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		35EDCA4A6CCC2DEBB3C60BA0 /* AIConnectionValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIConnectionValidator.swift; sourceTree = "<group>"; };
+		4A76A3E5D239B1FFBFD49328 /* GoogleDriveSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleDriveSyncService.swift; sourceTree = "<group>"; };
+		58FFA2F70DA779BBCABAFC83 /* AudioRecorderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorderService.swift; sourceTree = "<group>"; };
+		5DC973780749786F57C96764 /* GeminiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiClient.swift; sourceTree = "<group>"; };
+		6B9D6B9ACC20A8EA818DD712 /* Notis.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Notis.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		731969231362C384F4E63160 /* OmniRouteClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OmniRouteClient.swift; sourceTree = "<group>"; };
+		777A5C8C97F1238778B5DF6E /* AIServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIServiceProtocol.swift; sourceTree = "<group>"; };
+		7A5C1D2B903DDF7B7F2F18B9 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		7C37D6E5CF34BDDE232E6FBB /* GroqClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroqClient.swift; sourceTree = "<group>"; };
+		91230903DD1EE8A748575512 /* AudioPlayerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerService.swift; sourceTree = "<group>"; };
+		A67C2A3C10528E963F5A643F /* Meeting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meeting.swift; sourceTree = "<group>"; };
+		BD8149D2F097853008F6A62D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C22EA5DF7003546B6DC52C7E /* WaveformVisualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformVisualizer.swift; sourceTree = "<group>"; };
+		C491B7A9BD310D1A2508574C /* NotisApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotisApp.swift; sourceTree = "<group>"; };
+		C6D6B9C29372A497EF66D2CE /* MeetingListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingListView.swift; sourceTree = "<group>"; };
+		C88573BC3DC1C6C31A5BF85D /* AudioChunker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioChunker.swift; sourceTree = "<group>"; };
+		D52F33EAB1060294F3BE1B3A /* ActionItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionItemsView.swift; sourceTree = "<group>"; };
+		D6B7C17B41A347C9AFED371A /* MeetingDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeetingDetailView.swift; sourceTree = "<group>"; };
+		F1CD946F3CD8B356C2607AC7 /* TranscriptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptView.swift; sourceTree = "<group>"; };
+		F4B327078CA6E7DF789903B9 /* DataStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataStore.swift; sourceTree = "<group>"; };
+		FA21D65A0AB62678B3C15634 /* SilentAudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SilentAudioPlayer.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		2689685C4E288AA5188A2DB2 /* NotisApp */ = {
+			isa = PBXGroup;
+			children = (
+				C75D4A39DD54BCD0B12CC8FD /* Resources */,
+				D56FAE282DC7756F007B7099 /* Sources */,
+			);
+			path = NotisApp;
+			sourceTree = "<group>";
+		};
+		47CF788DFCF54DDB8E97FCB7 /* Record */ = {
+			isa = PBXGroup;
+			children = (
+				1E3FBE992556F6998B64581E /* RecordView.swift */,
+				C22EA5DF7003546B6DC52C7E /* WaveformVisualizer.swift */,
+			);
+			path = Record;
+			sourceTree = "<group>";
+		};
+		53674898F3B65D56AD3E4EB2 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				F4B327078CA6E7DF789903B9 /* DataStore.swift */,
+				06CCEC3730B7934EB33C3E89 /* KeychainManager.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		89B28BD2E4DA016B332F4B6D /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				C88573BC3DC1C6C31A5BF85D /* AudioChunker.swift */,
+				1AD0545B70B041D3015C01BA /* AudioMerger.swift */,
+				91230903DD1EE8A748575512 /* AudioPlayerService.swift */,
+				58FFA2F70DA779BBCABAFC83 /* AudioRecorderService.swift */,
+				FA21D65A0AB62678B3C15634 /* SilentAudioPlayer.swift */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		8AD67C25E92586BF5D5BF8F2 /* Meetings */ = {
+			isa = PBXGroup;
+			children = (
+				D52F33EAB1060294F3BE1B3A /* ActionItemsView.swift */,
+				D6B7C17B41A347C9AFED371A /* MeetingDetailView.swift */,
+				C6D6B9C29372A497EF66D2CE /* MeetingListView.swift */,
+				F1CD946F3CD8B356C2607AC7 /* TranscriptView.swift */,
+			);
+			path = Meetings;
+			sourceTree = "<group>";
+		};
+		9C6B838925342B03E3A04468 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7A5C1D2B903DDF7B7F2F18B9 /* MainTabView.swift */,
+				8AD67C25E92586BF5D5BF8F2 /* Meetings */,
+				47CF788DFCF54DDB8E97FCB7 /* Record */,
+				E941EC5C67E098FFA110B5FA /* Settings */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		A79967ADDDC6846D91F56339 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6B9D6B9ACC20A8EA818DD712 /* Notis.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AA53C3A894B700B8EFC082C8 /* Sync */ = {
+			isa = PBXGroup;
+			children = (
+				4A76A3E5D239B1FFBFD49328 /* GoogleDriveSyncService.swift */,
+			);
+			path = Sync;
+			sourceTree = "<group>";
+		};
+		C75D4A39DD54BCD0B12CC8FD /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BD8149D2F097853008F6A62D /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		D0105D8C26F4F8361046D93D /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				D98D6594D6E3E5679900E9EA /* AI */,
+				89B28BD2E4DA016B332F4B6D /* Audio */,
+				53674898F3B65D56AD3E4EB2 /* Storage */,
+				AA53C3A894B700B8EFC082C8 /* Sync */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		D56FAE282DC7756F007B7099 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				FB170344260E5B6D6583A98B /* App */,
+				F0F9F2DDE5C05A534719F9F1 /* Models */,
+				D0105D8C26F4F8361046D93D /* Services */,
+				9C6B838925342B03E3A04468 /* Views */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		D7C2F2B8B7831EA733F78A05 = {
+			isa = PBXGroup;
+			children = (
+				2689685C4E288AA5188A2DB2 /* NotisApp */,
+				A79967ADDDC6846D91F56339 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D98D6594D6E3E5679900E9EA /* AI */ = {
+			isa = PBXGroup;
+			children = (
+				35EDCA4A6CCC2DEBB3C60BA0 /* AIConnectionValidator.swift */,
+				777A5C8C97F1238778B5DF6E /* AIServiceProtocol.swift */,
+				5DC973780749786F57C96764 /* GeminiClient.swift */,
+				7C37D6E5CF34BDDE232E6FBB /* GroqClient.swift */,
+				29048D805B57F9B7A535D04D /* MeetingProcessingPipeline.swift */,
+				731969231362C384F4E63160 /* OmniRouteClient.swift */,
+			);
+			path = AI;
+			sourceTree = "<group>";
+		};
+		E941EC5C67E098FFA110B5FA /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				2DD2B4D32A0B667CD03E7FAA /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		F0F9F2DDE5C05A534719F9F1 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A67C2A3C10528E963F5A643F /* Meeting.swift */,
+				0173B2021AE635D379910D98 /* ProviderConfig.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		FB170344260E5B6D6583A98B /* App */ = {
+			isa = PBXGroup;
+			children = (
+				C491B7A9BD310D1A2508574C /* NotisApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		988DFE945094AB8B1FF799EC /* Notis */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E36404D80104D2DFFFC87CB7 /* Build configuration list for PBXNativeTarget "Notis" */;
+			buildPhases = (
+				E90F0C41EE05773DBA4543DA /* Sources */,
+				00167D61F20AD63903E6FD55 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Notis;
+			packageProductDependencies = (
+			);
+			productName = Notis;
+			productReference = 6B9D6B9ACC20A8EA818DD712 /* Notis.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6724C9ACD564E220536113F3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+			};
+			buildConfigurationList = 8FDB8BEFEF6476C37E3B5766 /* Build configuration list for PBXProject "Notis" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = D7C2F2B8B7831EA733F78A05;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = A79967ADDDC6846D91F56339 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				988DFE945094AB8B1FF799EC /* Notis */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		00167D61F20AD63903E6FD55 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B128EAF25539FE877724D7F1 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E90F0C41EE05773DBA4543DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9E3AE434621BA42FD87C79B /* AIConnectionValidator.swift in Sources */,
+				5234CAE1708386D403BB5990 /* AIServiceProtocol.swift in Sources */,
+				9D708140A162CDBCCF34DDA4 /* ActionItemsView.swift in Sources */,
+				C635E756C4A78EDF10921B7F /* AudioChunker.swift in Sources */,
+				A3154C788CC8338BC32A9E38 /* AudioMerger.swift in Sources */,
+				492CAC9854DBA8E87BC4A516 /* AudioPlayerService.swift in Sources */,
+				504BBB4E81EDDD8DE6243F3D /* AudioRecorderService.swift in Sources */,
+				154384163890BEF3893FFC10 /* DataStore.swift in Sources */,
+				84AF813A8E61CF2E98FFB7D0 /* GeminiClient.swift in Sources */,
+				A54DF65BE2CEF98D191643A0 /* GoogleDriveSyncService.swift in Sources */,
+				113B7357DB220E56BD92A95A /* GroqClient.swift in Sources */,
+				F126FBB94B89161B6717A107 /* KeychainManager.swift in Sources */,
+				C291E53FCA693CA77DC2F12E /* MainTabView.swift in Sources */,
+				91402DB5BF9FF0197CE07BB2 /* Meeting.swift in Sources */,
+				A922C00E109D2F6900F437E7 /* MeetingDetailView.swift in Sources */,
+				1CC740C3F5CE2C1DCF5537E1 /* MeetingListView.swift in Sources */,
+				C52CA5C92D0931C0AEC693B9 /* MeetingProcessingPipeline.swift in Sources */,
+				768E78AA73255F3EDAE08A84 /* NotisApp.swift in Sources */,
+				87C707FE7B62D659B6A29E8B /* OmniRouteClient.swift in Sources */,
+				9C1EEC35DA025D2B763C2122 /* ProviderConfig.swift in Sources */,
+				E3772E43C5F218601135B2DA /* RecordView.swift in Sources */,
+				EC6A7497AC23704F2AB3D2C8 /* SettingsView.swift in Sources */,
+				C27BC21F953E3F9F4DB3B052 /* SilentAudioPlayer.swift in Sources */,
+				B4DC98B82AE1819D7187B0F7 /* TranscriptView.swift in Sources */,
+				5AD0E80050E6FEE77210C87D /* WaveformVisualizer.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		13D872A44AA6CEAA3C22ECA9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NL27QAXV4T;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NotisApp/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Notesa;
+				INFOPLIST_KEY_CFBundleName = Notesa;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Notesa requires microphone access to record meetings and conversations for transcription and analysis.";
+				INFOPLIST_KEY_UIBackgroundModes = audio;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.westpoint.notis;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3835FEC147D5A89CF93537D5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_BITCODE = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		40C59E794C576E26D1796682 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_BITCODE = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		8715F25AB2B70FA1BA7B4997 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NL27QAXV4T;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = NotisApp/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Notesa;
+				INFOPLIST_KEY_CFBundleName = Notesa;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Notesa requires microphone access to record meetings and conversations for transcription and analysis.";
+				INFOPLIST_KEY_UIBackgroundModes = audio;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = io.westpoint.notis;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8FDB8BEFEF6476C37E3B5766 /* Build configuration list for PBXProject "Notis" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3835FEC147D5A89CF93537D5 /* Debug */,
+				40C59E794C576E26D1796682 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E36404D80104D2DFFFC87CB7 /* Build configuration list for PBXNativeTarget "Notis" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				13D872A44AA6CEAA3C22ECA9 /* Debug */,
+				8715F25AB2B70FA1BA7B4997 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6724C9ACD564E220536113F3 /* Project object */;
+}

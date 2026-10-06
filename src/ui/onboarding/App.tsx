@@ -6,6 +6,7 @@ import { AI_PROVIDERS, type AIProviderKey } from '@/core/capture/ai/models';
 import { AI_LANGUAGES, type AILanguageCode } from '@/core/capture/ai/prompts';
 import type { VoiceProvider } from '@/core/capture/voice/transcribe';
 import { localStorage, openSidebar, requestHostPermissions } from '@/lib/browser-api';
+import { getUiLanguageOverride, setUiLanguageOverride, UI_LANGUAGES, useLanguage } from '@/lib/i18n-override';
 import { Input } from '@/ui/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/ui/components/ui/select';
 import MicrophonePicker from '@/ui/shared/MicrophonePicker';
@@ -32,24 +33,24 @@ const BLUR_PRESET_I18N: Record<PresetKey, string> = {
 function MascotLarge({ size = 280 }: { size?: number }) {
   return (
     <svg viewBox="0 0 200 200" width={size} height={size}>
-      <circle cx="40" cy="70" r="4" fill="#818CF8" style={{ animation: 'sparkle 1.5s ease-in-out infinite' }} />
-      <circle cx="165" cy="60" r="3.5" fill="#818CF8" style={{ animation: 'sparkle 1.5s ease-in-out infinite 0.3s' }} />
+      <circle cx="40" cy="70" r="4" fill="#4d8fd4" style={{ animation: 'sparkle 1.5s ease-in-out infinite' }} />
+      <circle cx="165" cy="60" r="3.5" fill="#4d8fd4" style={{ animation: 'sparkle 1.5s ease-in-out infinite 0.3s' }} />
       <circle cx="42" cy="155" r="3" fill="#A5B4FC" style={{ animation: 'sparkle 1.5s ease-in-out infinite 0.6s' }} />
       <circle
         cx="162"
         cy="150"
         r="3.5"
-        fill="#818CF8"
+        fill="#4d8fd4"
         style={{ animation: 'sparkle 1.5s ease-in-out infinite 0.9s' }}
       />
-      <circle cx="100" cy="110" r="55" fill="#C7D2FE" />
-      <rect x="55" y="110" width="90" height="44" rx="5" fill="#1E1B4B" />
-      <path d="M55 110 L55 98 Q55 80 100 80 Q145 80 145 98 L145 110Z" fill="#3730A3" />
-      <path d="M55 110 L55 98 Q55 80 100 80 Q145 80 145 98 L145 110Z" fill="#4F46E5" />
-      <rect x="55" y="109" width="90" height="2" fill="#C7D2FE" />
-      <path d="M80 128 Q86 120 92 128" stroke="#C7D2FE" strokeWidth="3.5" fill="none" strokeLinecap="round" />
-      <path d="M108 128 Q114 120 120 128" stroke="#C7D2FE" strokeWidth="3.5" fill="none" strokeLinecap="round" />
-      <path d="M90 140 Q100 148 110 140" stroke="#C7D2FE" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+      <circle cx="100" cy="110" r="55" fill="#b3cef0" />
+      <rect x="55" y="110" width="90" height="44" rx="5" fill="#00357e" />
+      <path d="M55 110 L55 98 Q55 80 100 80 Q145 80 145 98 L145 110Z" fill="#002b65" />
+      <path d="M55 110 L55 98 Q55 80 100 80 Q145 80 145 98 L145 110Z" fill="#0057c8" />
+      <rect x="55" y="109" width="90" height="2" fill="#b3cef0" />
+      <path d="M80 128 Q86 120 92 128" stroke="#b3cef0" strokeWidth="3.5" fill="none" strokeLinecap="round" />
+      <path d="M108 128 Q114 120 120 128" stroke="#b3cef0" strokeWidth="3.5" fill="none" strokeLinecap="round" />
+      <path d="M90 140 Q100 148 110 140" stroke="#b3cef0" strokeWidth="2.5" fill="none" strokeLinecap="round" />
       <style>{`@keyframes sparkle{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.1)}}@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}`}</style>
     </svg>
   );
@@ -81,9 +82,23 @@ function WelcomeStep({ onNext }: { onNext: () => void }) {
           <h1 className="text-4xl font-extrabold text-foreground leading-tight mb-3 tracking-tight">
             {i18n.t('onboarding.welcomeTitle')}
           </h1>
-          <p className="text-base text-muted-foreground leading-relaxed mb-10 max-w-md">
+          <p className="text-base text-muted-foreground leading-relaxed mb-6 max-w-md">
             {i18n.t('onboarding.welcomeMessage')}
           </p>
+          <div className="flex items-center gap-2 mb-8">
+            <span className="text-xs text-muted-foreground font-medium">{i18n.t('settings.uiLanguage')}:</span>
+            <select
+              value={getUiLanguageOverride()}
+              onChange={(e) => setUiLanguageOverride(e.target.value)}
+              className="text-xs font-medium bg-secondary text-foreground border border-border rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-accent cursor-pointer"
+            >
+              {UI_LANGUAGES.map((l) => (
+                <option key={l.code} value={l.code}>
+                  {l.code === 'auto' ? i18n.t('settings.uiLanguageAuto') : l.label}
+                </option>
+              ))}
+            </select>
+          </div>
           <button
             onClick={onNext}
             className="inline-flex items-center gap-2 px-7 py-3 bg-primary text-primary-foreground rounded-xl font-semibold text-sm hover:bg-primary/90 transition-colors"
@@ -123,10 +138,16 @@ function AISetupStep({ onNext, onSkip, onBack, index, total }: StepProps) {
   useEffect(() => {
     const load = () =>
       localStorage.get(['aiProvider', 'aiModel', 'aiApiKey', 'aiLanguage']).then((stored) => {
+        let p: AIProviderKey = 'openai';
         if (typeof stored.aiProvider === 'string' && stored.aiProvider in AI_PROVIDERS) {
-          setProvider(stored.aiProvider as AIProviderKey);
+          p = stored.aiProvider as AIProviderKey;
+          setProvider(p);
         }
-        if (typeof stored.aiModel === 'string') setModel(stored.aiModel);
+        let m = typeof stored.aiModel === 'string' ? stored.aiModel : AI_PROVIDERS[p].defaultModel;
+        if (p === 'deepseek' && m.startsWith('deepseek-v4')) {
+          m = 'deepseek-chat';
+        }
+        setModel(m);
         if (typeof stored.aiApiKey === 'string') setApiKey(stored.aiApiKey);
         if (typeof stored.aiLanguage === 'string') setAiLanguage(stored.aiLanguage as AILanguageCode);
       });
@@ -199,11 +220,42 @@ function AISetupStep({ onNext, onSkip, onBack, index, total }: StepProps) {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {providerConfig.models.map((m) => (
-                    <SelectItem key={m.id} value={m.id}>
-                      {m.label}
-                    </SelectItem>
-                  ))}
+                  {providerConfig.models.filter((m) => m.tier === 'simple').length > 0 && (
+                    <>
+                      <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                        ⚡ Simple & Fast
+                      </div>
+                      {providerConfig.models
+                        .filter((m) => m.tier === 'simple')
+                        .map((m) => (
+                          <SelectItem key={m.id} value={m.id}>
+                            {m.label}
+                          </SelectItem>
+                        ))}
+                    </>
+                  )}
+                  {providerConfig.models.filter((m) => m.tier === 'advanced').length > 0 && (
+                    <>
+                      <div className="px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground mt-1 border-t border-border/50">
+                        🧠 Advanced & Reasoning
+                      </div>
+                      {providerConfig.models
+                        .filter((m) => m.tier === 'advanced')
+                        .map((m) => (
+                          <SelectItem key={m.id} value={m.id}>
+                            {m.label}
+                          </SelectItem>
+                        ))}
+                    </>
+                  )}
+                  {providerConfig.models.filter((m) => !m.tier).length > 0 &&
+                    providerConfig.models
+                      .filter((m) => !m.tier)
+                      .map((m) => (
+                        <SelectItem key={m.id} value={m.id}>
+                          {m.label}
+                        </SelectItem>
+                      ))}
                 </SelectContent>
               </Select>
             </div>
@@ -214,7 +266,7 @@ function AISetupStep({ onNext, onSkip, onBack, index, total }: StepProps) {
                 type="password"
                 value={apiKey}
                 onChange={(e) => handleApiKeyChange(e.target.value)}
-                placeholder="sk-..."
+                placeholder={provider === 'groq' ? 'gsk_...' : provider === 'anthropic' ? 'sk-ant-...' : 'sk-...'}
                 className="w-full rounded-xl px-4 py-2.5 text-sm focus:border-accent focus:ring-accent/10"
               />
             </div>
@@ -338,7 +390,14 @@ function VoiceStep({ onNext, onSkip, onBack, index, total }: StepProps) {
   useEffect(() => {
     const load = () =>
       localStorage.get(['voiceProvider', 'voiceApiKey', 'voiceMicrophoneId']).then((stored) => {
-        if (stored.voiceProvider === 'openai' || stored.voiceProvider === 'groq') setProvider(stored.voiceProvider);
+        if (
+          stored.voiceProvider === 'openai' ||
+          stored.voiceProvider === 'groq' ||
+          stored.voiceProvider === 'google' ||
+          stored.voiceProvider === 'omniroute' ||
+          stored.voiceProvider === 'web-speech'
+        )
+          setProvider(stored.voiceProvider);
         if (typeof stored.voiceApiKey === 'string') setApiKey(stored.voiceApiKey);
         if (typeof stored.voiceMicrophoneId === 'string') setMicrophoneId(stored.voiceMicrophoneId);
       });
@@ -391,6 +450,9 @@ function VoiceStep({ onNext, onSkip, onBack, index, total }: StepProps) {
                 >
                   <option value="openai">OpenAI</option>
                   <option value="groq">Groq</option>
+                  <option value="google">Google Gemini / Speech</option>
+                  <option value="omniroute">OmniRoute</option>
+                  <option value="web-speech">Browser Web Speech</option>
                 </select>
               </div>
               <div className="flex-1">
@@ -722,8 +784,8 @@ function PinExtensionStep({ onNext, onBack, index, total }: StepProps) {
 function MascotWithStar({ size = 300 }: { size?: number }) {
   return (
     <svg viewBox="0 0 200 200" width={size} height={size}>
-      <circle cx="34" cy="96" r="4" fill="#818CF8" style={{ animation: 'sparkle 1.5s ease-in-out infinite' }} />
-      <circle cx="168" cy="86" r="3.5" fill="#818CF8" style={{ animation: 'sparkle 1.5s ease-in-out infinite 0.5s' }} />
+      <circle cx="34" cy="96" r="4" fill="#4d8fd4" style={{ animation: 'sparkle 1.5s ease-in-out infinite' }} />
+      <circle cx="168" cy="86" r="3.5" fill="#4d8fd4" style={{ animation: 'sparkle 1.5s ease-in-out infinite 0.5s' }} />
       <circle cx="46" cy="30" r="3" fill="#A5B4FC" style={{ animation: 'sparkle 1.5s ease-in-out infinite 0.9s' }} />
       <g transform="translate(72 2) scale(2.333)">
         <path
@@ -731,13 +793,13 @@ function MascotWithStar({ size = 300 }: { size?: number }) {
           fill="#FACC15"
         />
       </g>
-      <circle cx="100" cy="110" r="55" fill="#C7D2FE" />
-      <rect x="55" y="110" width="90" height="44" rx="5" fill="#1E1B4B" />
-      <path d="M55 110 L55 98 Q55 80 100 80 Q145 80 145 98 L145 110Z" fill="#4F46E5" />
-      <rect x="55" y="109" width="90" height="2" fill="#C7D2FE" />
-      <path d="M80 128 Q86 120 92 128" stroke="#C7D2FE" strokeWidth="3.5" fill="none" strokeLinecap="round" />
-      <path d="M108 128 Q114 120 120 128" stroke="#C7D2FE" strokeWidth="3.5" fill="none" strokeLinecap="round" />
-      <path d="M90 140 Q100 149 110 140" stroke="#C7D2FE" strokeWidth="2.5" fill="none" strokeLinecap="round" />
+      <circle cx="100" cy="110" r="55" fill="#b3cef0" />
+      <rect x="55" y="110" width="90" height="44" rx="5" fill="#00357e" />
+      <path d="M55 110 L55 98 Q55 80 100 80 Q145 80 145 98 L145 110Z" fill="#0057c8" />
+      <rect x="55" y="109" width="90" height="2" fill="#b3cef0" />
+      <path d="M80 128 Q86 120 92 128" stroke="#b3cef0" strokeWidth="3.5" fill="none" strokeLinecap="round" />
+      <path d="M108 128 Q114 120 120 128" stroke="#b3cef0" strokeWidth="3.5" fill="none" strokeLinecap="round" />
+      <path d="M90 140 Q100 149 110 140" stroke="#b3cef0" strokeWidth="2.5" fill="none" strokeLinecap="round" />
     </svg>
   );
 }
@@ -896,7 +958,7 @@ function DoneStep() {
           onClick={handleOpen}
           className="inline-flex items-center gap-2 px-7 py-3 bg-primary text-primary-foreground rounded-xl font-semibold text-sm hover:bg-primary/90 transition-colors"
         >
-          {i18n.t('onboarding.openMimik')}
+          {i18n.t('onboarding.openGhideon') || i18n.t('onboarding.openMimik')}
           <svg
             width="16"
             height="16"
@@ -920,6 +982,7 @@ const CONFIG_STEPS =
     : [AISetupStep, VoiceStep, SmartBlurStep, PinExtensionStep, GitHubStarStep];
 
 export default function OnboardingApp() {
+  const lang = useLanguage();
   const [step, setStep] = useState(0);
 
   const lastStep = CONFIG_STEPS.length + 1;
@@ -928,7 +991,7 @@ export default function OnboardingApp() {
   const CurrentStep = CONFIG_STEPS[step - 1];
 
   return (
-    <div className="min-h-screen bg-card text-foreground">
+    <div key={lang} className="min-h-screen bg-card text-foreground">
       <style>{`@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}@keyframes sparkle{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.1)}}`}</style>
       {step === 0 && <WelcomeStep onNext={next} />}
       {CurrentStep && (

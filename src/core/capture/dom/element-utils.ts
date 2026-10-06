@@ -40,7 +40,24 @@ export function findFocusableAncestor(el: Element): HTMLElement {
 
 export function isTextField(el: Element): boolean {
   if (el instanceof HTMLInputElement) {
-    return ['text', 'email', 'password', 'search', 'tel', 'url', 'number'].includes(el.type);
+    return [
+      'text',
+      'email',
+      'password',
+      'search',
+      'tel',
+      'url',
+      'number',
+      // Native picker types — treated as text fields so focusout finalizes the session
+      // and prevents the "next click not registered" bug after a picker popup dismisses
+      'date',
+      'time',
+      'datetime-local',
+      'month',
+      'week',
+      'color',
+      'range',
+    ].includes(el.type);
   }
   return el instanceof HTMLTextAreaElement || (el instanceof HTMLElement && el.isContentEditable);
 }
@@ -140,4 +157,42 @@ export function getFieldLabel(el: HTMLElement): string {
   if (name && !/[-_]test|[-_]id|[-_]key/i.test(name)) return name;
 
   return 'text field';
+}
+
+const PICKER_TYPES = new Set(['date', 'time', 'datetime-local', 'month', 'week', 'color', 'range']);
+
+export function isPicker(type: string): boolean {
+  return PICKER_TYPES.has(type);
+}
+
+/** Return a human-readable display value for a field, converting ISO dates/times. */
+export function formatFieldValue(el: HTMLElement, raw: string): string {
+  if (!raw || !(el instanceof HTMLInputElement)) return raw;
+  try {
+    if (el.type === 'date' && /^\d{4}-\d{2}-\d{2}$/.test(raw)) {
+      return new Date(`${raw}T00:00:00`).toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      });
+    }
+    if (el.type === 'datetime-local' && raw.includes('T')) {
+      return new Date(raw).toLocaleString(undefined, {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+    }
+    if (el.type === 'month' && /^\d{4}-\d{2}$/.test(raw)) {
+      return new Date(`${raw}-01T00:00:00`).toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'long',
+      });
+    }
+  } catch {
+    // Fall through to raw value on any parse error
+  }
+  return raw;
 }

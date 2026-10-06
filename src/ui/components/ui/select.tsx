@@ -8,6 +8,10 @@ function Select({ ...props }: React.ComponentProps<typeof SelectPrimitive.Root>)
   return <SelectPrimitive.Root data-slot="select" {...props} />;
 }
 
+function SelectGroup({ ...props }: React.ComponentProps<typeof SelectPrimitive.Group>) {
+  return <SelectPrimitive.Group data-slot="select-group" {...props} />;
+}
+
 function SelectValue({ ...props }: React.ComponentProps<typeof SelectPrimitive.Value>) {
   return <SelectPrimitive.Value data-slot="select-value" {...props} />;
 }
@@ -42,14 +46,24 @@ function SelectContent({
         data-slot="select-content"
         position={position}
         className={cn(
-          'relative z-50 max-h-72 min-w-[8rem] overflow-hidden rounded-lg border border-border bg-card text-foreground shadow-lg data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0',
+          'relative z-[70] max-h-80 min-w-[8rem] overflow-hidden rounded-lg border border-border bg-card text-foreground shadow-lg data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0',
           className,
         )}
         {...props}
       >
-        <SelectPrimitive.Viewport className="p-1">{children}</SelectPrimitive.Viewport>
+        <SelectPrimitive.Viewport className="p-1 max-h-80 overflow-y-auto">{children}</SelectPrimitive.Viewport>
       </SelectPrimitive.Content>
     </SelectPrimitive.Portal>
+  );
+}
+
+function SelectLabel({ className, ...props }: React.ComponentProps<typeof SelectPrimitive.Label>) {
+  return (
+    <SelectPrimitive.Label
+      data-slot="select-label"
+      className={cn('px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground', className)}
+      {...props}
+    />
   );
 }
 
@@ -73,4 +87,14 @@ function SelectItem({ className, children, ...props }: React.ComponentProps<type
   );
 }
 
-export { Select, SelectContent, SelectItem, SelectTrigger, SelectValue };
+function SelectSeparator({ className, ...props }: React.ComponentProps<typeof SelectPrimitive.Separator>) {
+  return (
+    <SelectPrimitive.Separator
+      data-slot="select-separator"
+      className={cn('-mx-1 my-1 h-px bg-border/60', className)}
+      {...props}
+    />
+  );
+}
+
+export { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectSeparator, SelectTrigger, SelectValue };

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>logFormatVersion</key>
+	<integer>13</integer>
+	<key>logs</key>
+	<dict>
+		<key>1E1984FD-1157-45D6-85F0-C33C5DBB8E95</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>1E1984FD-1157-45D6-85F0-C33C5DBB8E95.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>Notis project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>Notis</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building project Notis with scheme Notis</string>
+			<key>timeStartedRecording</key>
+			<real>811330205.20461202</real>
+			<key>timeStoppedRecording</key>
+			<real>811330211.16283095</real>
+			<key>title</key>
+			<string>Building project Notis with scheme Notis</string>
+			<key>uniqueIdentifier</key>
+			<string>1E1984FD-1157-45D6-85F0-C33C5DBB8E95</string>
+		</dict>
+		<key>68600A38-9D64-4D43-920D-D4059CAA132E</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>68600A38-9D64-4D43-920D-D4059CAA132E.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>Notis project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>Notis</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building project Notis with scheme Notis</string>
+			<key>timeStartedRecording</key>
+			<real>811329793.85782695</real>
+			<key>timeStoppedRecording</key>
+			<real>811329798.11464298</real>
+			<key>title</key>
+			<string>Building project Notis with scheme Notis</string>
+			<key>uniqueIdentifier</key>
+			<string>68600A38-9D64-4D43-920D-D4059CAA132E</string>
+		</dict>
+		<key>CE3A666B-9252-4489-9E24-24BE86F50469</key>
+		<dict>
+			<key>className</key>
+			<string>IDECommandLineBuildLog</string>
+			<key>documentTypeString</key>
+			<string>&lt;nil&gt;</string>
+			<key>domainType</key>
+			<string>Xcode.IDEActivityLogDomainType.BuildLog</string>
+			<key>fileName</key>
+			<string>CE3A666B-9252-4489-9E24-24BE86F50469.xcactivitylog</string>
+			<key>hasPrimaryLog</key>
+			<true/>
+			<key>primaryObservable</key>
+			<dict>
+				<key>highLevelStatus</key>
+				<string>S</string>
+				<key>totalNumberOfAnalyzerIssues</key>
+				<integer>0</integer>
+				<key>totalNumberOfErrors</key>
+				<integer>0</integer>
+				<key>totalNumberOfTestFailures</key>
+				<integer>0</integer>
+				<key>totalNumberOfWarnings</key>
+				<integer>0</integer>
+			</dict>
+			<key>schemeIdentifier-containerName</key>
+			<string>Notis project</string>
+			<key>schemeIdentifier-schemeName</key>
+			<string>Notis</string>
+			<key>schemeIdentifier-sharedScheme</key>
+			<integer>1</integer>
+			<key>signature</key>
+			<string>Building project Notis with scheme Notis</string>
+			<key>timeStartedRecording</key>
+			<real>811330303.06987405</real>
+			<key>timeStoppedRecording</key>
+			<real>811330313.69850802</real>
+			<key>title</key>
+			<string>Building project Notis with scheme Notis</string>
+			<key>uniqueIdentifier</key>
+			<string>CE3A666B-9252-4489-9E24-24BE86F50469</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

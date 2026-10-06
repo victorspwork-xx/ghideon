@@ -11,12 +11,14 @@ export async function getAIDescription(
   provider: string,
   model: string,
   apiKey: string,
+  baseUrl?: string,
 ): Promise<string | null> {
   try {
-    const settings = await localStorage.get(['aiLanguage']);
+    const settings = await localStorage.get(['aiLanguage', 'omnirouteBaseUrl']);
     const locale = (settings.aiLanguage as string) || 'en';
+    const effectiveBaseUrl = baseUrl || (settings.omnirouteBaseUrl as string);
     const { text } = await generateText({
-      model: createModel(provider, model, apiKey),
+      model: createModel(provider, model, apiKey, effectiveBaseUrl),
       prompt:
         STEP_DESCRIPTION_PROMPT.replace('{{context}}', serializeDOMContext(domContext)) + getLanguageSuffix(locale),
       maxOutputTokens: 50,

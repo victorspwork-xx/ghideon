@@ -1,4 +1,4 @@
-import { ArrowLeft, Maximize2, Play } from 'lucide-react';
+import { ArrowLeft, Maximize2, Play, Volume2 } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { i18n } from '#imports';
 import { actionSteps, isBlock, stepNumbers } from '@/core/guides/blocks';
@@ -12,6 +12,10 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/ui/components/ui/tool
 import BlockCard from '@/ui/shared/BlockCard';
 import EmptyGuideState from '@/ui/shared/EmptyGuideState';
 import FaviconImg from '@/ui/shared/FaviconImg';
+import GuideCoverCard from '@/ui/shared/GuideCoverCard';
+import StepAudioPanel from '@/ui/shared/StepAudioPanel';
+import TextToVoiceBar from '@/ui/shared/TextToVoiceBar';
+import { useTextToVoice } from '@/ui/shared/useTextToVoice';
 import StepCard from './StepCard';
 
 interface GuideEditorProps {
@@ -35,6 +39,11 @@ export default function GuideEditor({ guideId, onBack, onGuideMe }: GuideEditorP
   const [data, setData] = useState<GuideData | null>(null);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [showVoiceBar, setShowVoiceBar] = useState(false);
+
+  const voice = useTextToVoice({
+    steps: data?.steps ?? [],
+  });
 
   const applyGuide = useCallback((result: GuideData) => {
     setData(result);
@@ -153,14 +162,40 @@ export default function GuideEditor({ guideId, onBack, onGuideMe }: GuideEditorP
               );
             })()}
 
+          {data.steps.length > 0 && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowVoiceBar((prev) => {
+                      if (prev) voice.stop();
+                      return !prev;
+                    });
+                  }}
+                  className={`shrink-0 p-1.5 rounded-md transition-colors ${
+                    showVoiceBar || voice.isPlaying
+                      ? 'bg-accent text-white'
+                      : 'text-purple hover:text-accent hover:bg-secondary'
+                  }`}
+                  aria-label={i18n.t('editor.textToVoice')}
+                >
+                  <Volume2 size={15} />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>{i18n.t('editor.textToVoice')}</TooltipContent>
+            </Tooltip>
+          )}
+
           <Tooltip>
             <TooltipTrigger asChild>
               <button
                 onClick={() => openInFullView(guideId)}
                 className="shrink-0 flex items-center gap-1 rounded-lg border border-border px-2 py-1 text-[11px] font-semibold text-purple transition-colors hover:border-accent hover:text-accent"
+                aria-label={i18n.t('editor.openInDashboard')}
               >
                 <Maximize2 size={12} />
-                {i18n.t('editor.openInDashboard')}
+                <span className="hidden min-[360px]:inline">{i18n.t('editor.openInDashboard')}</span>
               </button>
             </TooltipTrigger>
             <TooltipContent align="end">{i18n.t('editor.openInDashboardHint')}</TooltipContent>
@@ -168,13 +203,44 @@ export default function GuideEditor({ guideId, onBack, onGuideMe }: GuideEditorP
         </div>
       </div>
 
+      {showVoiceBar && data && (
+        <div className="px-4 pb-2">
+          <TextToVoiceBar
+            voice={voice}
+            totalSteps={data.steps.length}
+            compact
+            onClose={() => {
+              setShowVoiceBar(false);
+              voice.stop();
+            }}
+          />
+        </div>
+      )}
+
       <div className="px-4 pt-1 pb-4 flex-1 flex flex-col">
         {data.steps.length === 0 ? (
           <EmptyGuideState />
         ) : (
           data.steps.map((step) =>
             isBlock(step) ? (
-              <BlockCard key={step.id} step={step} readOnly />
+              step.blockType === 'cover' ? (
+                <div key={step.id} className="relative mb-3">
+                  <GuideCoverCard
+                    guide={data.guide}
+                    editable
+                    onUpdated={(patch) =>
+                      setData((prev) => (prev ? { ...prev, guide: { ...prev.guide, ...patch } } : prev))
+                    }
+                  />
+                  <StepAudioPanel
+                    step={step}
+                    onSpeak={voice.speakSingleStep}
+                    isActive={step.id === voice.activeStepId}
+                  />
+                </div>
+              ) : (
+                <BlockCard key={step.id} step={step} readOnly />
+              )
             ) : (
               <StepCard
                 key={step.id}
@@ -184,6 +250,8 @@ export default function GuideEditor({ guideId, onBack, onGuideMe }: GuideEditorP
                 placeholderRatio={dominantRatio(data.screenshots)}
                 frameRatio={dominantRatio(data.screenshots)}
                 readOnly
+                isActive={step.id === voice.activeStepId}
+                onSpeak={voice.speakSingleStep}
               />
             ),
           )

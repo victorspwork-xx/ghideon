@@ -4,7 +4,7 @@
 
 # Mimik
 
-**English** · [Español](./README.es.md) · [Português (BR)](./README.pt-BR.md) · [Français](./README.fr.md) · [简体中文](./README.zh-CN.md)
+**English** · [Español](./README.es.md) · [Português (BR)](./README.pt-BR.md) · [Français](./README.fr.md) · [简体中文](./README.zh-CN.md) · [Română](./README.ro.md)
 
 **Auto-capture any browser workflow into a step-by-step guide. No account, no cloud, no tracking.**
 
@@ -39,6 +39,7 @@ Click record, do the thing, get a polished guide with annotated screenshots. Nar
   - [✏️ Guide editor](#️-guide-editor)
   - [📤 Multi-format export](#-multi-format-export)
 - [🔐 Privacy & storage](#-privacy--storage)
+- [📚 Documentation](#-documentation)
 - [🤝 Contributing](#-contributing)
 - [📜 License](#-license)
 
@@ -68,7 +69,7 @@ Each step gets a screenshot with the clicked element highlighted and zoomed in. 
 | Firefox | [![Firefox Version][firefox-version-shield]][firefox-link] | [Firefox Add-ons][firefox-link]  |
 | Edge    | [![Edge Version][edge-version-shield]][edge-link]          | [Microsoft Edge Add-ons][edge-link] |
 
-Available in English, Spanish, Brazilian Portuguese, French, German, and Simplified Chinese. The AI description language is set separately, so you can run Mimik in English and generate guides in Spanish, or any combination.
+Available in English, Spanish, Brazilian Portuguese, French, German, Simplified Chinese, and Romanian. The AI description language is set separately, so you can run Mimik in English and generate guides in Romanian, or any combination.
 
 > \[!IMPORTANT]
 >
@@ -186,6 +187,21 @@ Two things do leave the browser, both documented in the [privacy policy](https:/
 
 </div>
 
+## 📚 Documentation
+
+Complete documentation for Mimik is organized according to the [Diataxis framework](https://diataxis.fr/) in the [`docs/`](./docs/README.md) directory:
+
+- **[Tutorials](./docs/README.md#-1-tutorials-learning-oriented)**: [Quickstart Guide](./docs/tutorials/quickstart.md) · [Development Setup](./docs/tutorials/development-setup.md)
+- **[How-To Guides](./docs/README.md#-2-how-to-guides-task-oriented)**: [AI & Voice Setup](./docs/how-to/configure-ai-and-voice.md) · [Smart Blur & Redaction](./docs/how-to/use-smart-blur.md) · [Embedding Guides](./docs/how-to/embed-guides.md) · [Multi-Format Exports](./docs/how-to/export-guides.md)
+- **[Reference](./docs/README.md#-3-technical-reference-information-oriented)**: [Architecture](./docs/reference/architecture.md) · [Dexie Storage & Schema](./docs/reference/storage-and-schema.md) · [Messaging Protocol](./docs/reference/messaging-protocol.md) · [Voice Models & TTS](./docs/reference/voice-models-and-tts.md) · [Export Specifications](./docs/reference/export-specifications.md)
+- **[Explanation](./docs/README.md#-4-architecture--explanation-understanding-oriented)**: [Capture Pipeline & DOM Context](./docs/explanation/capture-pipeline.md) · [Local-First Architecture](./docs/explanation/local-first-design.md) · [Video & GIF Rendering](./docs/explanation/video-and-gif-rendering.md)
+
+<div align="right">
+
+[![Back to top][back-to-top]](#readme-top)
+
+</div>
+
 ## 🤝 Contributing
 
 Contributions of all kinds are welcome: bug reports, feature requests, PRs, and translations.
@@ -241,5 +257,4 @@ MIT © [Westpoint](https://github.com/westpoint-io). See [LICENSE](./LICENSE) fo
 [firefox-link]: https://addons.mozilla.org/en-US/firefox/addon/mimik/
 [edge-version-shield]: https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fhgjemhfoffebbollleajkpefblppleai&query=%24.version&label=Edge%20Version&style=flat-square&logo=microsoftedge&logoColor=C7D2FE&color=4F46E5&labelColor=1E1B4B
 [edge-link]: https://microsoftedge.microsoft.com/addons/detail/hgjemhfoffebbollleajkpefblppleai
-</content>
-</invoke>
+

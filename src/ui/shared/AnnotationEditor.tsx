@@ -91,8 +91,8 @@ type DragState =
   | { mode: 'cropMove'; rect: ScreenshotBounds; lastX: number; lastY: number }
   | { mode: 'draw'; start: { x: number; y: number }; shape: Annotation };
 
-const COLORS = ['#4F46E5', '#DC2626', '#059669', '#F59E0B', '#1E1B4B'];
-const SELECTION_COLOR = '#4F46E5';
+const COLORS = ['#0057c8', '#DC2626', '#059669', '#F59E0B', '#00357e'];
+const SELECTION_COLOR = '#0057c8';
 const BRACKET_ARM = 26;
 const BRACKET_THICKNESS = 4;
 const MIN_SHAPE_SIZE = 6;

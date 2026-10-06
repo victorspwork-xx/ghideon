@@ -3,23 +3,31 @@ import { useEffect, useRef, useState } from 'react';
 import { i18n } from '#imports';
 import { isBlock, stepNumbers } from '@/core/guides/blocks';
 import { createSnapshot, deleteSteps, insertBlock, reorderSteps } from '@/core/guides/service';
-import type { BlockType, Screenshot, Step } from '@/core/guides/types';
+import type { BlockType, Guide, Screenshot, Step } from '@/core/guides/types';
 import { dominantRatio } from '@/core/screenshot/geometry';
+import { getActiveTab } from '@/lib/browser-api';
 import { logger } from '@/lib/logger';
+import { sendMessage } from '@/lib/messaging';
 import { useFullview } from '@/stores/fullview';
 import { Button } from '@/ui/components/ui/button';
 import BlockCard from '@/ui/shared/BlockCard';
 import CaptureTabDialog from '@/ui/shared/CaptureTabDialog';
 import ConfirmDialog from '@/ui/shared/ConfirmDialog';
 import EmptyGuideState from '@/ui/shared/EmptyGuideState';
+import GuideCoverCard from '@/ui/shared/GuideCoverCard';
 import InsertBlockMenu from '@/ui/shared/InsertBlockMenu';
+import StepAudioPanel from '@/ui/shared/StepAudioPanel';
 import StepCard from '@/ui/sidepanel/StepCard';
 
 interface GuideStepListProps {
+  guide: Guide;
   guideId: string;
   steps: Step[];
   screenshots: Map<string, Screenshot>;
+  onTitleChange?: (stepId: string, title: string) => void;
   onDescriptionChange: (stepId: string, description: string) => void;
+  onAudioTextChange?: (stepId: string, audioText: string) => void;
+  onAudioMutedChange?: (stepId: string, audioMuted: boolean) => void;
   onDelete: (stepId: string) => void;
   onOpenEditor: (stepId: string, tool: 'annotate' | 'redact' | 'crop' | 'target') => void;
   onReorder: (newSteps: Step[]) => void;
@@ -27,13 +35,19 @@ interface GuideStepListProps {
   onChanged?: () => void;
   hasApiKey?: boolean;
   onInsertRecording?: (guideId: string, insertAtIndex: number, tabId: number) => void;
+  activeVoiceStepId?: string | null;
+  onSpeakStep?: (step: Step) => void;
 }
 
 export default function GuideStepList({
+  guide,
   guideId,
   steps,
   screenshots,
+  onTitleChange,
   onDescriptionChange,
+  onAudioTextChange,
+  onAudioMutedChange,
   onDelete,
   onOpenEditor,
   onReorder,
@@ -41,6 +55,8 @@ export default function GuideStepList({
   onChanged,
   hasApiKey,
   onInsertRecording,
+  activeVoiceStepId,
+  onSpeakStep,
 }: GuideStepListProps) {
   const { scrollToStepId, setActiveStepId, bumpHistoryRefresh } = useFullview((s) => ({
     scrollToStepId: s.scrollToStepId,
@@ -107,6 +123,16 @@ export default function GuideStepList({
     onChanged?.();
   };
 
+  const handleCapturePage = async (atIndex: number) => {
+    try {
+      const tab = await getActiveTab();
+      await sendMessage('capturePage', { guideId, atIndex, title: tab?.title });
+      onChanged?.();
+    } catch (err) {
+      logger.error('Failed to capture page', err);
+    }
+  };
+
   const toggleSelected = (index: number, extend: boolean) => {
     const from = extend && anchorIndex.current !== null ? anchorIndex.current : index;
     anchorIndex.current = index;
@@ -170,6 +196,7 @@ export default function GuideStepList({
           <InsertBlockMenu
             onInsert={(blockType) => handleInsertBlock(0, blockType)}
             onRecord={onInsertRecording && (() => setRecordAtIndex(0))}
+            onCapturePage={() => handleCapturePage(0)}
           />
         )}
         {captureDialog}
@@ -183,6 +210,7 @@ export default function GuideStepList({
         <InsertBlockMenu
           onInsert={(blockType) => handleInsertBlock(0, blockType)}
           onRecord={onInsertRecording && (() => setRecordAtIndex(0))}
+          onCapturePage={() => handleCapturePage(0)}
         />
       )}
       {steps.map((step, idx) => (
@@ -210,14 +238,40 @@ export default function GuideStepList({
             )}
             <div className="flex-1 min-w-0">
               {isBlock(step) ? (
-                <BlockCard
-                  step={step}
-                  onDescriptionChange={onDescriptionChange}
-                  onDelete={onDelete}
-                  onChanged={onChanged}
-                  readOnly={readOnly}
-                  dragHandleProps={dragHandlers(idx)}
-                />
+                step.blockType === 'cover' ? (
+                  <div className="relative group mb-3" {...dragHandlers(idx)} onDragEnd={dragHandlers(idx)?.onDragEnd}>
+                    {dragHandlers(idx) && (
+                      <div
+                        className="absolute left-0 top-1/2 -translate-x-full -translate-y-1/2 p-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                        {...dragHandlers(idx)}
+                      >
+                        <div className="w-1 h-5 bg-border rounded-full" />
+                      </div>
+                    )}
+                    <GuideCoverCard guide={guide} editable={!readOnly} onUpdated={() => onChanged?.()} />
+                    {!readOnly && (
+                      <div className="mx-1 mb-2">
+                        <StepAudioPanel
+                          step={step}
+                          hasApiKey={hasApiKey}
+                          onAudioTextChange={onAudioTextChange}
+                          onAudioMutedChange={onAudioMutedChange}
+                          onSpeak={onSpeakStep}
+                          isActive={step.id === activeVoiceStepId}
+                        />
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <BlockCard
+                    step={step}
+                    onDescriptionChange={onDescriptionChange}
+                    onDelete={onDelete}
+                    onChanged={onChanged}
+                    readOnly={readOnly}
+                    dragHandleProps={dragHandlers(idx)}
+                  />
+                )
               ) : (
                 <StepCard
                   step={step}
@@ -225,13 +279,18 @@ export default function GuideStepList({
                   screenshot={screenshots.get(step.id)}
                   placeholderRatio={frameRatio}
                   frameRatio={frameRatio}
+                  onTitleChange={onTitleChange}
                   onDescriptionChange={onDescriptionChange}
+                  onAudioTextChange={onAudioTextChange}
+                  onAudioMutedChange={onAudioMutedChange}
                   onDelete={onDelete}
                   onOpenEditor={onOpenEditor}
                   readOnly={readOnly}
                   hasApiKey={hasApiKey}
                   onChanged={onChanged}
                   dragHandleProps={dragHandlers(idx)}
+                  isActive={step.id === activeVoiceStepId}
+                  onSpeak={onSpeakStep}
                 />
               )}
             </div>
@@ -240,6 +299,7 @@ export default function GuideStepList({
             <InsertBlockMenu
               onInsert={(blockType) => handleInsertBlock(idx + 1, blockType)}
               onRecord={onInsertRecording && (() => setRecordAtIndex(idx + 1))}
+              onCapturePage={() => handleCapturePage(idx + 1)}
             />
           )}
         </div>

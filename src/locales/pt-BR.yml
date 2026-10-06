@@ -2,8 +2,8 @@ meta:
   locale: pt-BR
 
 app:
-  name: Mimik
-  store_title: "Mimik: guias passo a passo e tutoriais"
+  name: Ghideon
+  store_title: "Ghideon: guias passo a passo e tutoriais"
   description: "Grave qualquer tarefa do navegador como um guia passo a passo. Edite, narre com voz e exporte em vídeo, PDF ou DOCX. Código aberto."
 
 common:
@@ -22,6 +22,8 @@ common:
   restore: Restaurar
   updated: "Atualizado para a v$1"
   whatsNew: Ver as novidades
+  previous: Anterior
+  next: Próximo
 
 sidepanel:
   connected: Conectado
@@ -87,10 +89,23 @@ settings:
   provider: Provedor
   model: Modelo
   modelCustom: Modelo personalizado
+  omnirouteBaseUrl: "URL base do OmniRoute"
+  omnirouteBaseUrlHint: "Gateway local ou remoto compatível com OpenAI (ex.: http://localhost:20128/v1)"
+  omnirouteKeyOptional: "A chave de API é opcional para configurações locais do OmniRoute."
+  omnirouteDetectModels: "Detectar modelos"
+  omnirouteDetectVoiceModels: "Detectar modelos de voz"
+  omnirouteTranscriptionModel: "Modelo de transcrição OmniRoute"
+  omnirouteTtsModel: "Modelo de síntese de voz (TTS)"
+  omnirouteGeminiGroup: "Google Gemini & Antigravity"
+  omnirouteOtherGroup: "Outros modelos de Gateway"
+  omnirouteDiscoveredGroup: "Descobertos do OmniRoute"
+  apiKeyOptional: "Chave da API (opcional para OmniRoute local)"
   apiKey: Chave da API
   aiLanguage: "Idioma das descrições"
+  uiLanguage: "Idioma da interface"
+  uiLanguageAuto: "Padrão do sistema"
   voiceNarration: "Narração por voz"
-  voiceUsingAiKey: "Não tem chave de voz, então o Mimik usa a chave da OpenAI das Descrições com IA lá de cima."
+  voiceUsingAiKey: "Não tem chave de voz, então o Ghideon usa a chave da OpenAI das Descrições com IA lá de cima."
   aiNoKey: "Nenhuma chave de API definida, então as etapas usarão descrições simples baseadas em regras."
   voiceNoKey: "Nenhuma chave de API foi definida, então suas gravações não serão narradas."
   microphone: Microfone
@@ -99,12 +114,12 @@ settings:
   microphoneGrantAccess: Permitir acesso ao microfone
   microphoneNone: Nenhum microfone encontrado. Conecte um e ele aparece aqui.
   microphoneUnavailable: "Microfone indisponível"
-  microphoneMissing: "O microfone que você escolheu não está disponível agora, então o Mimik vai usar o padrão do sistema."
+  microphoneMissing: "O microfone que você escolheu não está disponível agora, então o Ghideon vai usar o padrão do sistema."
   microphoneTest: Testar microfone
   microphoneStatusAllowed: Permitido
   microphoneStatusBlocked: Bloqueado
   microphoneStatusPending: Ainda sem permissão
-  microphoneBlocked: Seu navegador está bloqueando o microfone pro Mimik. Abre as configurações do site pelo ícone à esquerda da barra de endereço e deixa Microfone como Permitir.
+  microphoneBlocked: Seu navegador está bloqueando o microfone pro Ghideon. Abre as configurações do site pelo ícone à esquerda da barra de endereço e deixa Microfone como Permitir.
   microphoneUnblockHow: Como desbloquear?
   microphoneTestStop: Parar teste
   microphoneTestFailed: "Não deu pra abrir esse microfone. Escolhe outro e tenta de novo."
@@ -119,7 +134,7 @@ settings:
   footerLinePlaceholder: "ex.: Confidencial — uso interno"
   footerPresetConfidential: "Confidencial — uso interno"
   footerPresetNoDistribute: "Não distribuir"
-  attribution: 'Mostrar "Made with Mimik"'
+  attribution: 'Mostrar "Made with Ghideon"'
   saveSettings: Salvar ajustes
   saved: Salvo
   validatingKey: "Verificando chave\u2026"
@@ -130,8 +145,8 @@ settings:
   smartBlur: Desfoque inteligente
   privacyNotice: "Suas chaves e seu áudio vão só pro provedor que você escolher. Nada mais sai do seu navegador."
   bugReport: "Achou um bug? Reporta no GitHub"
-  starCtaTitle: "Curtiu o Mimik?"
-  starCtaMessage: Uma estrela no GitHub ajuda outras pessoas a descobrir o Mimik e nos dá aquela motivação!
+  starCtaTitle: "Curtiu o Ghideon?"
+  starCtaMessage: Uma estrela no GitHub ajuda outras pessoas a descobrir o Ghideon e nos dá aquela motivação!
   starOnGithub: Dar estrela no GitHub
 
 blurPresets:
@@ -219,6 +234,22 @@ editor:
   rewriteErrorNoApiKey: Adicione uma chave de API de IA nos ajustes para reescrever textos.
   rewriteErrorFailed: "N\xE3o foi poss\xEDvel reescrever a sele\xE7\xE3o. Tente novamente."
   rewriteErrorStale: O texto mudou. Selecione-o novamente.
+  coverTitlePlaceholder: Título do guia
+  coverDescPlaceholder: Adicione uma breve descrição deste guia
+  coverAuthorPlaceholder: Autor
+  assistedNarration: Narração assistida
+  useAsDescription: Usar como descrição
+  useAsDescriptionHint: Substituir a descrição por esta narração transcrita
+  copyNarration: Copiar narração
+  textToVoice: Ler em voz alta
+  playGuide: Ouvir guia
+  pauseVoice: Pausar
+  resumeVoice: Retomar
+  stopVoice: Parar
+  voiceStepProgress: "Etapa $1 de $2"
+  step: etapa
+  steps: etapas
+  listenStep: Ouvir esta etapa
 
 capture:
   recordSteps: Gravar etapas
@@ -389,6 +420,7 @@ exportPreview:
   modeVideo: "Vídeo"
   encodingVideo: "Codificando a prévia do vídeo"
   videoFailed: "Não foi possível criar a prévia do vídeo"
+  browserVoiceWarning: "As vozes do sistema do navegador não podem ser gravadas diretamente em arquivos de vídeo. Para voz IA natural em vídeos, escolha Gemini DeepMind (grátis), OpenAI ou ElevenLabs na barra de voz."
 videoPlayer:
   stepCount: "$1 etapas"
   previousStep: "Etapa anterior"
@@ -406,7 +438,7 @@ exportMenu:
 
 onboarding:
   welcomeBadge: Bem-vindo
-  welcomeTitle: "Mimik instalado!"
+  welcomeTitle: "Ghideon instalado!"
   welcomeMessage: "Em poucos passos você vai poder capturar fluxos de trabalho e gerar guias automáticos. Sem conta, sem cadastro \u2014 tudo fica no seu navegador."
   getStarted: Bora começar
   stepOf: "Passo $1 de $2"
@@ -415,9 +447,9 @@ onboarding:
   aiGenerated: Gerado por IA
   aiGeneratedDescription: Descrição gerada por IA
   voiceTitle: Fala e depois faz
-  voiceMessage: "Diz o que você vai fazer e só depois faz. O Mimik liga sua narração à ação que vem depois dela, então a ordem é o que mais importa."
+  voiceMessage: "Diz o que você vai fazer e só depois faz. O Ghideon liga sua narração à ação que vem depois dela, então a ordem é o que mais importa."
   voiceRecordHint: "A narração fica desligada até você ativá-la. Use o botão de microfone no painel lateral enquanto grava, assim você escolhe guia a guia."
-  voiceDataNotice: "Seu áudio vai pro provedor que você escolher aqui, com sua própria chave API. Nada mais do Mimik sai do seu navegador."
+  voiceDataNotice: "Seu áudio vai pro provedor que você escolher aqui, com sua própria chave API. Nada mais do Ghideon sai do seu navegador."
   voiceDemoLabel: "Como a narração é atribuída"
   voiceDemoSay: "Você fala"
   voiceDemoQuote: "Agora vou abrir os ajustes de cobrança"
@@ -429,28 +461,28 @@ onboarding:
   screenshotPreview: Pré-visualização
   notEnabled: Não ativado
   categoriesProtected: "$1 categorias protegidas"
-  pinTitle: Fixa o Mimik
-  pinMessage: Fixa a extensão na barra pra ter acesso rápido. Clica no ícone de quebra-cabeça no Chrome e fixa o Mimik.
+  pinTitle: Fixa o Ghideon
+  pinMessage: Fixa a extensão na barra pra ter acesso rápido. Clica no ícone de quebra-cabeça no Chrome e fixa o Ghideon.
   pinStep1Title: Clica no ícone de quebra-cabeça
   pinStep1Sub: Lá em cima à direita na barra do navegador
-  pinStep2Title: Acha o Mimik
+  pinStep2Title: Acha o Ghideon
   pinStep2Sub: No menu de extensões
   pinStep3Title: Clica no pin
-  pinStep3Sub: O Mimik vai aparecer na sua barra
-  pinScreenshotAlt: Fixar extensão Mimik
+  pinStep3Sub: O Ghideon vai aparecer na sua barra
+  pinScreenshotAlt: Fixar extensão Ghideon
   starTitle: "Que tal deixar uma estrela?"
-  starMessage: "O Mimik é gratuito e de código aberto. Uma estrela é o jeito mais fácil de agradecer, e ajuda outras pessoas a encontrarem o projeto."
+  starMessage: "O Ghideon é gratuito e de código aberto. Uma estrela é o jeito mais fácil de agradecer, e ajuda outras pessoas a encontrarem o projeto."
   starAction: Deixar uma estrela no GitHub
   starLater: Talvez depois
   doneTitle: "Tudo pronto!"
-  doneMessage: "O Mimik tá pronto pra capturar. Clica em \"Começar a capturar\" na extensão pra gravar seu primeiro guia."
+  doneMessage: "O Ghideon tá pronto pra capturar. Clica em \"Começar a capturar\" na extensão pra gravar seu primeiro guia."
   featureAutoCapture: Captura automática
   featureAIAssist: Assistente de IA
   featureVoice: "Narração por voz"
   featureAnnotate: Anotar e ocultar
   featureExports: Exportar em tudo
   featureSmartBlur: Desfoque inteligente
-  openMimik: Abrir Mimik
+  openGhideon: Abrir Ghideon
 
 steps:
   pressKey: "Pressionar $1 em $2"
@@ -474,9 +506,10 @@ export:
   endLabel: "GUIA CONCLUÍDO"
   stepsRange: "Etapas $1–$2 de $3"
   stepOf: "Etapa $1 de $2"
-  madeWith: "Made with Mimik"
+  madeWith: "Made with Ghideon"
   created: Criado
   source: Origem
+  author: Autor
   step: Passo
   steps: Passos
   stepLabel: "Passo $1"
@@ -516,11 +549,11 @@ voice:
 
 micPermission:
   title: Permitir acesso ao microfone
-  checkingMessage: Verificando se o Mimik já tem acesso ao microfone...
-  promptingMessage: Seu navegador está pedindo permissão. Escolha Permitir para que o Mimik possa gravar sua narração enquanto você captura um guia. Esta aba se fecha sozinha.
+  checkingMessage: Verificando se o Ghideon já tem acesso ao microfone...
+  promptingMessage: Seu navegador está pedindo permissão. Escolha Permitir para que o Ghideon possa gravar sua narração enquanto você captura um guia. Esta aba se fecha sozinha.
   grantedTitle: Microfone pronto
   grantedMessage: Levando você de volta ao que estava fazendo.
   deniedTitle: O acesso ao microfone está bloqueado
-  deniedMessage: Seu navegador está bloqueando o microfone para o Mimik, então a narração por voz não pode gravar. Abra as configurações do site pelo ícone à esquerda da barra de endereços, defina Microfone como Permitir e tente de novo. Capturar guias continua funcionando sem isso.
+  deniedMessage: Seu navegador está bloqueando o microfone para o Ghideon, então a narração por voz não pode gravar. Abra as configurações do site pelo ícone à esquerda da barra de endereços, defina Microfone como Permitir e tente de novo. Capturar guias continua funcionando sem isso.
   retry: Tentar de novo
-  privacy: O áudio fica apenas na memória enquanto você grava e é enviado ao provedor de transcrição que você configurou. O Mimik nunca o armazena.
+  privacy: O áudio fica apenas na memória enquanto você grava e é enviado ao provedor de transcrição que você configurou. O Ghideon nunca o armazena.

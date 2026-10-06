@@ -110,6 +110,7 @@ export interface RewriteSelectionResponse {
 export interface ValidateApiKeyData {
   provider: string;
   apiKey: string;
+  baseUrl?: string;
 }
 
 export interface ValidateApiKeyResponse {
@@ -129,11 +130,44 @@ export interface ExitBlurModeResponse {
   exited: boolean;
 }
 
+export interface CapturePageData {
+  guideId?: string;
+  title?: string;
+  atIndex?: number;
+}
+
+export interface CapturePageResponse {
+  stepId?: string;
+  guideId?: string;
+  error?: string;
+}
+
+export interface FetchOmniRouteModelsData {
+  baseUrl?: string;
+  apiKey?: string;
+}
+
+export interface FetchOmniRouteModelsResponse {
+  models: Array<{
+    id: string;
+    label: string;
+    tier?: 'simple' | 'advanced';
+    description?: string;
+    isAudio?: boolean;
+    isTts?: boolean;
+  }>;
+  success?: boolean;
+  geminiModelsCount?: number;
+  voiceModelsCount?: number;
+  error?: string;
+}
+
 interface MimikProtocol {
   getState(): GetStateResponse;
   startRecording(data: StartRecordingData): StartRecordingResponse;
   stopRecording(): StopRecordingResponse;
   captureStep(data: CaptureStepData): CaptureStepResponse;
+  capturePage(data?: CapturePageData): CapturePageResponse;
   updateInputStep(data: UpdateInputStepData): UpdateInputStepResponse;
   finalizeInputStep(data: FinalizeInputStepData): FinalizeInputStepResponse;
   startGuideMe(data: StartGuideMeData): StartGuideMeResponse;
@@ -145,6 +179,7 @@ interface MimikProtocol {
   startNarration(): StartNarrationResponse;
   generateGuideDescription(data: GenerateGuideDescriptionData): GenerateGuideDescriptionResponse;
   validateApiKey(data: ValidateApiKeyData): ValidateApiKeyResponse;
+  fetchOmniRouteModels(data: FetchOmniRouteModelsData): FetchOmniRouteModelsResponse;
   rewriteSelection(data: RewriteSelectionData): RewriteSelectionResponse;
 }
 

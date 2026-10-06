@@ -2,8 +2,8 @@ meta:
   locale: de
 
 app:
-  name: Mimik
-  store_title: "Mimik: Schritt-für-Schritt-Anleitungen"
+  name: Ghideon
+  store_title: "Ghideon: Schritt-für-Schritt-Anleitungen"
   description: "Nimm jeden Browser-Workflow als Schritt-für-Schritt-Anleitung auf. Bearbeiten, vertonen, als Video, PDF oder DOCX exportieren."
 
 common:
@@ -22,6 +22,8 @@ common:
   restore: Wiederherstellen
   updated: "Aktualisiert auf v$1"
   whatsNew: Neuigkeiten ansehen
+  previous: Zurück
+  next: Weiter
 
 sidepanel:
   connected: Verbunden
@@ -92,17 +94,30 @@ settings:
   footerLinePlaceholder: "z. B. Vertraulich — nur intern"
   footerPresetConfidential: "Vertraulich — nur intern"
   footerPresetNoDistribute: "Nicht weitergeben"
-  attribution: '"Made with Mimik" anzeigen'
+  attribution: '"Made with Ghideon" anzeigen'
   targetColor: "Markenfarbe"
   title: Einstellungen
   aiDescriptions: KI-Beschreibungen
   modelCustom: Eigenes Modell
+  omnirouteBaseUrl: "OmniRoute-Basis-URL"
+  omnirouteBaseUrlHint: "Lokales oder entferntes OpenAI-kompatibles Gateway (z. B. http://localhost:20128/v1)"
+  omnirouteKeyOptional: "API-Schlüssel ist für lokale OmniRoute-Setups optional."
+  omnirouteDetectModels: "Modelle erkennen"
+  omnirouteDetectVoiceModels: "Sprachmodelle erkennen"
+  omnirouteTranscriptionModel: "OmniRoute-Transkriptionsmodell"
+  omnirouteTtsModel: "OmniRoute-Sprachsynthesemodell"
+  omnirouteGeminiGroup: "Google Gemini & Antigravity"
+  omnirouteOtherGroup: "Andere Gateway-Modelle"
+  omnirouteDiscoveredGroup: "Von OmniRoute entdeckt"
+  apiKeyOptional: "API-Schlüssel (optional für lokales OmniRoute)"
   provider: Anbieter
   model: Modell
   apiKey: API-Schlüssel
   aiLanguage: Sprache der Beschreibungen
+  uiLanguage: Benutzeroberflächensprache
+  uiLanguageAuto: Systemstandard
   voiceNarration: Sprachkommentar
-  voiceUsingAiKey: "Es ist kein Sprach-Schlüssel gesetzt, daher nutzt Mimik den OpenAI-Schlüssel aus den KI-Beschreibungen oben."
+  voiceUsingAiKey: "Es ist kein Sprach-Schlüssel gesetzt, daher nutzt Ghideon den OpenAI-Schlüssel aus den KI-Beschreibungen oben."
   aiNoKey: "Kein API-Schlüssel gesetzt, daher verwenden Schritte einfache regelbasierte Beschreibungen."
   voiceNoKey: "Es ist kein API-Schlüssel gesetzt, daher werden deine Aufnahmen nicht vertont."
   microphone: Mikrofon
@@ -114,9 +129,9 @@ settings:
   microphoneStatusAllowed: Erlaubt
   microphoneStatusBlocked: Blockiert
   microphoneStatusPending: Noch nicht erlaubt
-  microphoneBlocked: Dein Browser blockiert das Mikrofon für Mimik. Öffne die Website-Einstellungen über das Symbol links in der Adressleiste und setze Mikrofon auf Zulassen.
+  microphoneBlocked: Dein Browser blockiert das Mikrofon für Ghideon. Öffne die Website-Einstellungen über das Symbol links in der Adressleiste und setze Mikrofon auf Zulassen.
   microphoneUnblockHow: Wie hebe ich die Blockierung auf?
-  microphoneMissing: Das gewählte Mikrofon ist gerade nicht verfügbar, daher nutzt Mimik den Systemstandard.
+  microphoneMissing: Das gewählte Mikrofon ist gerade nicht verfügbar, daher nutzt Ghideon den Systemstandard.
   microphoneTest: Mikrofon testen
   microphoneTestStop: Test beenden
   microphoneTestFailed: Dieses Mikrofon konnte nicht geöffnet werden. Wähle ein anderes und versuche es erneut.
@@ -126,7 +141,7 @@ settings:
   privacyNotice: "Deine Schlüssel und Audiodaten gehen nur an den Anbieter, den du wählst. Sonst verlässt nichts deinen Browser."
   bugReport: "Fehler gefunden? Melde ihn auf GitHub"
   starCtaTitle: "Gefällt dir, was du siehst?"
-  starCtaMessage: Ein Stern auf GitHub hilft anderen, Mimik zu finden, und hält uns motiviert!
+  starCtaMessage: Ein Stern auf GitHub hilft anderen, Ghideon zu finden, und hält uns motiviert!
   starOnGithub: Auf GitHub favorisieren
   validatingKey: "Schlüssel wird geprüft…"
   keyValid: API-Schlüssel bestätigt.
@@ -209,6 +224,9 @@ editor:
   rewriteErrorNoApiKey: Füge in den Einstellungen einen KI-API-Schlüssel hinzu, um Text umzuschreiben.
   rewriteErrorFailed: Die Auswahl konnte nicht umgeschrieben werden. Versuche es erneut.
   rewriteErrorStale: Der Text hat sich geändert. Wähle ihn erneut aus.
+  coverTitlePlaceholder: Anleitungstitel
+  coverDescPlaceholder: Füge eine kurze Beschreibung dieser Anleitung hinzu
+  coverAuthorPlaceholder: Autor
   generateDescription: Beschreibung erstellen
   regenerateDescription: Beschreibung neu erstellen
   generatingDescription: "Wird erstellt…"
@@ -219,6 +237,19 @@ editor:
   descriptionErrorSaveFailed: Die Beschreibung wurde erstellt, konnte aber nicht gespeichert werden. Versuche es erneut.
   writingStepDescription: "Beschreibung wird geschrieben…"
   transcribingStepDescription: "Deine Aufnahme wird transkribiert…"
+  assistedNarration: Sprachbegleitung
+  useAsDescription: Als Beschreibung verwenden
+  useAsDescriptionHint: Ersetze die Beschreibung durch diese gesprochene Notiz
+  copyNarration: Notiz kopieren
+  textToVoice: Vorlesen
+  playGuide: Vorlesen starten
+  pauseVoice: Pause
+  resumeVoice: Fortsetzen
+  stopVoice: Stop
+  voiceStepProgress: "Schritt $1 von $2"
+  step: Schritt
+  steps: Schritte
+  listenStep: Diesen Schritt anhören
 
 capture:
   recordSteps: Schritte aufzeichnen
@@ -320,6 +351,7 @@ exportPreview:
   modeVideo: "Video"
   encodingVideo: "Videovorschau wird erstellt"
   videoFailed: "Die Videovorschau konnte nicht erstellt werden"
+  browserVoiceWarning: "Browser-Systemstimmen können nicht direkt in Videodateien aufgezeichnet werden. Wählen Sie für natürliche KI-Sprache in Videos Gemini DeepMind (kostenlos), OpenAI oder ElevenLabs in der Stimmleiste."
 videoPlayer:
   stepCount: "$1 Schritte"
   previousStep: "Vorheriger Schritt"
@@ -337,7 +369,7 @@ exportMenu:
 
 onboarding:
   welcomeBadge: Willkommen
-  welcomeTitle: "Du hast Mimik erfolgreich installiert!"
+  welcomeTitle: "Du hast Ghideon erfolgreich installiert!"
   welcomeMessage: "Mit nur wenigen Schritten bist du bereit, Browser-Workflows automatisch aufzunehmen und Schritt-für-Schritt-Anleitungen zu erstellen. Kein Konto nötig — alles bleibt in deinem Browser."
   getStarted: Loslegen
   stepOf: "Schritt $1 von $2"
@@ -346,9 +378,9 @@ onboarding:
   aiGenerated: KI-generiert
   aiGeneratedDescription: KI-generierte Beschreibung
   voiceTitle: Sprich, dann handle
-  voiceMessage: Sag, was du als Nächstes tun wirst, und tu es dann. Mimik ordnet deinen Kommentar der Aktion zu, die darauf folgt — die Reihenfolge ist deshalb das Wichtigste.
+  voiceMessage: Sag, was du als Nächstes tun wirst, und tu es dann. Ghideon ordnet deinen Kommentar der Aktion zu, die darauf folgt — die Reihenfolge ist deshalb das Wichtigste.
   voiceRecordHint: "Die Sprachaufnahme bleibt aus, bis du sie einschaltest. Nutze die Mikrofontaste in der Seitenleiste während der Aufnahme, so entscheidest du pro Anleitung."
-  voiceDataNotice: Dein Audio wird mit deinem eigenen API-Schlüssel an den hier gewählten Anbieter gesendet. Sonst verlässt nichts in Mimik deinen Browser.
+  voiceDataNotice: Dein Audio wird mit deinem eigenen API-Schlüssel an den hier gewählten Anbieter gesendet. Sonst verlässt nichts in Ghideon deinen Browser.
   voiceDemoLabel: So landet dein Kommentar
   voiceDemoSay: Du sagst
   voiceDemoQuote: "Jetzt öffne ich die Zahlungseinstellungen"
@@ -360,28 +392,28 @@ onboarding:
   screenshotPreview: Screenshot-Vorschau
   notEnabled: Nicht aktiviert
   categoriesProtected: "$1 Kategorien geschützt"
-  pinTitle: Mimik anpinnen
-  pinMessage: Pinne die Erweiterung an deine Symbolleiste für schnellen Zugriff. Klicke auf das Puzzle-Symbol in Chrome und pinne dann Mimik an.
+  pinTitle: Ghideon anpinnen
+  pinMessage: Pinne die Erweiterung an deine Symbolleiste für schnellen Zugriff. Klicke auf das Puzzle-Symbol in Chrome und pinne dann Ghideon an.
   pinStep1Title: Klicke auf das Puzzle-Symbol
   pinStep1Sub: Oben rechts in deiner Browser-Symbolleiste
-  pinStep2Title: Finde Mimik
+  pinStep2Title: Finde Ghideon
   pinStep2Sub: Im Erweiterungs-Dropdown
   pinStep3Title: Klicke auf das Pin-Symbol
-  pinStep3Sub: Mimik erscheint dann in deiner Symbolleiste
-  pinScreenshotAlt: Mimik-Erweiterung anpinnen
+  pinStep3Sub: Ghideon erscheint dann in deiner Symbolleiste
+  pinScreenshotAlt: Ghideon-Erweiterung anpinnen
   starTitle: "Magst du uns einen Stern geben?"
-  starMessage: "Mimik ist kostenlos und quelloffen. Ein Stern ist der einfachste Weg, Danke zu sagen, und hilft anderen, Mimik zu finden."
+  starMessage: "Ghideon ist kostenlos und quelloffen. Ein Stern ist der einfachste Weg, Danke zu sagen, und hilft anderen, Ghideon zu finden."
   starAction: Auf GitHub mit Stern markieren
   starLater: "Vielleicht später"
   doneTitle: "Alles bereit!"
-  doneMessage: "Mimik ist bereit, deine Workflows aufzunehmen. Klicke in der Erweiterung auf \"Aufnahme starten\", um deine erste Anleitung aufzunehmen."
+  doneMessage: "Ghideon ist bereit, deine Workflows aufzunehmen. Klicke in der Erweiterung auf \"Aufnahme starten\", um deine erste Anleitung aufzunehmen."
   featureAutoCapture: Auto-Aufnahme
   featureAIAssist: KI-Assistent
   featureVoice: Sprachaufnahme
   featureAnnotate: "Markieren & schwärzen"
   featureExports: "Überall exportieren"
   featureSmartBlur: Smart Blur
-  openMimik: Mimik öffnen
+  openGhideon: Ghideon öffnen
 
 steps:
   pressKey: "$1 auf $2 drücken"
@@ -405,9 +437,10 @@ export:
   endLabel: "ANLEITUNG ABGESCHLOSSEN"
   stepsRange: "Schritte $1–$2 von $3"
   stepOf: "Schritt $1 von $2"
-  madeWith: "Made with Mimik"
+  madeWith: "Made with Ghideon"
   created: Erstellt
   source: Quelle
+  author: Autor
   step: Schritt
   steps: Schritte
   stepLabel: "Schritt $1"
@@ -517,11 +550,11 @@ voice:
 
 micPermission:
   title: Mikrofonzugriff erlauben
-  checkingMessage: "Es wird geprüft, ob Mimik schon Mikrofonzugriff hat…"
-  promptingMessage: Dein Browser fragt nach der Berechtigung. Wähle Zulassen, damit Mimik deinen Kommentar aufnehmen kann, während du eine Anleitung aufzeichnest. Dieser Tab schließt sich von selbst.
+  checkingMessage: "Es wird geprüft, ob Ghideon schon Mikrofonzugriff hat…"
+  promptingMessage: Dein Browser fragt nach der Berechtigung. Wähle Zulassen, damit Ghideon deinen Kommentar aufnehmen kann, während du eine Anleitung aufzeichnest. Dieser Tab schließt sich von selbst.
   grantedTitle: Mikrofon bereit
   grantedMessage: Es geht zurück zu dem, was du gerade gemacht hast.
   deniedTitle: Der Mikrofonzugriff ist blockiert
-  deniedMessage: Dein Browser blockiert das Mikrofon für Mimik, daher kann der Sprachkommentar nicht aufnehmen. Öffne die Website-Einstellungen über das Symbol links in der Adressleiste, setze Mikrofon auf Zulassen und versuche es dann erneut. Anleitungen aufzeichnen funktioniert auch ohne.
+  deniedMessage: Dein Browser blockiert das Mikrofon für Ghideon, daher kann der Sprachkommentar nicht aufnehmen. Öffne die Website-Einstellungen über das Symbol links in der Adressleiste, setze Mikrofon auf Zulassen und versuche es dann erneut. Anleitungen aufzeichnen funktioniert auch ohne.
   retry: Erneut versuchen
-  privacy: Audio bleibt nur während der Aufnahme im Speicher und wird an den von dir konfigurierten Transkriptionsanbieter gesendet. Mimik speichert es nie.
+  privacy: Audio bleibt nur während der Aufnahme im Speicher und wird an den von dir konfigurierten Transkriptionsanbieter gesendet. Ghideon speichert es nie.

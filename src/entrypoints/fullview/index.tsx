@@ -1,3 +1,4 @@
+import '@/lib/i18n-override';
 import ReactDOM from 'react-dom/client';
 import FullViewApp from '@/ui/fullview/App';
 import '@/ui/global.css';

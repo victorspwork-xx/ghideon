@@ -1,3 +1,4 @@
+import '@/lib/i18n-override';
 import ReactDOM from 'react-dom/client';
 import { startSidepanelVoiceHost } from '@/lib/sidepanel-voice-host';
 import App from '@/ui/sidepanel/App';

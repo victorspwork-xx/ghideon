@@ -1,6 +1,8 @@
 // @vitest-environment jsdom
 import { describe, expect, it } from 'vitest';
 import {
+  ACTION_AND_HOLD_SEC,
+  buildStepTimings,
   CURSOR_ENTRY_ORIGIN,
   cursorOriginFor,
   cursorProgress,
@@ -23,12 +25,14 @@ import {
   tooltipPlacement,
   tooltipProgress,
   totalStepFrames,
+  totalTimingsFrames,
   videoChapters,
   wrapLines,
   zoomCrop,
   zoomProgress,
 } from '@/core/export/video-export';
-import { FRAME_HEIGHT, FRAME_WIDTH, RESOLUTION_SPECS } from '@/core/export/video-support';
+import { FRAME_HEIGHT, FRAME_WIDTH, RESOLUTION_SPECS, STEP_ZOOMED_OUT_SEC } from '@/core/export/video-support';
+import type { Step } from '@/core/guides/types';
 
 const measure = (line: string) => line.length * 10;
 
@@ -657,5 +661,115 @@ describe('cursorOriginFor', () => {
 
   it('places the entry origin below the frame so the cursor travels in', () => {
     expect(CURSOR_ENTRY_ORIGIN.y).toBeGreaterThan(1);
+  });
+});
+
+describe('buildStepTimings and narration synchronization', () => {
+  const dummySteps = (n: number): Step[] =>
+    Array.from({ length: n }, (_, i) => ({
+      id: `step-${i}`,
+      guideId: 'g1',
+      index: i,
+      action: 'click',
+      title: `Step ${i + 1}`,
+      description: `Description ${i + 1}`,
+      url: 'https://example.com',
+      timestamp: Date.now(),
+    }));
+
+  it('matches default fixed frame count when no audio is provided', () => {
+    const steps = dummySteps(3);
+    const timings = buildStepTimings(steps, undefined, FPS);
+
+    expect(timings).toHaveLength(3);
+    expect(timings[0].spanFrames).toBe(stepFrames(FPS));
+    expect(timings[0].strideFrames).toBe(stepFrames(FPS) - overlapFrames(FPS));
+    expect(timings[0].zoomedOutSec).toBe(STEP_ZOOMED_OUT_SEC);
+    expect(timings[0].startFrame).toBe(0);
+
+    expect(timings[1].startFrame).toBe(timings[0].strideFrames);
+    expect(timings[2].startFrame).toBe(timings[0].strideFrames * 2);
+
+    expect(totalTimingsFrames(timings)).toBe(totalStepFrames(3, FPS));
+  });
+
+  it('handles short segments and defaults when narration is brief', () => {
+    const steps = dummySteps(2);
+    // 1.0s narration on step 0, 1.2s narration on step 1 (both <= 1.8s)
+    const timings = buildStepTimings(steps, [1.0, 1.2], FPS);
+
+    expect(timings[0].spanFrames).toBe(stepFrames(FPS));
+    expect(timings[0].zoomedOutSec).toBe(STEP_ZOOMED_OUT_SEC);
+    expect(timings[1].spanFrames).toBe(stepFrames(FPS));
+    expect(timings[1].zoomedOutSec).toBe(STEP_ZOOMED_OUT_SEC);
+    expect(totalTimingsFrames(timings)).toBe(totalStepFrames(2, FPS));
+  });
+
+  it('pauses at beginning of segment until narration almost finishes then shows action for longer segments', () => {
+    const steps = dummySteps(2);
+    // Step 0: 8.0s narration (longer segment)
+    // Step 1: 10.0s narration (longer segment, last step)
+    const timings = buildStepTimings(steps, [8.0, 10.0], FPS);
+
+    expect(timings).toHaveLength(2);
+
+    // Step 0 (intermediate step):
+    // Pauses at beginning until narration almost finishes: 8.0 - 0.3 = 7.7s
+    expect(timings[0].zoomedOutSec).toBeCloseTo(7.7, 2);
+    // Total step duration = 7.7s pause + 3.73s action = 11.43s
+    // Stride subtracts the 0.33s cross-dissolve into step 1: 11.43 - 0.33 = 11.10s
+    expect(timings[0].strideFrames).toBe(toFrames(11.1, FPS));
+    expect(timings[0].spanFrames).toBe(toFrames(11.43, FPS));
+
+    // Step 1 (last step):
+    // Pauses at beginning until narration almost finishes: 10.0 - 0.3 = 9.7s
+    expect(timings[1].zoomedOutSec).toBeCloseTo(9.7, 2);
+    // Total step duration = 9.7s pause + 3.73s action = 13.43s (no subsequent cross-dissolve)
+    expect(timings[1].strideFrames).toBe(toFrames(13.43, FPS));
+    expect(timings[1].spanFrames).toBe(toFrames(13.43, FPS));
+
+    // Step 1 starts at step 0 stride
+    expect(timings[1].startFrame).toBe(toFrames(11.1, FPS));
+    // Total frames is step 1 start + step 1 span
+    expect(totalTimingsFrames(timings)).toBe(toFrames(11.1, FPS) + toFrames(13.43, FPS));
+  });
+
+  it('delays zoom, cursor, and ring progress during extended pause before step actions', () => {
+    // 8.0s narration -> zoomedOutSec is 7.7s (231 frames at 30fps)
+    const extendedZoomedOutSec = 8.0 - 0.3;
+    const pauseFrames = toFrames(extendedZoomedOutSec, FPS);
+
+    // During the extended pause, zoomProgress must be 0 (stays fully zoomed out)
+    expect(zoomProgress(0, FPS, extendedZoomedOutSec)).toBe(0);
+    expect(zoomProgress(pauseFrames - 1, FPS, extendedZoomedOutSec)).toBe(0);
+    expect(zoomProgress(pauseFrames, FPS, extendedZoomedOutSec)).toBe(0);
+
+    // Zoom transition begins after the pause
+    const halfZoomFrame = pauseFrames + toFrames(0.73 / 2, FPS);
+    expect(zoomProgress(halfZoomFrame, FPS, extendedZoomedOutSec)).toBeCloseTo(0.5, 1);
+
+    // Fully zoomed in after pause + transition
+    const fullyZoomedFrame = landingFrame(FPS, extendedZoomedOutSec);
+    expect(zoomProgress(fullyZoomedFrame, FPS, extendedZoomedOutSec)).toBe(1);
+
+    // Ring progress is 0 during the pause
+    expect(ringProgress(pauseFrames, FPS, extendedZoomedOutSec)).toBe(0);
+
+    // Cursor progress is 0 during the initial pause
+    expect(cursorProgress(0, FPS, extendedZoomedOutSec)).toBe(0);
+    expect(cursorProgress(toFrames(extendedZoomedOutSec - 1.2, FPS), FPS, extendedZoomedOutSec)).toBe(0);
+  });
+
+  it('updates videoChapters timestamps using dynamic step timings', () => {
+    const steps = dummySteps(2);
+    const timings = buildStepTimings(steps, [8.0, 10.0], FPS);
+    const chapters = videoChapters(steps, false, FPS, timings);
+
+    expect(chapters).toHaveLength(2);
+    expect(chapters[0].start).toBe(0);
+    expect(chapters[0].end).toBeCloseTo(11.1, 1);
+
+    expect(chapters[1].start).toBeCloseTo(11.1, 1);
+    expect(chapters[1].end).toBeCloseTo(24.53, 1);
   });
 });

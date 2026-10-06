@@ -13,6 +13,7 @@ import {
   RESOLUTION_SPECS,
   STEP_SECONDS,
   STEP_ZOOM_TRANSITION_SEC,
+  STEP_ZOOMED_IN_SEC,
   STEP_ZOOMED_OUT_SEC,
 } from '@/core/export/video-support';
 import { actionSteps, calloutAccent, isBlock } from '@/core/guides/blocks';
@@ -32,7 +33,7 @@ const ZOOM_PAD_RATIO = 0.15;
 const MAX_UPSCALE = 1.5;
 const RESERVE_PASSES = 3;
 
-const BACKDROP = '#1E1B4B';
+const BACKDROP = '#00357e';
 const MUTED = '#9CA3AF';
 const ON_DARK = '#FFFFFF';
 
@@ -84,6 +85,16 @@ const CALLOUT_BAR_GAP = 26;
 
 export { FPS, STEP_SECONDS };
 
+export interface StepTiming {
+  index: number;
+  spanFrames: number;
+  strideFrames: number;
+  startFrame: number;
+  zoomedOutSec: number;
+  startSec: number;
+  endSec: number;
+}
+
 export function toFrames(seconds: number, fps = FPS): number {
   return Math.round(seconds * fps);
 }
@@ -101,37 +112,96 @@ export function totalStepFrames(stepCount: number, fps = FPS): number {
   return stepCount * stepFrames(fps) - (stepCount - 1) * overlapFrames(fps);
 }
 
-export function zoomProgress(frame: number, fps = FPS): number {
-  const held = toFrames(STEP_ZOOMED_OUT_SEC, fps);
+export function totalTimingsFrames(stepTimings: StepTiming[]): number {
+  if (stepTimings.length === 0) return 0;
+  const last = stepTimings[stepTimings.length - 1];
+  return last.startFrame + last.spanFrames;
+}
+
+export const ACTION_AND_HOLD_SEC = STEP_ZOOM_TRANSITION_SEC + STEP_ZOOMED_IN_SEC;
+export const AUDIO_FINISH_LEAD_SEC = 0.3;
+
+export function buildStepTimings(frames: Step[], audioDurations?: (number | undefined)[], fps = FPS): StepTiming[] {
+  if (frames.length === 0) return [];
+  const overlap = overlapFrames(fps);
+  const overlapSec = overlap / fps;
+
+  const timings: StepTiming[] = [];
+
+  for (let i = 0; i < frames.length; i++) {
+    const isLast = i === frames.length - 1;
+    const audioDur = audioDurations?.[i] ?? 0;
+
+    // At the beginning of the segment, video pauses until the audio narration almost finishes:
+    const pauseForAudioSec = Math.max(0, audioDur - AUDIO_FINISH_LEAD_SEC);
+    const zoomedOutSec = Math.max(STEP_ZOOMED_OUT_SEC, pauseForAudioSec);
+
+    // After hearing the narration, the video shows the action (zoom transition + close hold):
+    const totalStepSec = zoomedOutSec + ACTION_AND_HOLD_SEC;
+
+    // Each step is a separate segment with its own length:
+    const strideSec = isLast ? totalStepSec : Math.max(0, totalStepSec - overlapSec);
+    const spanSec = totalStepSec;
+
+    const spanFrames = toFrames(spanSec, fps);
+    const strideFrames = toFrames(strideSec, fps);
+    const startFrame = i === 0 ? 0 : timings[i - 1].startFrame + timings[i - 1].strideFrames;
+    const startSec = startFrame / fps;
+    const endSec = isLast ? (startFrame + spanFrames) / fps : (startFrame + strideFrames) / fps;
+
+    timings.push({
+      index: i,
+      spanFrames,
+      strideFrames,
+      startFrame,
+      zoomedOutSec,
+      startSec,
+      endSec,
+    });
+  }
+
+  return timings;
+}
+
+export function zoomProgress(frame: number, fps = FPS, zoomedOutSec = STEP_ZOOMED_OUT_SEC): number {
+  const held = toFrames(zoomedOutSec, fps);
   const moving = toFrames(STEP_ZOOM_TRANSITION_SEC, fps);
   if (frame <= held) return 0;
   if (frame >= held + moving) return 1;
   return (frame - held) / moving;
 }
 
-export function landingFrame(fps = FPS): number {
-  return toFrames(STEP_ZOOMED_OUT_SEC + STEP_ZOOM_TRANSITION_SEC, fps);
+export function landingFrame(fps = FPS, zoomedOutSec = STEP_ZOOMED_OUT_SEC): number {
+  return toFrames(zoomedOutSec + STEP_ZOOM_TRANSITION_SEC, fps);
 }
 
-function fadeAt(frame: number, startSec: number, spanSec: number, fps: number): number {
-  const start = landingFrame(fps) + toFrames(startSec, fps);
+function fadeAt(
+  frame: number,
+  startSec: number,
+  spanSec: number,
+  fps: number,
+  zoomedOutSec = STEP_ZOOMED_OUT_SEC,
+): number {
+  const start = landingFrame(fps, zoomedOutSec) + toFrames(startSec, fps);
   const span = toFrames(spanSec, fps);
   if (frame < start) return 0;
   if (span <= 0 || frame >= start + span) return 1;
   return (frame - start) / span;
 }
 
-export function ringProgress(frame: number, fps = FPS): number {
-  return fadeAt(frame, RING_DELAY_SEC, RING_POP_SEC, fps);
+export function ringProgress(frame: number, fps = FPS, zoomedOutSec = STEP_ZOOMED_OUT_SEC): number {
+  return fadeAt(frame, RING_DELAY_SEC, RING_POP_SEC, fps, zoomedOutSec);
 }
 
-export function tooltipProgress(frame: number, fps = FPS): number {
-  return fadeAt(frame, TOOLTIP_DELAY_SEC, TOOLTIP_FADE_SEC, fps);
+export function tooltipProgress(frame: number, fps = FPS, zoomedOutSec = STEP_ZOOMED_OUT_SEC): number {
+  return fadeAt(frame, TOOLTIP_DELAY_SEC, TOOLTIP_FADE_SEC, fps, zoomedOutSec);
 }
 
-export function cursorProgress(frame: number, fps = FPS): number {
-  const start = toFrames(CURSOR_START_SEC, fps);
-  const land = landingFrame(fps);
+export function cursorProgress(frame: number, fps = FPS, zoomedOutSec = STEP_ZOOMED_OUT_SEC): number {
+  const leadSec = Math.min(zoomedOutSec, STEP_ZOOMED_OUT_SEC - CURSOR_START_SEC);
+  const startSec = Math.max(0, zoomedOutSec - leadSec);
+  const start = toFrames(startSec, fps);
+  const land = landingFrame(fps, zoomedOutSec);
   if (frame <= start) return 0;
   if (frame >= land) return 1;
   return (frame - start) / (land - start);
@@ -448,7 +518,7 @@ async function loadScreenshotLayer(step: Step, screenshot: Screenshot, from: Poi
       : null,
     ring: target ? { color: target.color, dashed: target.border === 'dashed' } : null,
     from: { x: from.x * bitmap.width, y: from.y * bitmap.height },
-    description: step.description,
+    description: step.title?.trim() || step.description,
   };
 }
 
@@ -544,9 +614,23 @@ function drawCursor(ctx: Ctx, x: number, y: number, scale: number) {
   ctx.restore();
 }
 
-function drawStepFrame(ctx: Ctx, layer: StepLayer, frame: number, device: Size, fps = FPS) {
+async function drawStepFrame(
+  ctx: Ctx,
+  layer: StepLayer,
+  frame: number,
+  device: Size,
+  guide: Guide,
+  cards: Step[],
+  brand: Branding,
+  fps = FPS,
+  zoomedOutSec = STEP_ZOOMED_OUT_SEC,
+) {
   if (layer.kind === 'block') {
-    drawBlockFrame(ctx, layer);
+    if (layer.blockType === 'cover') {
+      await drawCardFrame(ctx, guide, cards, brand, i18n.t('export.guideLabel'));
+    } else {
+      drawBlockFrame(ctx, layer);
+    }
     return;
   }
 
@@ -557,7 +641,13 @@ function drawStepFrame(ctx: Ctx, layer: StepLayer, frame: number, device: Size, 
       ? reserveTooltip(layer.target, tooltipBand(box), layer.bitmap, fit.height, device.width, device.height)
       : layer.target;
 
-  const crop = zoomCrop(layer.bitmap, framed, easeInOut(zoomProgress(frame, fps)), device.width, device.height);
+  const crop = zoomCrop(
+    layer.bitmap,
+    framed,
+    easeInOut(zoomProgress(frame, fps, zoomedOutSec)),
+    device.width,
+    device.height,
+  );
   ctx.drawImage(layer.bitmap, crop.x, crop.y, crop.width, crop.height, fit.x, fit.y, fit.width, fit.height);
 
   const scale = fit.width / crop.width;
@@ -571,10 +661,10 @@ function drawStepFrame(ctx: Ctx, layer: StepLayer, frame: number, device: Size, 
       }
     : { x: FRAME_WIDTH / 2, y: FRAME_HEIGHT, width: 0, height: 0 };
 
-  const ringIn = ringProgress(frame, fps);
+  const ringIn = ringProgress(frame, fps, zoomedOutSec);
   if (layer.target && layer.ring && ringIn > 0) drawRing(ctx, anchor, layer.ring, ringIn);
 
-  const tipIn = tooltipProgress(frame, fps);
+  const tipIn = tooltipProgress(frame, fps, zoomedOutSec);
   if (box && tipIn > 0) {
     ctx.save();
     ctx.globalAlpha *= tipIn;
@@ -584,12 +674,13 @@ function drawStepFrame(ctx: Ctx, layer: StepLayer, frame: number, device: Size, 
   }
 
   if (layer.target) {
-    const travel = easeInOut(cursorProgress(frame, fps));
+    const travel = easeInOut(cursorProgress(frame, fps, zoomedOutSec));
     const tip = project(
       layer.from.x + (layer.target.x + layer.target.width * 0.42 - layer.from.x) * travel,
       layer.from.y + (layer.target.y + layer.target.height * 0.55 - layer.from.y) * travel,
     );
-    const pressed = ringIn > 0 && frame < landingFrame() + toFrames(RING_DELAY_SEC + CURSOR_PRESS_SEC);
+    const pressed =
+      ringIn > 0 && frame < landingFrame(fps, zoomedOutSec) + toFrames(RING_DELAY_SEC + CURSOR_PRESS_SEC, fps);
     const size = cursorScale(layer.bitmap.height, scale) * (pressed ? CURSOR_PRESS_SCALE : 1);
     drawCursor(ctx, tip.x, tip.y, size);
   }
@@ -628,7 +719,8 @@ async function drawCardFrame(ctx: Ctx, guide: Guide, steps: Step[], brand: Brand
     [i18n.t('export.steps').toUpperCase(), String(steps.length).padStart(2, '0')],
     [i18n.t('export.created').toUpperCase(), formatDate(guide.createdAt)],
   ];
-  if (domain) cells.push([i18n.t('export.source').toUpperCase(), domain]);
+  if (guide.author) cells.push([i18n.t('export.author').toUpperCase(), guide.author]);
+  else if (domain) cells.push([i18n.t('export.source').toUpperCase(), domain]);
 
   cells.forEach(([label, value], index) => {
     const x = COVER_MARGIN + index * COVER_CELL_WIDTH;
@@ -655,7 +747,7 @@ async function drawCardFrame(ctx: Ctx, guide: Guide, steps: Step[], brand: Brand
   }
 }
 
-export type VideoOptions = Pick<ExportOptions, 'cover' | 'stepDescriptions' | 'resolution'>;
+export type VideoOptions = Pick<ExportOptions, 'cover' | 'stepDescriptions' | 'resolution' | 'includeVoice'>;
 
 export type FrameOptions = Pick<ExportOptions, 'cover' | 'stepDescriptions'>;
 
@@ -676,7 +768,7 @@ export interface VideoChapter {
 
 export function stepKind(step: Step): StepKind {
   if (isBlock(step)) return 'note';
-  const action = step.action ?? '';
+  const action = step.action ?? 'click';
   if (action.startsWith('keydown:')) return 'key';
   if (action === 'input') return 'type';
   if (action === 'navigate') return 'navigate';
@@ -689,19 +781,39 @@ export interface VideoExportResult {
   chapters: VideoChapter[];
 }
 
-export function videoChapters(frames: Step[], cover: boolean, fps = FPS): VideoChapter[] {
+export function videoChapters(frames: Step[], cover: boolean, fps = FPS, stepTimings?: StepTiming[]): VideoChapter[] {
   if (frames.length === 0) return [];
   const offset = cover ? COVER_SECONDS : 0;
-  const stride = (stepFrames(fps) - overlapFrames(fps)) / fps;
-  const last = offset + totalStepFrames(frames.length, fps) / fps;
+  if (!stepTimings) {
+    const stride = (stepFrames(fps) - overlapFrames(fps)) / fps;
+    const last = offset + totalStepFrames(frames.length, fps) / fps;
 
-  return frames.map((step, index) => ({
-    stepId: step.id,
-    title: step.description?.trim() || i18n.t('export.stepLabel', [String(index + 1)]),
-    kind: stepKind(step),
-    start: offset + index * stride,
-    end: index === frames.length - 1 ? last : offset + (index + 1) * stride,
-  }));
+    return frames.map((step, index) => ({
+      stepId: step.id,
+      title: step.title?.trim() || step.description?.trim() || i18n.t('export.stepLabel', [String(index + 1)]),
+      kind: stepKind(step),
+      start: offset + index * stride,
+      end: index === frames.length - 1 ? last : offset + (index + 1) * stride,
+    }));
+  }
+
+  const lastTiming = stepTimings[stepTimings.length - 1];
+  const lastSec = offset + (lastTiming.startFrame + lastTiming.spanFrames) / fps;
+
+  return frames.map((step, index) => {
+    const timing = stepTimings[index];
+    const isLast = index === frames.length - 1;
+    const start = offset + timing.startFrame / fps;
+    const end = isLast ? lastSec : offset + (timing.startFrame + timing.strideFrames) / fps;
+
+    return {
+      stepId: step.id,
+      title: step.title?.trim() || step.description?.trim() || i18n.t('export.stepLabel', [String(index + 1)]),
+      kind: stepKind(step),
+      start,
+      end,
+    };
+  });
 }
 
 export type FrameSink = (timeSec: number, durationSec: number) => Promise<void>;
@@ -717,11 +829,11 @@ export async function composeGuideFrames(
   sink: FrameSink,
   controls: { onProgress?: (done: number, total: number) => void; signal?: AbortSignal } = {},
   fps = FPS,
+  stepTimings?: StepTiming[],
 ): Promise<void> {
-  const span = stepFrames(fps);
+  const timings = stepTimings ?? buildStepTimings(frames, undefined, fps);
   const overlap = overlapFrames(fps);
-  const stride = span - overlap;
-  const stepTotal = totalStepFrames(frames.length, fps);
+  const stepTotal = totalTimingsFrames(timings);
   const total = stepTotal + (options.cover ? 2 : 0);
   const loaded = new Map<number, StepLayer>();
   const { onProgress, signal } = controls;
@@ -766,11 +878,14 @@ export async function composeGuideFrames(
   };
 
   try {
-    const offset = options.cover ? COVER_SECONDS : 0;
+    // Only render a manual start cover if there isn't a cover block as the first step
+    const hasCoverStep = frames.length > 0 && frames[0].blockType === 'cover';
+    const renderStartCover = options.cover && !hasCoverStep;
+    const offset = renderStartCover ? COVER_SECONDS : 0;
 
     const cards = actionSteps(frames);
 
-    if (options.cover) {
+    if (renderStartCover) {
       abortIfRequested();
       await drawCardFrame(ctx, guide, cards, brand, i18n.t('export.guideLabel'));
       await sink(0, COVER_SECONDS);
@@ -778,28 +893,35 @@ export async function composeGuideFrames(
       onProgress?.(done, total);
     }
 
+    let activeIdx = 0;
     for (let frame = 0; frame < stepTotal; frame++) {
       abortIfRequested();
 
-      const index = Math.min(Math.floor(frame / stride), frames.length - 1);
-      const local = frame - index * stride;
-      const outgoing = index > 0 && local < overlap ? index - 1 : -1;
+      while (activeIdx < timings.length - 1 && frame >= timings[activeIdx + 1].startFrame) {
+        activeIdx++;
+      }
 
-      const current = await layerAt(index);
+      const currentTiming = timings[activeIdx];
+      const local = frame - currentTiming.startFrame;
+      const outgoing = activeIdx > 0 && local < overlap ? activeIdx - 1 : -1;
+
+      const current = await layerAt(activeIdx);
       const previous = outgoing >= 0 ? await layerAt(outgoing) : null;
-      releaseBefore(outgoing >= 0 ? outgoing : index);
+      releaseBefore(outgoing >= 0 ? outgoing : activeIdx);
 
       ctx.globalAlpha = 1;
       ctx.fillStyle = FRAME_FILL;
       ctx.fillRect(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
 
-      if (previous) {
-        drawStepFrame(ctx, previous, local + stride, device, fps);
+      if (previous && outgoing >= 0) {
+        const prevTiming = timings[outgoing];
+        const localPrev = frame - prevTiming.startFrame;
+        await drawStepFrame(ctx, previous, localPrev, device, guide, cards, brand, fps, prevTiming.zoomedOutSec);
         ctx.globalAlpha = (local + 1) / overlap;
-        drawStepFrame(ctx, current, local, device, fps);
+        await drawStepFrame(ctx, current, local, device, guide, cards, brand, fps, currentTiming.zoomedOutSec);
         ctx.globalAlpha = 1;
       } else {
-        drawStepFrame(ctx, current, local, device, fps);
+        await drawStepFrame(ctx, current, local, device, guide, cards, brand, fps, currentTiming.zoomedOutSec);
       }
 
       await sink(offset + frame / fps, 1 / fps);
@@ -830,9 +952,8 @@ export async function exportGuideAsVideo(
   const frames = steps.filter((step) => isBlock(step) || screenshots.has(step.id));
   if (frames.length === 0) throw new Error('This guide has no screenshots to turn into a video');
 
-  const { BufferTarget, CanvasSource, Mp4OutputFormat, Output, QUALITY_HIGH, WebMOutputFormat } = await import(
-    'mediabunny'
-  );
+  const mb = await import('mediabunny');
+  const { BufferTarget, CanvasSource, Mp4OutputFormat, Output, QUALITY_HIGH, WebMOutputFormat } = mb;
 
   const [brand, options] = await Promise.all([
     loadBranding(),
@@ -865,9 +986,99 @@ export async function exportGuideAsVideo(
     keyFrameInterval: KEY_FRAME_INTERVAL_SEC,
   });
   output.addVideoTrack(source);
+
+  let masterAudioBuffer: AudioBuffer | null = null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let audioSource: any = null;
+  let stepTimings: StepTiming[] | undefined;
+
+  let activeAudioCtx: AudioContext | null = null;
+  if (
+    options.includeVoice &&
+    typeof window !== 'undefined' &&
+    ('AudioContext' in window || 'webkitAudioContext' in window)
+  ) {
+    try {
+      const { getOrSynthesizeStepAudio } = await import('@/core/capture/voice/step-tts');
+      const AudioCtxClass =
+        window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      const audioCtx = new AudioCtxClass({ sampleRate: 48000 });
+      activeAudioCtx = audioCtx;
+      const sampleRate = audioCtx.sampleRate;
+      const decodedAudios = new Map<number, AudioBuffer>();
+      const audioDurations: (number | undefined)[] = [];
+
+      for (let i = 0; i < frames.length; i++) {
+        const step = frames[i];
+        try {
+          const res = await getOrSynthesizeStepAudio(step);
+          if (res?.blob) {
+            const arrayBuf = await res.blob.arrayBuffer();
+            const decoded = await audioCtx.decodeAudioData(arrayBuf);
+            decodedAudios.set(i, decoded);
+            audioDurations.push(decoded.duration);
+          } else {
+            audioDurations.push(undefined);
+          }
+        } catch {
+          audioDurations.push(undefined);
+        }
+      }
+
+      if (decodedAudios.size > 0) {
+        stepTimings = buildStepTimings(frames, audioDurations, FPS);
+        const hasCoverStep = frames.length > 0 && frames[0].blockType === 'cover';
+        const renderStartCover = options.cover && !hasCoverStep;
+        const offset = renderStartCover ? COVER_SECONDS : 0;
+        const lastTiming = stepTimings[stepTimings.length - 1];
+        const totalFramesCount = lastTiming ? lastTiming.startFrame + lastTiming.spanFrames : 0;
+        const renderEndCover = Boolean(options.cover);
+        const totalSec = offset + totalFramesCount / FPS + (renderEndCover ? COVER_SECONDS : 0);
+
+        const totalSamples = Math.ceil(totalSec * sampleRate);
+        const buffer = audioCtx.createBuffer(2, totalSamples, sampleRate);
+
+        for (const [i, decoded] of decodedAudios.entries()) {
+          const timing = stepTimings[i];
+          const startSec = offset + timing.startFrame / FPS;
+          const startSample = Math.round(startSec * sampleRate);
+
+          const srcCh0 = decoded.getChannelData(0);
+          const srcCh1 = decoded.numberOfChannels > 1 ? decoded.getChannelData(1) : srcCh0;
+          const dstCh0 = buffer.getChannelData(0);
+          const dstCh1 = buffer.getChannelData(1);
+          const copyLen = Math.min(srcCh0.length, totalSamples - startSample);
+          for (let s = 0; s < copyLen; s++) {
+            dstCh0[startSample + s] = srcCh0[s];
+            dstCh1[startSample + s] = srcCh1[s];
+          }
+        }
+
+        masterAudioBuffer = buffer;
+        const AudioBufferSourceClass = (mb as unknown as { AudioBufferSource?: new (opts: unknown) => unknown })
+          .AudioBufferSource;
+        if (AudioBufferSourceClass) {
+          audioSource = new AudioBufferSourceClass({
+            codec: mp4 ? 'aac' : 'opus',
+            sampleRate: sampleRate,
+            bitrate: 192_000,
+          });
+          output.addAudioTrack(audioSource);
+        }
+      }
+    } catch {
+      // Continue if voice audio setup fails
+    }
+  }
+
+  stepTimings ??= buildStepTimings(frames, undefined, FPS);
+
   await output.start();
 
   try {
+    if (audioSource && masterAudioBuffer) {
+      await audioSource.add(masterAudioBuffer);
+    }
     await composeGuideFrames(
       guide,
       frames,
@@ -878,11 +1089,21 @@ export async function exportGuideAsVideo(
       device,
       (at, dur) => source.add(at, dur),
       controls,
+      FPS,
+      stepTimings,
     );
     await output.finalize();
   } catch (error) {
     await output.cancel();
     throw error;
+  } finally {
+    if (activeAudioCtx) {
+      try {
+        void activeAudioCtx.close();
+      } catch {
+        // Context might already be closed
+      }
+    }
   }
 
   const buffer = output.target.buffer;
@@ -891,6 +1112,6 @@ export async function exportGuideAsVideo(
   return {
     blob: new Blob([buffer], { type: mp4 ? 'video/mp4' : 'video/webm' }),
     extension: mp4 ? 'mp4' : 'webm',
-    chapters: videoChapters(frames, Boolean(options.cover)),
+    chapters: videoChapters(frames, Boolean(options.cover), FPS, stepTimings),
   };
 }

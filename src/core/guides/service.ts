@@ -15,7 +15,7 @@ export function onGuidesChanged(callback: (event: GuideChangeEvent) => void): ()
   return () => guidesChannel.removeEventListener('message', handler);
 }
 
-function notifyGuidesChanged(event: GuideChangeEvent) {
+export function notifyGuidesChanged(event: GuideChangeEvent) {
   guidesChannel.postMessage(event);
 }
 
@@ -77,6 +77,11 @@ export async function updateGuideTitle(id: string, title: string): Promise<void>
 
 export async function updateGuideDescription(id: string, description: string): Promise<void> {
   await db.guides.update(id, { description, updatedAt: Date.now() });
+  notifyGuidesChanged({ type: 'mutated' });
+}
+
+export async function updateGuideAuthor(id: string, author: string): Promise<void> {
+  await db.guides.update(id, { author: author || undefined, updatedAt: Date.now() });
   notifyGuidesChanged({ type: 'mutated' });
 }
 
@@ -191,19 +196,75 @@ export async function insertBlock(
   return id;
 }
 
+export async function insertStep(
+  guideId: string,
+  atIndex: number,
+  stepData: Omit<Step, 'index' | 'guideId'>,
+): Promise<string> {
+  const id = stepData.id || crypto.randomUUID();
+  await db.transaction('rw', db.steps, db.guides, async () => {
+    const steps = await db.steps.where('guideId').equals(guideId).sortBy('index');
+    const newStep: Step = {
+      ...stepData,
+      id,
+      guideId,
+      index: 0,
+    };
+    steps.splice(Math.max(0, Math.min(atIndex, steps.length)), 0, newStep);
+    await db.steps.bulkPut(steps.map((step, index) => ({ ...step, index })));
+    await db.guides.update(guideId, { stepIds: steps.map((step) => step.id), updatedAt: Date.now() });
+  });
+  notifyGuidesChanged({ type: 'mutated' });
+  return id;
+}
+
 export async function updateCallout(stepId: string, variant: CalloutVariant, color?: string): Promise<void> {
   await db.steps.update(stepId, { calloutVariant: variant, calloutColor: color });
+}
+
+export async function updateStepTitle(stepId: string, title: string): Promise<void> {
+  await db.steps.update(stepId, { title });
+  notifyGuidesChanged({ type: 'mutated' });
 }
 
 export async function updateStepDescription(stepId: string, description: string): Promise<void> {
   await db.steps.update(stepId, { description });
 }
 
+export async function updateStepNarration(stepId: string, narration?: string): Promise<void> {
+  await db.steps.update(stepId, { narration: narration || undefined });
+  notifyGuidesChanged({ type: 'mutated' });
+}
+
+export async function updateStepAudioText(stepId: string, audioText?: string): Promise<void> {
+  await db.steps.update(stepId, { audioText: audioText || undefined });
+  notifyGuidesChanged({ type: 'mutated' });
+}
+
+export async function updateStepAudioMuted(stepId: string, audioMuted: boolean): Promise<void> {
+  await db.steps.update(stepId, { audioMuted });
+  notifyGuidesChanged({ type: 'mutated' });
+}
+
+export async function updateStepFields(
+  stepId: string,
+  fields: Partial<Pick<Step, 'title' | 'description' | 'audioText' | 'audioMuted'>>,
+): Promise<void> {
+  await db.steps.update(stepId, fields);
+  notifyGuidesChanged({ type: 'mutated' });
+}
+
 export async function applyNarrationToSteps(updates: readonly NarrationUpdate[]): Promise<void> {
   if (updates.length === 0) return;
   await db.transaction('rw', db.steps, async () => {
     for (const { stepId, description } of updates) {
-      await db.steps.update(stepId, { description, descriptionSource: 'narration', aiPending: false });
+      await db.steps.update(stepId, {
+        description,
+        narration: description,
+        audioText: description,
+        descriptionSource: 'narration',
+        aiPending: false,
+      });
     }
   });
   notifyGuidesChanged({ type: 'mutated' });
@@ -392,4 +453,55 @@ export async function revertToSnapshot(snapshotId: string): Promise<Snapshot | n
   });
   if (undo) notifyGuidesChanged({ type: 'mutated' });
   return undo;
+}
+
+/**
+ * Shift all text fields (title, description, audioText) from each action step
+ * back by one position in the ordered step list.
+ *
+ * Motivation: when recording, the AI description for a click is generated
+ * from the screenshot taken *after* the action fires. This means each step's
+ * description logically belongs to the *previous* step. This function moves
+ * all descriptive text one step earlier in one atomic transaction.
+ *
+ * - Step[1].text → Step[0] (cover or first action)
+ * - Step[2].text → Step[1]
+ * …
+ * - Step[N].text → Step[N-1]
+ * - Step[N] fields are cleared
+ *
+ * Only action steps are shifted (cover and block steps keep their own content).
+ * Cover's title/description/audioText are not affected.
+ */
+export async function shiftDescriptionsBack(guideId: string): Promise<void> {
+  await db.transaction('rw', db.steps, async () => {
+    const all = await db.steps.where('guideId').equals(guideId).sortBy('index');
+    // Only action steps (no blockType) participate in the shift
+    const actionStepList = all.filter((s) => s.blockType === undefined);
+    if (actionStepList.length < 2) return;
+
+    // Collect the text content from each action step in order
+    type TextFields = { title?: string; description: string; audioText?: string; narration?: string };
+    const texts: TextFields[] = actionStepList.map((s) => ({
+      title: s.title,
+      description: s.description,
+      audioText: s.audioText,
+      narration: s.narration,
+    }));
+
+    // Shift: step[i] receives step[i+1]'s content; last step is cleared
+    for (let i = 0; i < actionStepList.length; i++) {
+      const source =
+        i + 1 < texts.length
+          ? texts[i + 1]
+          : { title: undefined, description: '', audioText: undefined, narration: undefined };
+      await db.steps.update(actionStepList[i].id, {
+        title: source.title ?? undefined,
+        description: source.description,
+        audioText: source.audioText ?? undefined,
+        narration: source.narration ?? undefined,
+      });
+    }
+  });
+  notifyGuidesChanged({ type: 'mutated' });
 }

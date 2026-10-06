@@ -25,3 +25,9 @@ describe('zh-CN locale coverage', () => {
     expect(localeKeys('src/locales/zh-CN.yml')).toEqual(localeKeys('src/locales/en.yml'));
   });
 });
+
+describe('ro locale coverage', () => {
+  it('matches the English message keys', () => {
+    expect(localeKeys('src/locales/ro.yml')).toEqual(localeKeys('src/locales/en.yml'));
+  });
+});

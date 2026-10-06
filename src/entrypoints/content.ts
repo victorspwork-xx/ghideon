@@ -1,3 +1,4 @@
+import '@/lib/i18n-override';
 import { defineContentScript } from 'wxt/utils/define-content-script';
 import { browser } from '#imports';
 import { BlurManager } from '@/core/blur/manager';

@@ -1,0 +1,584 @@
+meta:
+  locale: ro
+
+app:
+  name: Ghideon
+  store_title: "Ghideon: Ghiduri pas cu pas și tutoriale"
+  description: "Înregistrează orice flux de lucru din browser ca ghid pas cu pas. Editează, narează vocal, exportă în video, PDF sau DOCX. Local-first, open source."
+
+common:
+  loading: Se încarcă...
+  cancel: Anulează
+  save: Salvează
+  delete: Șterge
+  back: Înapoi
+  continue: Continuă
+  skip: Omite
+  export: Exportă
+  close: Închide
+  undo: Anulează acțiunea
+  star: Marchează cu stea
+  unstar: Elimină steaua
+  restore: Restaurează
+  updated: "Actualizat la v$1"
+  whatsNew: Vezi ce este nou
+  previous: Înapoi
+  next: Înainte
+
+sidepanel:
+  connected: Conectat
+  connecting: Se conectează...
+  heroTitle: Ce dorești să capturezi?
+  heroSubtitle: Înregistrează automat orice flux de lucru
+  startCapture: Începe capturarea
+  captureStartingPage: Pornește cu pagina curentă
+  searchPlaceholder: Caută ghiduri...
+  recentLabel: Recente
+  notRecordable: Deschide un site web pentru a începe capturarea
+
+library:
+  noGuidesTitle: Niciun ghid încă
+  noGuidesSub: Începe o captură pentru a crea primul tău ghid
+  noStarredTitle: Niciun ghid marcat cu stea
+  noStarredSub: Marchează un ghid cu stea pentru a-l găsi rapid
+  trashEmptyTitle: Coșul este gol
+  trashEmptySub: Curățenie impecabilă!
+  noMatchingGuides: Niciun ghid potrivit
+  moveToTrash: Mută la coș
+  deletePermanently: Șterge definitiv
+  openInFullView: Deschide în vizualizare completă
+
+guideme:
+  live: În direct
+  roadblock: "Am întâmpinat un obstacol. Încearcă o acțiune pe ecran pentru a merge mai departe."
+  manualStep: "Acest pas a fost editat, așa că nu poate fi detectat automat. Apasă Următorul după ce l-ai efectuat."
+  stepOf: "Pasul $1 din $2"
+  noDescription: Fără descriere
+  prev: Anterior
+  next: Următor
+  finish: "Finalizează"
+  exitTitle: Părăsești ghidul?
+  exitMessage: Parcurgerea se va opri, iar interfața de ghidare de pe pagină va fi eliminată.
+  stay: Rămâi
+  exit: Ieși
+  guideNotFound: Ghidul nu a fost găsit
+
+guidemeCompletion:
+  title: "Gata, felicitări!"
+  stepsCompleted: "Pasul $1 finalizat."
+  stepsCompletedPlural: "Toți cei $1 pași finalizați."
+  allDone: Finalizat
+  runAgain: Rulează din nou
+
+recording:
+  capturePaused: Captură pusă pe pauză
+  recording: "Înregistrare · $1 pas"
+  recordingPlural: "Înregistrare · $1 pași"
+  readyTitle: Gata de captură!
+  readySub: Fă clic pe pagină pentru a începe
+  captureCurrentPage: Capturează pagina curentă
+  captureStartingPage: Capturează pagina de pornire
+  captureCurrentPageHint: "Capturează pagina curentă ca pas (util pentru a indica punctul de pornire)"
+  finishRecording: Finalizează înregistrarea
+  smartBlur: Neclaritate inteligentă
+  discard: Renunță
+  deleteStep: Șterge pasul
+  justNow: Chiar acum
+  secondsAgo: "acum $1s"
+  minutesAgo: "acum $1m"
+
+settings:
+  title: Setări
+  aiDescriptions: Descrieri AI
+  provider: Furnizor
+  model: Model
+  modelCustom: Model personalizat
+  omnirouteBaseUrl: "URL de bază OmniRoute"
+  omnirouteBaseUrlHint: "Gateway local sau la distanță compatibil OpenAI (de ex. http://localhost:20128/v1)"
+  omnirouteKeyOptional: "Cheia API este opțională pentru configurațiile locale OmniRoute."
+  omnirouteDetectModels: "Detectează Modele"
+  omnirouteDetectVoiceModels: "Încarcă Modele Vocale"
+  omnirouteTranscriptionModel: "Model Transcriere OmniRoute"
+  omnirouteTtsModel: "Model Sinteză Vocală (TTS)"
+  omnirouteGeminiGroup: "Google Gemini & Antigravity"
+  omnirouteOtherGroup: "Alte Modele Gateway"
+  omnirouteDiscoveredGroup: "Descoperite din OmniRoute"
+  apiKeyOptional: "Cheie API (opțională pentru OmniRoute local)"
+  apiKey: Cheie API
+  aiLanguage: Limba descrierilor
+  uiLanguage: Limba interfeței
+  uiLanguageAuto: Implicit de sistem
+  voiceNarration: Narațiune vocală
+  voiceUsingAiKey: "Nu este setată o cheie vocală, așadar Ghideon folosește cheia OpenAI din Descrieri AI de mai sus."
+  aiNoKey: "Nu este setată nicio cheie API, astfel că pașii vor folosi descrieri simple bazate pe reguli."
+  voiceNoKey: "Nu este setată nicio cheie API, astfel că înregistrările nu vor fi narate."
+  microphone: Microfon
+  microphoneDefault: Implicit de sistem
+  microphoneNeedsAccess: Permite accesul la microfon pentru a vedea denumirile dispozitivelor.
+  microphoneGrantAccess: Permite accesul la microfon
+  microphoneNone: Nu a fost găsit niciun microfon. Conectează unul și va apărea aici.
+  microphoneUnavailable: Microfon indisponibil
+  microphoneMissing: Microfonul ales nu este disponibil acum, așadar Ghideon va folosi dispozitivul implicit de sistem.
+  microphoneTest: Testează microfonul
+  microphoneStatusAllowed: Permis
+  microphoneStatusBlocked: Blocat
+  microphoneStatusPending: Nepermis încă
+  microphoneBlocked: Browserul blochează microfonul pentru Ghideon. Deschide setările site-ului din pictograma din stânga barei de adrese și setează Microfonul pe Permite.
+  microphoneUnblockHow: Cum îl deblochez?
+  microphoneTestStop: Oprește testul
+  microphoneTestFailed: Microfonul nu a putut fi deschis. Alege altul și încearcă din nou.
+  targetColor: "Culoare de brand"
+  targetColorHint: "Evidențierea clicurilor și accente la export"
+  branding: "Personalizare export"
+  brandLogo: "Siglă"
+  uploadLogo: "Încarcă sigla"
+  replaceLogo: "Înlocuiește"
+  removeLogo: "Elimină sigla"
+  footerLine: "Linie de subsol"
+  footerLinePlaceholder: "de ex. Confidențial — doar pentru uz intern"
+  footerPresetConfidential: "Confidențial — doar pentru uz intern"
+  footerPresetNoDistribute: "Nu distribuiți"
+  attribution: 'Afișează „Creat cu Ghideon”'
+  saveSettings: Salvează setările
+  saved: Salvat
+  validatingKey: "Se verifică cheia…"
+  keyValid: Cheia API a fost verificată.
+  keyInvalid: Cheia API a fost respinsă. Verific-o și încearcă din nou.
+  checkKey: Verifică cheia
+  keyUnreachable: Nu s-a putut contacta furnizorul. Verifică conexiunea și încearcă din nou.
+  smartBlur: Neclaritate inteligentă
+  privacyNotice: "Cheile și fișierele audio ajung doar la furnizorul ales. Nimic altceva nu părăsește browserul tău."
+  bugReport: "Ai găsit o problemă? Raporteaz-o pe GitHub"
+  starCtaTitle: "Îți place ce vezi?"
+  starCtaMessage: O stea pe GitHub îi ajută pe alții să găsească Ghideon și ne menține motivați!
+  starOnGithub: Marchează cu stea pe GitHub
+
+blurPresets:
+  email: E-mail
+  phoneNumbers: Numere de telefon
+  ssn: Număr de identificare / SSN
+  creditCard: Card de credit
+  ipAddress: Adresă IP
+  macAddress: Adresă MAC
+
+fullview:
+  allGuides: Toate ghidurile
+  starred: Favorite
+  trash: Coș de gunoi
+  searchPlaceholder: Caută ghiduri...
+  guideMe: Ghidează-mă
+  untitledGuide: Ghid fără titlu
+  writingTitle: Se generează titlul din pașii capturați...
+  writingDescription: "Se generează descrierea…"
+  guideNotFound: "Ghidul nu a fost găsit."
+  stepCount: "$1 pas"
+  stepCountPlural: "$1 pași"
+  pageOf: "$1 / $2"
+
+sort:
+  recentFirst: Cele mai recente
+  oldestFirst: Cele mai vechi
+  alphaAZ: "A — Z"
+  mostSteps: Cei mai mulți pași
+  gridView: Vizualizare grilă
+  listView: Vizualizare listă
+
+search:
+  startTyping: Începe să tastezi pentru a căuta un ghid
+  noMatchingGuides: Niciun ghid potrivit
+  noGuidesYet: Niciun ghid încă
+
+keyboard:
+  navigate: navigare
+  open: deschidere
+  close: închidere
+
+confirmDelete:
+  title: "Ștergi ghidul?"
+  message: Acest ghid va fi șters definitiv. Acțiunea nu poate fi anulată.
+  confirm: Șterge definitiv
+
+editor:
+  backToLibrary: Înapoi la bibliotecă
+  openInDashboard: Deschide
+  openInDashboardHint: Deschide în panou pentru a edita sau exporta
+  guideMe: Ghidează-mă
+  guideMeUnavailable: Niciun pas redat în acest ghid
+  deleteThisStep: "Ștergi acest pas?"
+  selectStep: Selectează pasul
+  selectedCount: "$1 selectate"
+  deleteSelectedStep: "Ștergi $1 pas selectat?"
+  deleteSelectedSteps: "Ștergi $1 pași selectați?"
+  copyScreenshot: Copiază captura de ecran
+  noScreenshot: Fără captură de ecran
+  edit: Editează
+  done: Gata
+  versionHistory: Istoric versiuni
+  moreActions: Mai multe acțiuni
+  generateDescription: Generează descriere
+  regenerateDescription: Regenerează descrierea
+  generatingDescription: "Se generează…"
+  descriptionPlaceholder: Adaugă o descriere
+  descriptionErrorNoApiKey: Adaugă o cheie API pentru AI în setări pentru a genera descrieri.
+  descriptionErrorNoSteps: Acest ghid nu are pași descriși pentru a fi rezumați.
+  descriptionErrorFailed: Nu s-a putut genera descrierea. Încearcă din nou.
+  descriptionErrorSaveFailed: Descrierea a fost generată, dar nu a putut fi salvată. Încearcă din nou.
+  writingStepDescription: "Se scrie descrierea…"
+  transcribingStepDescription: "Se transcrie ce ai spus…"
+  rewriteAskAi: Întreabă AI-ul
+  rewritePlaceholder: "Spune-i AI-ului cum să modifice textul…"
+  rewriteEnter: Enter
+  rewriteShorter: Mai scurt
+  rewriteDetail: Mai multe detalii
+  rewriteGrammar: Corectează gramatica
+  rewriteFormal: Mai formal
+  rewriteCasual: Mai colocvial
+  rewriteReplace: Înlocuiește
+  rewriteDiscard: Renunță
+  rewriteErrorNoApiKey: Adaugă o cheie API pentru AI în setări pentru a rescrie textul.
+  rewriteErrorFailed: Nu s-a putut rescrie selecția. Încearcă din nou.
+  rewriteErrorStale: Textul s-a modificat. Selectează-l din nou.
+  coverTitlePlaceholder: Titlul ghidului
+  coverDescPlaceholder: Adaugă o scurtă descriere a acestui ghid
+  coverAuthorPlaceholder: Autor
+  assistedNarration: Comentariu vocal asistat
+  useAsDescription: Folosește ca descriere
+  useAsDescriptionHint: Înlocuiește descrierea cu acest comentariu narat
+  copyNarration: Copiază comentariul
+  textToVoice: Redare vocală
+  playGuide: Redă ghidul vocal
+  pauseVoice: Pauză
+  resumeVoice: Reia redarea
+  stopVoice: Oprește
+  voiceStepProgress: "Pasul $1 din $2"
+  step: pas
+  steps: pași
+  listenStep: Ascultă acest pas
+  stepTitle: Titlu
+  stepTitlePlaceholder: "Titlu pas (utilizat pe video)..."
+  stepDescription: Descriere
+  stepDescriptionPlaceholder: "Descriere detaliată (vizibilă în ghid)..."
+  audioText: Text audio
+  audioTextPlaceholder: "Text audio înregistrat (sau introdus pentru citire vocală)..."
+  audioMutedBadge: Muted
+  audioMute: Mute audio
+  audioUnmute: Activează audio
+  audioMuteNotice: Oprește textul audio pentru acest pas (se va citi titlul)
+  audioMutedNotice: Audio este oprit pentru acest pas. Se va citi automat titlul.
+  audioMutedFallbackNotice: "Textul audio este silențios. La redare se va citi titlul:"
+
+capture:
+  recordSteps: Înregistrează pași
+  moreStepsTitle: Capturează mai mulți pași
+  moreStepsBody: Pașii noi sunt inserați aici. Alege fila în care dorești să înregistrezi.
+  startCapture: Începe capturarea
+  noRecordableTabs: Nu există file care pot fi înregistrate în această fereastră.
+
+blocks:
+  add: Adaugă bloc
+  heading: Titlu
+  callout: Notă
+  capturePage: Pagina curentă
+  headingPlaceholder: Titlu secțiune
+  calloutPlaceholder: Scrie o notă
+  deleteHeading: "Ștergi acest titlu?"
+  deleteCallout: "Ștergi această notă?"
+  variantInfo: Informație
+  variantWarning: Avertisment
+  variantError: Eroare
+  variantSuccess: Succes
+  variantCustom: Personalizat
+
+history:
+  title: Istoric versiuni
+  current: Curentă
+  restore: Restaurează
+  unchangedVersions: "Versiuni nemodificate ($1)"
+  readOnlyBanner: "Vizualizezi o versiune anterioară. Închide Istoricul versiunilor pentru a reveni la ghidul curent."
+  loadError: Nu s-a putut încărca istoricul versiunilor. Încearcă din nou.
+  restoreError: Nu s-a putut restaura. Încearcă din nou într-un moment.
+  storageFull: Spațiu de stocare insuficient pentru a salva un punct de anulare. Șterge un ghid și încearcă din nou.
+  empty: Nicio versiune anterioară încă. Vor apărea aici după ce editezi acest ghid.
+  nameVersion: Denumește această versiune
+  namePlaceholder: Nume versiune
+  allVersions: Toate versiunile
+  namedOnly: Doar versiuni denumite
+  emptyNamed: Nicio versiune denumită încă. Denumește una pentru a o găsi ușor mai târziu.
+  renameError: Nu s-a putut salva numele. Încearcă din nou.
+  changeTitle: Titlu modificat
+  changeStepAdded: "$1 pas adăugat"
+  changeStepsAdded: "$1 pași adăugați"
+  changeStepRemoved: "$1 pas șters"
+  changeStepsRemoved: "$1 pași șterși"
+  changeStepEdited: "$1 pas editat"
+  changeStepsEdited: "$1 pași editați"
+  changeStepReordered: Pași reordonați
+  changeLink: "$1 link modificat"
+  changeLinks: "$1 linkuri modificate"
+  changeImageReplaced: "$1 imagine înlocuită"
+  changeImagesReplaced: "$1 imagini înlocuite"
+  changeImageCropped: "$1 imagine decupată"
+  changeImagesCropped: "$1 imagini decupate"
+  changeImageAnnotated: "$1 imagine adnotată"
+  changeImagesAnnotated: "$1 imagini adnotate"
+  changeImageBlurred: "$1 imagine blurată"
+  changeImagesBlurred: "$1 imagini blurate"
+  changeAltText: Text alternativ editat
+
+emptyGuide:
+  title: Acest ghid este gol
+  subtitle: Dă-i viață înregistrând câțiva pași
+
+blurPanel:
+  title: Neclaritate inteligentă
+  manualMode: Mod manual
+  selectElements: Selectează elementele de blurat
+  done: Gata
+  doneResume: "Gata · Reia înregistrarea"
+  resetAll: Resetează tot
+
+screenshotView:
+  zoomIn: Mărește
+  zoomOut: Micșorează
+  saved: Salvat
+  editMenu: Editează captura de ecran
+  downloadEdited: "Imagine editată"
+  downloadOriginal: "Imagine originală"
+  edit: "Editează"
+  addImage: Adaugă imagine
+  replaceImage: Înlocuiește imaginea
+  replaceHint: "Alege o imagine nouă pentru acest pas"
+  replaceDrop: "Fă clic pentru a naviga sau plasează o imagine aici"
+  replaceFormats: "PNG, JPG sau WebP"
+  download: Descarcă
+  deleteImage: Șterge imaginea
+  deleteConfirm: "Ștergi această captură de ecran? Acțiunea nu poate fi anulată."
+  imageDeleted: Imagine ștearsă
+  altButton: ALT
+  altLabel: Text alternativ
+  altPlaceholder: Descrie această imagine pentru cititoarele de ecran
+
+annotationEditor:
+  title: Editează captura de ecran
+  toolBox: Dreptunghi
+  toolArrow: Săgeată
+  toolText: Text
+  toolSelect: "Selectează"
+  addTarget: "Adaugă țintă clic"
+  toolRedact: Maschează
+  toolCrop: Decupează
+  colorLabel: Culoare
+  textPlaceholder: Scrie ceva...
+  targetBorder: Stil bordură
+  modeAnnotate: "Adnotează"
+  toolLine: "Linie"
+  duplicate: "Duplică"
+  toolEllipse: "Elipsă"
+  lineColor: "Culoare linie"
+  fillColor: "Culoare umplere"
+  lineWidth: "Grosime linie"
+  cornerRadius: "Rază colțuri"
+  font: "Font"
+  bold: "Aldin"
+  italic: "Cursiv"
+  lineHeight: "Înălțime rând"
+  width_none: "Fără contur"
+  width_xs: "Foarte subțire"
+  width_sm: "Subțire"
+  width_ms: "Mediu subțire"
+  width_md: "Mediu"
+  width_ml: "Mediu gros"
+  width_lg: "Gros"
+  width_xl: "Foarte gros"
+  zoom: "Zoom"
+  cropHint: "Trage pentru a decupa sau trage de un colț pentru a redimensiona"
+  resetCrop: "Resetează decuparea"
+  arrowEnd: "Vârf săgeată"
+  fontSize: "Dimensiune font"
+  undo: "Anulează"
+  redo: "Refă"
+  end_none: "Niciunul"
+  end_bar: "Bară"
+  end_arrow: "Săgeată"
+  end_arrow_solid: "Săgeată plină"
+  end_circle: "Cerc"
+  end_circle_solid: "Cerc plin"
+  end_square: "Pătrat"
+  end_square_solid: "Pătrat plin"
+  done: Gata
+
+exportPreview:
+  stepDescriptions: "Descrieri pași"
+  stepDescriptionsHint: "Desenează textul pasului pe fiecare cadru video"
+  resolution: "Calitate video"
+  gifQuality: "Calitate GIF"
+  gif_low: "Scăzută"
+  gif_medium: "Medie"
+  gif_high: "Ridicată"
+  res_720p: "720p"
+  res_1080p: "1080p"
+  title: "Previzualizare export"
+  cover: "Pagină de copertă"
+  coverHint: "O primă pagină separată cu titlul și detaliile"
+  screenshots: "Capturi de ecran"
+  screenshotsHint: "Dezactivează pentru un document compact, doar text"
+  stepUrls: "Linkuri pași"
+  stepUrlsHint: "Afișează adresa paginii unde a avut loc fiecare pas"
+  imageScale: "Dimensiune captură de ecran"
+  scale_small: "Mică"
+  scale_medium: "Medie"
+  scale_large: "Mare"
+  download: "Exportă $1"
+  rendering: "Se actualizează previzualizarea"
+  videoReady: "$1 pași · aprox. $2 min de video"
+  videoReadyHint: "Ghidurile lungi nu sunt codificate automat. Previzualizarea acoperă fiecare pas."
+  videoGenerate: "Generează previzualizarea"
+  modeDocument: "Document"
+  modeVideo: "Video"
+  encodingVideo: "Se codifică previzualizarea video"
+  videoFailed: "Previzualizarea video nu a putut fi creată"
+  includeVoice: "Include voce în video"
+  includeVoiceHint: "Randează narațiunea vocală sincronizată în fișierul video"
+  browserVoiceWarning: "Vocile de sistem din browser nu pot fi exportate în fișiere video. Pentru video cu voce naturală, alege Gemini DeepMind (gratuit), OpenAI sau ElevenLabs în bara de voce."
+  copyEmbedCode: "Copiază cod embed (iframe)"
+  embedCopied: "Cod embed copiat!"
+
+videoPlayer:
+  stepCount: "$1 pași"
+  previousStep: "Pasul anterior"
+  nextStep: "Pasul următor"
+  speed: "Viteză de redare"
+
+exportMenu:
+  docx: DOCX
+  html: HTML
+  markdown: Markdown
+  pdf: PDF
+  gif: GIF
+  video: Video
+  embedVideo: "Embed Video (HTML)"
+  cancelProgress: "Anulează · $1%"
+
+onboarding:
+  welcomeBadge: Bun venit
+  welcomeTitle: "Ai instalat Ghideon cu succes!"
+  welcomeMessage: "În doar câțiva pași, vei fi gata să capturezi automat fluxuri de lucru din browser și să generezi ghiduri pas cu pas. Fără cont necesar — totul rămâne în browserul tău."
+  getStarted: Începe acum
+  stepOf: "Pasul $1 din $2"
+  aiTitle: Descrieri AI
+  aiMessage: Conectează propria cheie API pentru a obține descrieri de pași generate de AI. Acest lucru este opțional și poate fi modificat ulterior în setări.
+  aiGenerated: Generat de AI
+  aiGeneratedDescription: Descriere generată de AI
+  voiceTitle: Vorbește, apoi acționează
+  voiceMessage: Spune ce urmează să faci, apoi fă acel lucru. Ghideon asociază narațiunea cu acțiunea care îi urmează, așadar ordinea contează cel mai mult.
+  voiceRecordHint: Narațiunea rămâne oprită până când o activezi. Folosește butonul de microfon din panoul lateral în timpul înregistrării, astfel încât să alegi pentru fiecare ghid.
+  voiceDataNotice: Fișierele audio sunt trimise către furnizorul pe care îl alegi aici, folosind propria cheie API. Nimic altceva din Ghideon nu părăsește browserul tău.
+  voiceDemoLabel: Cum funcționează narațiunea
+  voiceDemoSay: Tu spui
+  voiceDemoQuote: "Acum voi deschide setările de facturare"
+  voiceDemoAct: Apoi faci clic
+  voiceDemoAction: Fă clic pe fila Facturare
+  voiceDemoBadge: Din vocea ta
+  blurTitle: Neclaritate inteligentă
+  blurMessage: Aplică automat neclaritate pe informațiile sensibile din capturile de ecran. Alege ce tipare dorești să fie detectate.
+  screenshotPreview: Previzualizare captură
+  notEnabled: Neactivat
+  categoriesProtected: "$1 categorii protejate"
+  pinTitle: Fixează Ghideon
+  pinMessage: Fixează extensia în bara de instrumente pentru acces rapid. Fă clic pe pictograma piesei de puzzle din Chrome, apoi fixează Ghideon.
+  pinStep1Title: Fă clic pe pictograma piesă de puzzle
+  pinStep1Sub: În colțul din dreapta-sus al barei de instrumente din browser
+  pinStep2Title: Găsește Ghideon
+  pinStep2Sub: În meniul derulant al extensiilor
+  pinStep3Title: Fă clic pe pictograma de fixare
+  pinStep3Sub: Ghideon va apărea în bara ta de instrumente
+  pinScreenshotAlt: Fixează extensia Ghideon
+  starTitle: Ne lași o stea pe GitHub?
+  starMessage: "Ghideon este gratuit și open source. O stea este cel mai simplu mod de a ne mulțumi și îi ajută pe alții să-l descopere."
+  starAction: Marchează cu stea pe GitHub
+  starLater: Poate mai târziu
+  doneTitle: "Totul este pregătit!"
+  doneMessage: "Ghideon este gata să captureze fluxurile tale de lucru. Fă clic pe „Începe capturarea” în extensie pentru a înregistra primul tău ghid."
+  featureAutoCapture: Captură automată
+  featureAIAssist: Asistență AI
+  featureVoice: Narațiune vocală
+  featureAnnotate: Adnotare și mascare
+  featureExports: Export oriunde
+  featureSmartBlur: Neclaritate inteligentă
+  openGhideon: Deschide Ghideon
+
+steps:
+  pressKey: "Apasă pe $1 pe $2"
+  toggleCheckbox: "Comută $1"
+  selectRadio: "Selectează $1"
+  toggleSwitch: "Comută $1"
+  clickLink: 'Fă clic pe linkul "$1"'
+  click: "Fă clic pe $1"
+  typeIntoField: "Introdu în câmpul $1 $2"
+  typeInto: "Introdu în $1"
+  typeSecret: "Introdu parola"
+  copyFrom: "Copiază din $1"
+  pasteInto: "Lipește în $1"
+  cutFrom: "Decupează din $1"
+  drag: "Trage $1"
+  navigate: Navighează la pagină
+  navigateTo: "Navighează la $1"
+  openPage: "Deschide $1"
+  defaultAction: "$1 $2"
+
+export:
+  guideLabel: "GHID"
+  endLabel: "GHID FINALIZAT"
+  stepsRange: "Pașii $1–$2 din $3"
+  stepOf: "Pasul $1 din $2"
+  madeWith: "Creat cu Ghideon"
+  created: Creat
+  source: Sursă
+  author: Autor
+  step: Pas
+  steps: Pași
+  stepLabel: "Pasul $1"
+  stepsCount: "$1 pași"
+  createdLabel: "Creat la $1"
+  sourceLabel: "Sursă: $1"
+
+background:
+  guideOnDomain: "Ghid pe $1"
+  newGuide: Ghid nou
+
+voice:
+  turnOn: Activează narațiunea vocală
+  turnOff: Dezactivează narațiunea vocală
+  needsApiKey: Adaugă o cheie API de transcriere în Setări pentru a nara
+  micStarting: Se pornește microfonul...
+  micHearing: Te ascultăm
+  micQuiet: Niciun sunet
+  nextRecording: Narațiunea vocală este activă și va începe la următoarea înregistrare.
+  orderHint: Spune ce urmează să faci, apoi fă acel lucru. Cuvintele tale se asociază cu următoarea acțiune.
+  transcribing: Se transcrie narațiunea ta...
+  transcribingHint: Descrierile pașilor se vor actualiza automat după finalizare.
+  narrated: "Narațiune adăugată la $1 pas."
+  narratedPlural: "Narațiune adăugată la $1 pași."
+  narratedNone: Nicio parte narată nu s-a potrivit cu pașii tăi, așa că descrierile rămân neschimbate.
+  guideSafe: Ghidul și capturile tale de ecran sunt în siguranță. S-a pierdut doar narațiunea.
+  openSettings: Deschide setările
+  errorPermissionDenied: Accesul la microfon a fost blocat, așadar nimic nu a fost narat.
+  errorNoDevice: Nu a fost găsit niciun microfon, așadar nimic nu a fost narat.
+  errorNoAudio: Microfonul nu a captat niciun sunet, așa că nu a existat nimic de transcris.
+  errorMissingApiKey: Narațiunea vocală necesită un furnizor de transcriere și o cheie API.
+  errorStreamEnded: Microfonul s-a oprit pe parcurs, așa că narațiunea s-a încheiat mai devreme.
+  errorNotRecording: Narațiunea vocală nu rula, așa că nu a existat nimic de transcris.
+  errorAlreadyRecording: Narațiunea vocală rula deja, așa că această înregistrare nu a fost narată.
+  errorUnsupported: Acest browser nu poate înregistra narațiune vocală.
+  errorUnknown: Narațiunea vocală s-a oprit în mod neașteptat.
+
+micPermission:
+  title: Permite accesul la microfon
+  checkingMessage: Se verifică dacă Ghideon are deja acces la microfon...
+  promptingMessage: Browserul solicită permisiunea. Alege Permite pentru ca Ghideon să poată înregistra narațiunea în timp ce capturezi un ghid. Această filă se închide automat.
+  grantedTitle: Microfon pregătit
+  grantedMessage: Revenim la ceea ce făceai.
+  deniedTitle: Accesul la microfon este blocat
+  deniedMessage: Browserul blochează microfonul pentru Ghideon, astfel încât narațiunea vocală nu poate înregistra. Deschide setările site-ului din pictograma din stânga barei de adrese, setează Microfonul pe Permite și încearcă din nou. Capturarea ghidurilor continuă să funcționeze fără acesta.
+  retry: Încearcă din nou
+  privacy: Înregistrarea audio este păstrată în memorie doar în timpul înregistrării și este trimisă furnizorului de transcriere configurat. Ghideon nu o stochează niciodată.

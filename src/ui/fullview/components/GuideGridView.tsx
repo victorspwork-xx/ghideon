@@ -14,13 +14,13 @@ interface GuideGridViewProps {
   onPermanentDelete: (e: React.MouseEvent, id: string) => void;
 }
 
-function MimikEyes() {
+function MascotEyes() {
   return (
     <div className="w-full h-full flex items-center justify-center bg-primary">
       <svg width="120" height="50" viewBox="0 0 120 50" fill="none">
-        <path d="M15 30 Q27 14 39 30" stroke="#C7D2FE" strokeWidth="5" strokeLinecap="round" fill="none" />
-        <path d="M81 30 Q93 14 105 30" stroke="#C7D2FE" strokeWidth="5" strokeLinecap="round" fill="none" />
-        <path d="M39 44 Q60 54 81 44" stroke="#C7D2FE" strokeWidth="3.5" strokeLinecap="round" fill="none" />
+        <path d="M15 30 Q27 14 39 30" stroke="#b3cef0" strokeWidth="5" strokeLinecap="round" fill="none" />
+        <path d="M81 30 Q93 14 105 30" stroke="#b3cef0" strokeWidth="5" strokeLinecap="round" fill="none" />
+        <path d="M39 44 Q60 54 81 44" stroke="#b3cef0" strokeWidth="3.5" strokeLinecap="round" fill="none" />
       </svg>
     </div>
   );
@@ -154,7 +154,7 @@ export default function GuideGridView({ category, onStar, onTrash, onRestore, on
               {thumb ? (
                 <ScreenshotView screenshot={thumb} alt={guide.title} className="!rounded-none !border-0" readOnly />
               ) : (
-                <MimikEyes />
+                <MascotEyes />
               )}
             </div>
             <div className="p-3 flex items-start justify-between">

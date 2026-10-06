@@ -36,7 +36,15 @@ export function extractDomain(steps: Step[]): string | null {
   }
 }
 
-const LOCALE_MAP: Record<string, string> = { en: 'en-US', es: 'es', 'pt-BR': 'pt-BR', fr: 'fr', de: 'de-DE' };
+const LOCALE_MAP: Record<string, string> = {
+  en: 'en-US',
+  es: 'es',
+  'pt-BR': 'pt-BR',
+  fr: 'fr',
+  de: 'de-DE',
+  'zh-CN': 'zh-CN',
+  ro: 'ro-RO',
+};
 
 export function formatDate(timestamp: number): string {
   let locale = 'en-US';

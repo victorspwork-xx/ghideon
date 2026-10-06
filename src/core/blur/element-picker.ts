@@ -19,7 +19,7 @@ const STYLES = `
     right: 0;
     background: rgba(255, 255, 255, 0.97);
     backdrop-filter: blur(8px);
-    border-top: 1px solid #C7D2FE;
+    border-top: 1px solid #b3cef0;
     padding: 10px 18px;
     display: flex;
     align-items: center;
@@ -33,7 +33,7 @@ const STYLES = `
     gap: 8px;
     font-size: 12px;
     font-weight: 500;
-    color: #1E1B4B;
+    color: #00357e;
   }
   .bar-left svg { color: #7C3AED; }
   .bar-done {
@@ -44,8 +44,8 @@ const STYLES = `
     border: none;
     cursor: pointer;
     font-family: inherit;
-    background: #1E1B4B;
-    color: #C7D2FE;
+    background: #00357e;
+    color: #b3cef0;
   }
 `;
 

@@ -121,4 +121,21 @@ describe('buildStepWindows', () => {
     );
     for (let i = 1; i < windows.length; i += 1) expect(windows[i].from).toBe(windows[i - 1].to);
   });
+  it('assigns the first audio segment to a cover step and leaves a zero-width window for the first action', () => {
+    const windows = buildStepWindows(
+      [
+        { stepId: 'cover', timestamp: EPOCH + 1000, isCover: true },
+        { stepId: 'first-action', timestamp: EPOCH + 6000 },
+        { stepId: 'second-action', timestamp: EPOCH + 10000 },
+      ],
+      EPOCH,
+      12,
+    );
+
+    expect(windows).toEqual([
+      { stepId: 'cover', from: 0, to: 6 },
+      { stepId: 'first-action', from: 6, to: 6 },
+      { stepId: 'second-action', from: 6, to: 12 },
+    ]);
+  });
 });

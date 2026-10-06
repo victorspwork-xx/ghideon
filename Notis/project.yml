@@ -1,0 +1,44 @@
+name: Notis
+options:
+  bundleIdPrefix: io.westpoint
+  deploymentTarget:
+    iOS: 16.0
+  xcodeVersion: "16.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    IPHONEOS_DEPLOYMENT_TARGET: "16.0"
+    TARGETED_DEVICE_FAMILY: "1,2"
+    ENABLE_BITCODE: "NO"
+
+targets:
+  Notis:
+    type: application
+    platform: iOS
+    deploymentTarget: "16.0"
+    sources:
+      - path: NotisApp/Sources
+      - path: NotisApp/Resources
+    info:
+      path: NotisApp/Info.plist
+      properties:
+        CFBundleDisplayName: "Notesa"
+        CFBundleName: "Notesa"
+        UIBackgroundModes:
+          - audio
+        NSMicrophoneUsageDescription: "Notesa requires microphone access to record meetings and conversations for transcription and analysis."
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: io.westpoint.notis
+        INFOPLIST_FILE: NotisApp/Info.plist
+        INFOPLIST_KEY_CFBundleDisplayName: "Notesa"
+        INFOPLIST_KEY_CFBundleName: "Notesa"
+        INFOPLIST_KEY_NSMicrophoneUsageDescription: "Notesa requires microphone access to record meetings and conversations for transcription and analysis."
+        INFOPLIST_KEY_UIBackgroundModes: "audio"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        CODE_SIGN_STYLE: Automatic
+        GENERATE_INFOPLIST_FILE: "YES"
+    scheme:
+      testTargets: []

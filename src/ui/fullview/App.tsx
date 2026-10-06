@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useLanguage } from '@/lib/i18n-override';
 import { useFullview } from '@/stores/fullview';
 import { TooltipProvider } from '@/ui/components/ui/tooltip';
 import UpdateNotice from '@/ui/shared/UpdateNotice';
@@ -10,6 +11,7 @@ import SearchModal from './SearchModal';
 import TopNav from './TopNav';
 
 export default function FullViewApp() {
+  const lang = useLanguage();
   const route = useRoute();
   const { toggleSearch, historyOpen } = useFullview((s) => ({
     toggleSearch: s.toggleSearch,
@@ -28,11 +30,11 @@ export default function FullViewApp() {
   }, [toggleSearch]);
 
   return (
-    <TooltipProvider>
+    <TooltipProvider key={lang}>
       <div className="min-h-screen flex flex-col bg-background">
         <TopNav route={route} />
         <SearchModal />
-        <UpdateNotice className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50" />
+        <UpdateNotice className="fixed bottom-6 left-6 z-50 max-w-[calc(100vw-3rem)]" />
 
         {route.page === 'library' && (
           <main className="flex-1 p-8 max-w-6xl mx-auto w-full">

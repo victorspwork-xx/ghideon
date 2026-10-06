@@ -9,6 +9,7 @@ import { canExportVideo } from '@/core/export/video-support';
 import { getGuide } from '@/core/guides/service';
 import type { Guide, Screenshot, Step } from '@/core/guides/types';
 import { Button } from '@/ui/components/ui/button';
+import EmbedExportModal from '@/ui/shared/EmbedExportModal';
 
 interface ExportMenuProps {
   guideId: string;
@@ -17,7 +18,7 @@ interface ExportMenuProps {
   screenshots: Map<string, Screenshot>;
 }
 
-type ExportType = 'docx' | 'gif' | 'html' | 'markdown' | 'pdf' | 'video';
+type ExportType = 'docx' | 'gif' | 'html' | 'markdown' | 'pdf' | 'video' | 'video-embed';
 
 export default function ExportMenu({
   guideId,
@@ -27,6 +28,7 @@ export default function ExportMenu({
 }: ExportMenuProps) {
   const [open, setOpen] = useState(false);
   const [exporting, setExporting] = useState(false);
+  const [embedModalOpen, setEmbedModalOpen] = useState(false);
   const [videoSupported, setVideoSupported] = useState(false);
   const [progress, setProgress] = useState<number | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -88,6 +90,9 @@ export default function ExportMenu({
           onProgress: (encoded, frames) => setProgress(frames > 0 ? encoded / frames : 0),
         });
         downloadBlob(blob, safeFilename(guide.title, extension));
+      } else if (type === 'video-embed') {
+        setEmbedModalOpen(true);
+        return;
       } else {
         downloadBlob(await exportGuideAsPDF(guide, steps, screenshots), safeFilename(guide.title, 'pdf'));
       }
@@ -107,35 +112,46 @@ export default function ExportMenu({
     { type: 'pdf' as const, icon: FileDown, label: i18n.t('exportMenu.pdf') },
     { type: 'gif' as const, icon: FileImage, label: i18n.t('exportMenu.gif') },
     ...(videoSupported ? [{ type: 'video' as const, icon: Video, label: i18n.t('exportMenu.video') }] : []),
+    { type: 'video-embed' as const, icon: FileCode, label: i18n.t('exportMenu.embedVideo') || 'Embed (HTML)' },
   ];
 
   return (
-    <div ref={menuRef} className="relative">
-      <Button
-        size="sm"
-        onClick={() => (progress === null ? setOpen((prev) => !prev) : abortRef.current?.abort())}
-        disabled={exporting && progress === null}
-      >
-        {exporting ? <Loader2 size={14} className="animate-spin" /> : <Download size={14} />}
-        {progress === null
-          ? i18n.t('common.export')
-          : i18n.t('exportMenu.cancelProgress', [String(Math.round(progress * 100))])}
-      </Button>
+    <>
+      <div ref={menuRef} className="relative">
+        <Button
+          size="sm"
+          onClick={() => (progress === null ? setOpen((prev) => !prev) : abortRef.current?.abort())}
+          disabled={exporting && progress === null}
+        >
+          {exporting ? <Loader2 size={14} className="animate-spin" /> : <Download size={14} />}
+          {progress === null
+            ? i18n.t('common.export')
+            : i18n.t('exportMenu.cancelProgress', [String(Math.round(progress * 100))])}
+        </Button>
 
-      {open && !exporting && (
-        <div className="absolute right-0 mt-1 w-40 bg-card border border-border rounded-lg shadow-lg py-1 z-10">
-          {items.map((item) => (
-            <button
-              key={item.type}
-              className="flex items-center gap-2 w-full px-3 py-2 text-sm text-foreground hover:bg-secondary"
-              onClick={() => handleExport(item.type)}
-            >
-              <item.icon size={14} />
-              {item.label}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
+        {open && !exporting && (
+          <div className="absolute right-0 mt-1 w-40 bg-card border border-border rounded-lg shadow-lg py-1 z-10">
+            {items.map((item) => (
+              <button
+                key={item.type}
+                className="flex items-center gap-2 w-full px-3 py-2 text-sm text-foreground hover:bg-secondary"
+                onClick={() => handleExport(item.type)}
+              >
+                <item.icon size={14} />
+                {item.label}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <EmbedExportModal
+        open={embedModalOpen}
+        onOpenChange={setEmbedModalOpen}
+        guide={guideProp}
+        steps={stepsProp}
+        screenshots={screenshotsProp}
+      />
+    </>
   );
 }

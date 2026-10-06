@@ -77,6 +77,7 @@ class CaptureController {
       ['auxclick', this.onAuxClick.bind(this), ACTIVE_CAPTURE],
       ['keydown', this.onKeydown.bind(this), ACTIVE_CAPTURE],
       ['input', this.onInput.bind(this), PASSIVE_CAPTURE],
+      ['change', this.onChange.bind(this), PASSIVE_CAPTURE],
       ['focusout', this.onFocusOut.bind(this), PASSIVE_CAPTURE],
     ];
     if (isTopFrame) {
@@ -261,6 +262,31 @@ class CaptureController {
     if (!this.input.active) {
       this.enqueue(() => this.input.start(target));
     } else {
+      this.input.update(target);
+    }
+  }
+
+  private onChange(e: Event) {
+    const target = eventTarget(e);
+    if (!target || !(target instanceof HTMLElement)) return;
+
+    // HTMLSelectElement change is already handled by onInput; skip double-capture
+    if (target instanceof HTMLSelectElement) return;
+
+    // Only handle native picker inputs (date/time/color/range/etc.) that don't fire `input`
+    if (
+      !(target instanceof HTMLInputElement) ||
+      !isTextField(target) ||
+      ['text', 'email', 'password', 'search', 'tel', 'url', 'number'].includes(target.type)
+    )
+      return;
+
+    // If no active session yet (user picked without focusing first, e.g. spin-button on date),
+    // start one now so we get a step
+    if (!this.input.active) {
+      this.enqueue(() => this.input.start(target));
+    } else {
+      // Update the existing session with the newly-picked value
       this.input.update(target);
     }
   }

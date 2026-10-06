@@ -1,4 +1,4 @@
-import { Globe, Search, Settings, Video } from 'lucide-react';
+import { Camera, Globe, Search, Settings, Video } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { browser, i18n } from '#imports';
 import { CaptureState } from '@/core/capture/machine';
@@ -14,6 +14,7 @@ import {
   requestHostPermissions,
   updateTab,
 } from '@/lib/browser-api';
+import { useLanguage } from '@/lib/i18n-override';
 import { logger } from '@/lib/logger';
 import { sendMessage } from '@/lib/messaging';
 import { getVoiceStatus } from '@/lib/offscreen';
@@ -60,7 +61,7 @@ function MascotIcon({ size = 44 }: { size?: number }) {
           transform="rotate(45, 100, 100)"
           opacity="0.15"
         />
-        <rect x="90" y="-80" width="50" height="400" fill="#818CF8" transform="rotate(45, 100, 100)" opacity="0.12" />
+        <rect x="90" y="-80" width="50" height="400" fill="#4d8fd4" transform="rotate(45, 100, 100)" opacity="0.12" />
         <rect x="-30" y="-80" width="50" height="400" fill="#93C5FD" transform="rotate(45, 100, 100)" opacity="0.15" />
         <rect x="150" y="-80" width="50" height="400" fill="#A5B4FC" transform="rotate(45, 100, 100)" opacity="0.1" />
       </g>
@@ -88,6 +89,7 @@ function MascotIcon({ size = 44 }: { size?: number }) {
 }
 
 export default function App() {
+  const lang = useLanguage();
   const [isAlive, setIsAlive] = useState(false);
   const [_isRecording, setIsRecording] = useState(false);
   const [view, setView] = useState<View>({ name: 'library' });
@@ -183,6 +185,32 @@ export default function App() {
       }
     } catch (err) {
       logger.error(' START_RECORDING error', err);
+    }
+  }, []);
+
+  const handleStartWithCurrentPage = useCallback(async () => {
+    const permissionsPromise = requestHostPermissions();
+    const granted = await permissionsPromise;
+    if (!granted) {
+      logger.warn('Host permissions not granted, cannot start recording');
+      return;
+    }
+    const tab = await getActiveTab();
+    const url = tab?.url || tab?.pendingUrl || '';
+    if (!isRecordableUrl(url)) {
+      logger.warn('Active tab can no longer be recorded');
+      return;
+    }
+
+    try {
+      const res = await sendMessage('startRecording', { url });
+      if (res.guideId) {
+        setIsRecording(true);
+        setView({ name: 'recording', guideId: res.guideId });
+        await sendMessage('capturePage', { guideId: res.guideId, title: tab?.title });
+      }
+    } catch (err) {
+      logger.error(' START_RECORDING_WITH_PAGE error', err);
     }
   }, []);
 
@@ -285,14 +313,25 @@ export default function App() {
           </div>
 
           {isRecordableUrl(activeUrl) ? (
-            <Button
-              onClick={handleStartRecording}
-              disabled={!isAlive}
-              className="w-full py-3 px-4 h-auto rounded-lg font-semibold text-sm hover:-translate-y-px shadow-sm"
-            >
-              <Video size={18} />
-              {i18n.t('sidepanel.startCapture')}
-            </Button>
+            <div className="flex flex-col gap-2">
+              <Button
+                onClick={handleStartRecording}
+                disabled={!isAlive}
+                className="w-full py-2.5 px-4 h-auto rounded-lg font-semibold text-sm hover:-translate-y-px shadow-sm"
+              >
+                <Video size={18} />
+                {i18n.t('sidepanel.startCapture')}
+              </Button>
+              <Button
+                onClick={handleStartWithCurrentPage}
+                disabled={!isAlive}
+                variant="outline"
+                className="w-full py-2 px-3 h-auto rounded-lg font-medium text-xs border-border hover:border-accent hover:text-accent hover:bg-secondary flex items-center justify-center gap-1.5 transition-colors"
+              >
+                <Camera size={15} />
+                {i18n.t('sidepanel.captureStartingPage')}
+              </Button>
+            </div>
           ) : (
             <p className="flex items-center justify-center gap-1.5 rounded-lg border border-border py-2.5 text-xs font-medium text-muted-foreground">
               <Globe size={14} className="shrink-0 text-accent" />
@@ -331,7 +370,7 @@ export default function App() {
   }
 
   return (
-    <TooltipProvider>
+    <TooltipProvider key={lang}>
       {renderView()}
       {import.meta.env.BROWSER !== 'firefox' && view.name !== 'recording' && (
         <VoiceToast update={voice} confirmable={voiceStarted} onOpenSettings={() => setView({ name: 'settings' })} />

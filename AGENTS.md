@@ -1,4 +1,4 @@
-# Mimik
+# Ghideon
 
 Open-source Chrome extension that auto-captures browser workflows and generates step-by-step guides. No backend, no account, no data leaves the browser.
 
@@ -255,3 +255,21 @@ Font: Poppins (loaded via `@fontsource/poppins`).
 - **Recording notification** uses `animationend` event (not hardcoded delays) for timing
 - **Font loading** uses `@fontsource/poppins` (CSP-safe, no CDN dependency)
 - **Cross-context sync** via BroadcastChannel — star/delete events update other views without full reload
+
+## Documentation Maintenance Protocol
+
+Mimik maintains a structured Diataxis documentation suite in `docs/`. Whenever any functionality, API, pipeline, or UI is modified, you MUST update the corresponding documentation before concluding your work:
+
+| Component / Subsystem Changed | Files to Update in `docs/` |
+|---|---|
+| **Capture Pipeline & DOM Extraction** (`src/core/capture/`) | `docs/explanation/capture-pipeline.md`, `docs/reference/architecture.md` |
+| **Export Formats & Generators** (`src/core/export/`, `EmbedExportModal.tsx`) | `docs/how-to/export-guides.md`, `docs/how-to/embed-guides.md`, `docs/reference/export-specifications.md` |
+| **Voice Narration & TTS Models** (`src/core/capture/voice/`, `SettingsView.tsx`) | `docs/how-to/configure-ai-and-voice.md`, `docs/reference/voice-models-and-tts.md` |
+| **Smart Blur & Redaction** (`src/core/blur/`, `BlurCanvas.tsx`) | `docs/how-to/use-smart-blur.md` |
+| **IndexedDB & Schemas** (`src/core/guides/db.ts`, `types.ts`) | `docs/reference/storage-and-schema.md` |
+| **Extension Messaging & IPC** (`src/lib/messaging.ts`, `tab-messages.ts`) | `docs/reference/messaging-protocol.md` |
+| **Extension Entry Points & Lifecycle** (`src/entrypoints/`, `machine.ts`) | `docs/reference/architecture.md` |
+| **Developer Setup or First-Run Flow** | `docs/tutorials/development-setup.md`, `docs/tutorials/quickstart.md` |
+
+Always keep `docs/README.md` in sync whenever new documentation guides or sections are added.
+

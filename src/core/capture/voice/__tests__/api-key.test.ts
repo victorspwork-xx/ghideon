@@ -50,6 +50,16 @@ describe('resolveVoiceApiKey', () => {
     });
   });
 
+  it('lends a groq key from AI settings when both are groq', () => {
+    expect(
+      resolveVoiceApiKey({ voiceProvider: 'groq', voiceApiKey: '', aiProvider: 'groq', aiApiKey: 'gsk-shared' }),
+    ).toEqual({
+      provider: 'groq',
+      apiKey: 'gsk-shared',
+      source: 'ai',
+    });
+  });
+
   it('does not lend an anthropic key to a whisper endpoint', () => {
     expect(
       resolveVoiceApiKey({ voiceProvider: 'openai', voiceApiKey: '', aiProvider: 'anthropic', aiApiKey: 'sk-ant-x' }),
@@ -98,6 +108,38 @@ describe('resolveVoiceApiKey', () => {
     expect(resolveVoiceApiKey({}).provider).toBe('openai');
   });
 
+  it('resolves default omniroute key when none is provided', () => {
+    expect(resolveVoiceApiKey({ voiceProvider: 'omniroute' })).toEqual({
+      provider: 'omniroute',
+      apiKey: 'omniroute',
+      source: 'voice',
+    });
+  });
+
+  it('preserves user key for omniroute if provided', () => {
+    expect(resolveVoiceApiKey({ voiceProvider: 'omniroute', voiceApiKey: 'my-custom-key' })).toEqual({
+      provider: 'omniroute',
+      apiKey: 'my-custom-key',
+      source: 'voice',
+    });
+  });
+
+  it('resolves google native key when none is provided', () => {
+    expect(resolveVoiceApiKey({ voiceProvider: 'google' })).toEqual({
+      provider: 'google',
+      apiKey: 'google-native',
+      source: 'voice',
+    });
+  });
+
+  it('preserves user key for google if provided', () => {
+    expect(resolveVoiceApiKey({ voiceProvider: 'google', voiceApiKey: 'my-google-key' })).toEqual({
+      provider: 'google',
+      apiKey: 'my-google-key',
+      source: 'voice',
+    });
+  });
+
   it('resolves nothing from empty storage', () => {
     expect(resolveVoiceApiKey({})).toEqual({ provider: 'openai', apiKey: '', source: 'none' });
   });
@@ -107,13 +149,18 @@ describe('hasVoiceApiKey', () => {
   it('is true when a key resolves and false when none does', () => {
     expect(hasVoiceApiKey({ voiceProvider: 'openai', aiApiKey: 'sk-ai' })).toBe(true);
     expect(hasVoiceApiKey({ voiceProvider: 'groq', aiApiKey: 'sk-ai' })).toBe(false);
+    expect(hasVoiceApiKey({ voiceProvider: 'omniroute' })).toBe(true);
+    expect(hasVoiceApiKey({ voiceProvider: 'google' })).toBe(true);
     expect(hasVoiceApiKey({})).toBe(false);
   });
 });
 
 describe('normalizeVoiceProvider', () => {
-  it('accepts groq and defaults everything else to openai', () => {
+  it('accepts groq, deepseek, omniroute, google, and defaults everything else to openai', () => {
     expect(normalizeVoiceProvider('groq')).toBe('groq');
+    expect(normalizeVoiceProvider('deepseek')).toBe('deepseek');
+    expect(normalizeVoiceProvider('omniroute')).toBe('omniroute');
+    expect(normalizeVoiceProvider('google')).toBe('google');
     expect(normalizeVoiceProvider('openai')).toBe('openai');
     expect(normalizeVoiceProvider('whisper.cpp')).toBe('openai');
     expect(normalizeVoiceProvider(undefined)).toBe('openai');

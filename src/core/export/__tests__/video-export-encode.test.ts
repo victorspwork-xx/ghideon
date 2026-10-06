@@ -63,12 +63,16 @@ vi.mock('mediabunny', () => ({
       rec.added.push({ at, dur });
     }
   },
+  AudioBufferSource: class {
+    async add() {}
+  },
   Output: class {
     target: { buffer: ArrayBuffer | null };
     constructor(o: { target: { buffer: ArrayBuffer | null } }) {
       this.target = o.target;
     }
     addVideoTrack() {}
+    addAudioTrack() {}
     async start() {
       rec.started += 1;
     }

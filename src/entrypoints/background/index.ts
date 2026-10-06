@@ -1,6 +1,7 @@
+import '@/lib/i18n-override';
 import { browser, defineBackground } from '#imports';
 import { rewriteSelection } from '@/core/capture/ai/rewrite';
-import { validateApiKey } from '@/core/capture/ai/validate';
+import { fetchOmniRouteModels, validateApiKey } from '@/core/capture/ai/validate';
 import { stepRequiresManual } from '@/core/guideme/manual';
 import { advanceSession, cancelSession, completeSession, getSession, startSession } from '@/core/guideme/session';
 import { actionSteps } from '@/core/guides/blocks';
@@ -9,6 +10,7 @@ import {
   createSnapshot,
   getScreenshotsForSteps,
   getStepsForGuide,
+  insertBlock,
   mergeGuideInto,
 } from '@/core/guides/service';
 import type { Step } from '@/core/guides/types';
@@ -27,7 +29,7 @@ import { recordUpdate } from '@/lib/update-notice';
 import { getActor, getStateUpdate, initActor, initActorFallback, waitUntilReady } from './actor';
 import { generateDescriptionOnDemand, generateGuideMetaOnStop, settlePendingDescriptions } from './guide-meta';
 import { registerNavigationListeners } from './navigation';
-import { handleCaptureStep, handleFinalizeInputStep, handleUpdateInputStep } from './step-pipeline';
+import { handleCapturePage, handleCaptureStep, handleFinalizeInputStep, handleUpdateInputStep } from './step-pipeline';
 import { broadcastStartCapture, broadcastStopCapture, showNotificationOnTab } from './tab-manager';
 import {
   canStartNarrationNow,
@@ -128,6 +130,9 @@ export default defineBackground(() => {
     const guideId = actor.getSnapshot().context.currentGuideId!;
 
     await createGuide(guideId, data.insertTargetGuideId !== undefined);
+    if (data.insertTargetGuideId === undefined) {
+      await insertBlock(guideId, 0, 'cover', '');
+    }
 
     const activeTab = await getActiveTab();
     if (activeTab?.id) await showNotificationOnTab(activeTab.id);
@@ -184,13 +189,42 @@ export default defineBackground(() => {
 
   onMessage('generateGuideDescription', ({ data }) => generateDescriptionOnDemand(data.guideId));
 
-  onMessage('validateApiKey', ({ data }) => validateApiKey(data.provider, data.apiKey));
+  onMessage('validateApiKey', ({ data }) => validateApiKey(data.provider, data.apiKey, data.baseUrl));
+
+  onMessage('fetchOmniRouteModels', async ({ data }) => {
+    try {
+      const models = await fetchOmniRouteModels(data.baseUrl, data.apiKey);
+      const geminiModelsCount = models.filter(
+        (m) => m.id.toLowerCase().includes('gemini') || m.id.toLowerCase().includes('antigravity'),
+      ).length;
+      const voiceModelsCount = models.filter((m) => m.isAudio || m.isTts).length;
+      return {
+        models,
+        success: true,
+        geminiModelsCount,
+        voiceModelsCount,
+      };
+    } catch (err) {
+      return {
+        models: [],
+        success: false,
+        geminiModelsCount: 0,
+        voiceModelsCount: 0,
+        error: err instanceof Error ? err.message : 'Failed to fetch models',
+      };
+    }
+  });
 
   onMessage('rewriteSelection', ({ data }) => rewriteSelection(data.text, data.instruction));
 
   onMessage('captureStep', async ({ data }) => {
     await waitUntilReady();
     return handleCaptureStep(data);
+  });
+
+  onMessage('capturePage', async ({ data }) => {
+    await waitUntilReady();
+    return handleCapturePage(data);
   });
 
   onMessage('updateInputStep', async ({ data }) => {

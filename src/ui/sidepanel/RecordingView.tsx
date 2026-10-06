@@ -1,7 +1,8 @@
-import { Check, EyeOff, Loader2, X } from 'lucide-react';
+import { Camera, Check, EyeOff, Loader2, Mic, X } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { browser, i18n } from '#imports';
-import { deleteStep, getScreenshotsForSteps, getStepsForGuide } from '@/core/guides/service';
+import { LiveSpeechSession } from '@/core/capture/voice/live-speech';
+import { deleteStep, getScreenshotsForSteps, getStepsForGuide, updateStepNarration } from '@/core/guides/service';
 import type { Screenshot, Step } from '@/core/guides/types';
 import { getActiveTab, localStorage } from '@/lib/browser-api';
 import { sendMessage } from '@/lib/messaging';
@@ -35,6 +36,7 @@ export default function RecordingView({ guideId, onStop, voice }: RecordingViewP
   const [steps, setSteps] = useState<LiveStep[]>([]);
   const [siteUrl, setSiteUrl] = useState('');
   const [isBlurring, setIsBlurring] = useState(false);
+  const [capturingPage, setCapturingPage] = useState(false);
   const [voiceEnabled, setVoiceEnabled] = useState(false);
   const [, setTick] = useState(0);
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -92,10 +94,79 @@ export default function RecordingView({ guideId, onStop, voice }: RecordingViewP
     void localStorage.set({ voiceEnabled: false });
   }, [voice.phase, voice.reason]);
 
+  const [liveTranscript, setLiveTranscript] = useState('');
+  const speechSessionRef = useRef<LiveSpeechSession | null>(null);
+  const stepsRef = useRef<LiveStep[]>([]);
+  stepsRef.current = steps;
+
+  useEffect(() => {
+    if (!voiceEnabled) {
+      if (speechSessionRef.current) {
+        speechSessionRef.current.stop();
+        speechSessionRef.current = null;
+        setLiveTranscript('');
+      }
+      return;
+    }
+
+    localStorage.get(['voiceLanguage', 'uiLanguage']).then((res) => {
+      const lang = (res.voiceLanguage as string) || (res.uiLanguage === 'ro' ? 'ro-RO' : 'ro-RO');
+      const session = new LiveSpeechSession(lang, (interim, finals) => {
+        const text = interim || (finals.length > 0 ? finals[finals.length - 1] : '');
+        setLiveTranscript(text);
+
+        if (finals.length > 0) {
+          const currentSteps = stepsRef.current;
+          if (currentSteps.length > 0) {
+            const latestStep = currentSteps[currentSteps.length - 1].step;
+            const fullSpoken = finals.join('. ');
+            void updateStepNarration(latestStep.id, fullSpoken);
+          }
+        }
+      });
+      session.start();
+      speechSessionRef.current = session;
+    });
+
+    return () => {
+      if (speechSessionRef.current) {
+        speechSessionRef.current.stop();
+        speechSessionRef.current = null;
+      }
+    };
+  }, [voiceEnabled]);
+
+  const handleFinish = useCallback(async () => {
+    if (speechSessionRef.current) {
+      const segments = speechSessionRef.current.stop();
+      if (segments.length > 0 && stepsRef.current.length > 0) {
+        const latestStep = stepsRef.current[stepsRef.current.length - 1].step;
+        const fullSpoken = segments.map((s) => s.text).join('. ');
+        await updateStepNarration(latestStep.id, fullSpoken);
+      }
+      speechSessionRef.current = null;
+    }
+    onStop();
+  }, [onStop]);
+
   const handleBlur = useCallback(async () => {
     await sendMessage('enterBlurMode', undefined);
     setIsBlurring(true);
   }, []);
+
+  const handleCaptureCurrentPage = useCallback(async () => {
+    if (capturingPage) return;
+    setCapturingPage(true);
+    try {
+      const tab = await getActiveTab();
+      await sendMessage('capturePage', { guideId, title: tab?.title });
+      await loadSteps();
+    } catch (err) {
+      console.error('Failed to capture page', err);
+    } finally {
+      setCapturingPage(false);
+    }
+  }, [guideId, capturingPage, loadSteps]);
 
   useEffect(() => {
     const handler = (changes: Record<string, { newValue?: unknown }>) => {
@@ -135,26 +206,35 @@ export default function RecordingView({ guideId, onStop, voice }: RecordingViewP
         {steps.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full gap-3">
             <svg width="64" height="64" viewBox="0 0 200 200" fill="none">
-              <rect x="30" y="105" width="140" height="68" rx="5" fill="#1E1B4B" />
-              <path d="M30 105 L30 90 Q30 70, 100 70 Q170 70, 170 90 L170 105 Z" fill="#3730A3" />
-              <rect x="30" y="103" width="140" height="3" fill="#C7D2FE" />
-              <path d="M68 132 Q76 122 84 132" stroke="#C7D2FE" strokeWidth="5" fill="none" strokeLinecap="round" />
-              <path d="M116 132 Q124 122 132 132" stroke="#C7D2FE" strokeWidth="5" fill="none" strokeLinecap="round" />
-              <path d="M84 148 Q100 158 116 148" stroke="#C7D2FE" strokeWidth="3.5" fill="none" strokeLinecap="round" />
-              <rect x="60" y="38" width="80" height="50" rx="8" fill="#3730A3" stroke="#3730A3" strokeWidth="2" />
-              <circle cx="100" cy="62" r="16" fill="#1E1B4B" stroke="#3730A3" strokeWidth="2" />
+              <rect x="30" y="105" width="140" height="68" rx="5" fill="#00357e" />
+              <path d="M30 105 L30 90 Q30 70, 100 70 Q170 70, 170 90 L170 105 Z" fill="#002b65" />
+              <rect x="30" y="103" width="140" height="3" fill="#b3cef0" />
+              <path d="M68 132 Q76 122 84 132" stroke="#b3cef0" strokeWidth="5" fill="none" strokeLinecap="round" />
+              <path d="M116 132 Q124 122 132 132" stroke="#b3cef0" strokeWidth="5" fill="none" strokeLinecap="round" />
+              <path d="M84 148 Q100 158 116 148" stroke="#b3cef0" strokeWidth="3.5" fill="none" strokeLinecap="round" />
+              <rect x="60" y="38" width="80" height="50" rx="8" fill="#002b65" stroke="#002b65" strokeWidth="2" />
+              <circle cx="100" cy="62" r="16" fill="#00357e" stroke="#002b65" strokeWidth="2" />
               <circle cx="100" cy="62" r="9" fill="#080818" />
-              <circle cx="100" cy="62" r="4" fill="#C7D2FE" opacity="0.4" />
-              <rect x="112" y="42" width="18" height="8" rx="3" fill="#C7D2FE" opacity="0.7" />
-              <circle cx="121" cy="38" r="20" fill="#C7D2FE" className="animate-[cam-flash_3s_ease_infinite]" />
-              <circle cx="80" cy="42" r="5" fill="#4F46E5" />
-              <ellipse cx="54" cy="64" rx="10" ry="8" fill="#1E1B4B" />
-              <ellipse cx="146" cy="64" rx="10" ry="8" fill="#1E1B4B" />
+              <circle cx="100" cy="62" r="4" fill="#b3cef0" opacity="0.4" />
+              <rect x="112" y="42" width="18" height="8" rx="3" fill="#b3cef0" opacity="0.7" />
+              <circle cx="121" cy="38" r="20" fill="#b3cef0" className="animate-[cam-flash_3s_ease_infinite]" />
+              <circle cx="80" cy="42" r="5" fill="#0057c8" />
+              <ellipse cx="54" cy="64" rx="10" ry="8" fill="#00357e" />
+              <ellipse cx="146" cy="64" rx="10" ry="8" fill="#00357e" />
             </svg>
             <div className="text-center">
               <p className="text-sm font-semibold text-foreground">{i18n.t('recording.readyTitle')}</p>
               <p className="text-xs text-muted-foreground mt-0.5">{i18n.t('recording.readySub')}</p>
             </div>
+            <Button
+              onClick={handleCaptureCurrentPage}
+              disabled={capturingPage}
+              variant="outline"
+              className="mt-1 h-8 px-3.5 rounded-full text-xs font-semibold gap-1.5 border-accent/60 text-accent hover:bg-accent hover:text-white transition-all shadow-xs"
+            >
+              {capturingPage ? <Loader2 size={13} className="animate-spin" /> : <Camera size={13} />}
+              {i18n.t('recording.captureStartingPage')}
+            </Button>
           </div>
         ) : (
           <div>
@@ -214,17 +294,37 @@ export default function RecordingView({ guideId, onStop, voice }: RecordingViewP
         <div ref={bottomRef} />
       </div>
 
+      {/* Live speech feedback pill */}
+      {voiceEnabled && liveTranscript && (
+        <div className="px-4 py-2 bg-secondary/90 border-t border-border flex items-center gap-2 text-[12px] text-foreground">
+          <Mic size={14} className="text-accent animate-pulse shrink-0" />
+          <span className="truncate italic font-medium">"{liveTranscript}"</span>
+        </div>
+      )}
+
       {/* Bottom bar */}
       <div className="shrink-0 border-t border-border">
         {import.meta.env.BROWSER !== 'firefox' && <VoiceStatus update={voice} enabled={voiceEnabled} />}
         <div className="px-4 py-2.5 flex items-center gap-2">
-          <Button onClick={onStop} className="flex-1 h-10 rounded-full font-semibold text-[13px]">
+          <Button onClick={handleFinish} className="flex-1 h-10 rounded-full font-semibold text-[13px]">
             <Check size={16} strokeWidth={3} />
             {i18n.t('recording.finishRecording')}
           </Button>
           {import.meta.env.BROWSER !== 'firefox' && (
             <MicToggle enabled={voiceEnabled} live={voice.phase === 'recording'} onChange={setVoiceEnabled} />
           )}
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                onClick={handleCaptureCurrentPage}
+                disabled={capturingPage}
+                className="w-10 h-10 rounded-full border border-border flex items-center justify-center transition-colors text-muted-foreground hover:border-accent hover:text-accent hover:bg-secondary disabled:opacity-50"
+              >
+                {capturingPage ? <Loader2 size={16} className="animate-spin" /> : <Camera size={16} />}
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>{i18n.t('recording.captureCurrentPage')}</TooltipContent>
+          </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
               <span className="shrink-0">

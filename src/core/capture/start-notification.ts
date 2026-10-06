@@ -82,12 +82,12 @@ function buildMascotSVG(): string {
       <path d="M84 138 Q100 148 116 138" stroke="#252360" stroke-width="3.5" fill="none" stroke-linecap="round"/>
     </g>
     <g mask="url(#riseMask)">
-      <rect x="30" y="95" width="140" height="68" rx="5" fill="#1E1B4B"/>
-      <path d="M30 95 L30 80 Q30 60, 100 60 Q170 60, 170 80 L170 95 Z" fill="#3730A3"/>
-      <rect x="30" y="93" width="140" height="3" fill="#C7D2FE"/>
-      <path d="M68 122 Q76 112 84 122" stroke="#C7D2FE" stroke-width="5" fill="none" stroke-linecap="round"/>
-      <path class="wink-eye" d="M116 122 Q124 112 132 122" stroke="#C7D2FE" stroke-width="5" fill="none" stroke-linecap="round"/>
-      <path d="M84 138 Q100 148 116 138" stroke="#C7D2FE" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+      <rect x="30" y="95" width="140" height="68" rx="5" fill="#00357e"/>
+      <path d="M30 95 L30 80 Q30 60, 100 60 Q170 60, 170 80 L170 95 Z" fill="#002b65"/>
+      <rect x="30" y="93" width="140" height="3" fill="#b3cef0"/>
+      <path d="M68 122 Q76 112 84 122" stroke="#b3cef0" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path class="wink-eye" d="M116 122 Q124 112 132 122" stroke="#b3cef0" stroke-width="5" fill="none" stroke-linecap="round"/>
+      <path d="M84 138 Q100 148 116 138" stroke="#b3cef0" stroke-width="3.5" fill="none" stroke-linecap="round"/>
     </g>
   </svg>`;
 }

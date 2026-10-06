@@ -2,8 +2,8 @@ meta:
   locale: en
 
 app:
-  name: Mimik
-  store_title: "Mimik: Step-by-Step Guides & Tutorials"
+  name: Ghideon
+  store_title: "Ghideon: Step-by-Step Guides & Tutorials"
   description: "Record any browser workflow as a step-by-step guide. Edit, voice-narrate, export to video, PDF or DOCX. Local-first, open source."
 
 common:
@@ -22,6 +22,8 @@ common:
   restore: Restore
   updated: "Updated to v$1"
   whatsNew: See what's new
+  previous: Previous
+  next: Next
 
 sidepanel:
   connected: Connected
@@ -29,6 +31,7 @@ sidepanel:
   heroTitle: What would you like to capture?
   heroSubtitle: Record any workflow automatically
   startCapture: Start Capture
+  captureStartingPage: Start with current page
   searchPlaceholder: Search guides...
   recentLabel: Recent
   notRecordable: Open a website to start capturing
@@ -73,6 +76,9 @@ recording:
   recordingPlural: "Recording \xB7 $1 steps"
   readyTitle: Ready to capture!
   readySub: Click on the page to start
+  captureCurrentPage: Capture current page
+  captureStartingPage: Capture starting page
+  captureCurrentPageHint: "Capture current page as a step (useful to indicate the starting point)"
   finishRecording: Finish Recording
   smartBlur: Smart Blur
   discard: Discard
@@ -87,10 +93,23 @@ settings:
   provider: Provider
   model: Model
   modelCustom: Custom model
+  omnirouteBaseUrl: "OmniRoute Base URL"
+  omnirouteBaseUrlHint: "Local or remote OpenAI-compatible gateway (e.g. http://localhost:20128/v1)"
+  omnirouteKeyOptional: "API key is optional for local OmniRoute setups."
+  omnirouteDetectModels: "Detect Models"
+  omnirouteDetectVoiceModels: "Detect Voice Models"
+  omnirouteTranscriptionModel: "OmniRoute Transcription Model"
+  omnirouteTtsModel: "OmniRoute TTS Model"
+  omnirouteGeminiGroup: "Google Gemini & Antigravity"
+  omnirouteOtherGroup: "Other Gateway Models"
+  omnirouteDiscoveredGroup: "Discovered from OmniRoute"
+  apiKeyOptional: "API Key (optional for local OmniRoute)"
   apiKey: API Key
   aiLanguage: Description Language
+  uiLanguage: Interface Language
+  uiLanguageAuto: System default
   voiceNarration: Voice Narration
-  voiceUsingAiKey: "No voice key is set, so Mimik uses the OpenAI key from AI Descriptions above."
+  voiceUsingAiKey: "No voice key is set, so Ghideon uses the OpenAI key from AI Descriptions above."
   aiNoKey: "No API key is set, so steps will use plain rule-based descriptions."
   voiceNoKey: "No API key is set, so your recordings will not be narrated."
   microphone: Microphone
@@ -99,12 +118,12 @@ settings:
   microphoneGrantAccess: Allow microphone access
   microphoneNone: No microphone was found. Plug one in and it will show up here.
   microphoneUnavailable: Unavailable microphone
-  microphoneMissing: The microphone you picked is not available right now, so Mimik will use the system default.
+  microphoneMissing: The microphone you picked is not available right now, so Ghideon will use the system default.
   microphoneTest: Test microphone
   microphoneStatusAllowed: Allowed
   microphoneStatusBlocked: Blocked
   microphoneStatusPending: Not allowed yet
-  microphoneBlocked: Your browser is blocking the microphone for Mimik. Open the site settings from the icon at the left of the address bar and set Microphone to Allow.
+  microphoneBlocked: Your browser is blocking the microphone for Ghideon. Open the site settings from the icon at the left of the address bar and set Microphone to Allow.
   microphoneUnblockHow: How do I unblock it?
   microphoneTestStop: Stop test
   microphoneTestFailed: That microphone could not be opened. Pick another one and try again.
@@ -119,7 +138,7 @@ settings:
   footerLinePlaceholder: "e.g. Confidential — internal use only"
   footerPresetConfidential: "Confidential — internal use only"
   footerPresetNoDistribute: "Do not distribute"
-  attribution: 'Show "Made with Mimik"'
+  attribution: 'Show "Made with Ghideon"'
   saveSettings: Save Settings
   saved: Saved
   validatingKey: "Checking key\u2026"
@@ -131,7 +150,7 @@ settings:
   privacyNotice: "Your keys and audio go only to the provider you pick. Nothing else leaves your browser."
   bugReport: "Found a bug? Report it on GitHub"
   starCtaTitle: "Like what you see?"
-  starCtaMessage: A GitHub star helps others find Mimik and keeps us motivated!
+  starCtaMessage: A GitHub star helps others find Ghideon and keeps us motivated!
   starOnGithub: Star on GitHub
 
 blurPresets:
@@ -219,6 +238,34 @@ editor:
   rewriteErrorNoApiKey: Add an AI API key in settings to rewrite text.
   rewriteErrorFailed: Could not rewrite the selection. Try again.
   rewriteErrorStale: The text changed. Select it again.
+  coverTitlePlaceholder: Guide title
+  coverDescPlaceholder: Add a short description of this guide
+  coverAuthorPlaceholder: Author
+  assistedNarration: Assisted narration
+  useAsDescription: Use as description
+  useAsDescriptionHint: Replace description with this transcribed narration
+  copyNarration: Copy narration
+  textToVoice: Read aloud
+  playGuide: Play guide audio
+  pauseVoice: Pause
+  resumeVoice: Resume
+  stopVoice: Stop
+  voiceStepProgress: "Step $1 of $2"
+  step: step
+  steps: steps
+  listenStep: Listen to this step
+  stepTitle: Title
+  stepTitlePlaceholder: "Step title (used in video steps)..."
+  stepDescription: Description
+  stepDescriptionPlaceholder: "Step description (visible in guides)..."
+  audioText: Audio text
+  audioTextPlaceholder: "Recorded speech text (used for voice narration)..."
+  audioMutedBadge: Muted
+  audioMute: Mute audio
+  audioUnmute: Unmute audio
+  audioMuteNotice: Mute audio text for this step (the title will be voiced instead)
+  audioMutedNotice: Audio is muted for this step. Title will be voiced instead.
+  audioMutedFallbackNotice: "Audio text is muted. Voicing will read the title:"
 
 capture:
   recordSteps: Record steps
@@ -231,6 +278,7 @@ blocks:
   add: Add block
   heading: Heading
   callout: Note
+  capturePage: Current page
   headingPlaceholder: Section title
   calloutPlaceholder: Write a note
   deleteHeading: "Delete this heading?"
@@ -389,6 +437,11 @@ exportPreview:
   modeVideo: "Video"
   encodingVideo: "Encoding video preview"
   videoFailed: "The video preview could not be created"
+  includeVoice: "Include voice in video"
+  includeVoiceHint: "Render synchronized speech audio track in the video"
+  browserVoiceWarning: "Browser system voices cannot be recorded directly into video files. For natural AI speech in videos, choose Gemini DeepMind (free), OpenAI, or ElevenLabs in the voice bar."
+  copyEmbedCode: "Copy embed code (iframe)"
+  embedCopied: "Embed code copied!"
 videoPlayer:
   stepCount: "$1 steps"
   previousStep: "Previous step"
@@ -402,11 +455,12 @@ exportMenu:
   pdf: PDF
   gif: GIF
   video: Video
+  embedVideo: "Embed Video (HTML)"
   cancelProgress: "Cancel · $1%"
 
 onboarding:
   welcomeBadge: Welcome
-  welcomeTitle: "You've successfully installed Mimik!"
+  welcomeTitle: "You've successfully installed Ghideon!"
   welcomeMessage: "With just a few steps, you'll be ready to auto-capture browser workflows and generate step-by-step guides. No account needed \u2014 everything stays in your browser."
   getStarted: Get started
   stepOf: "Step $1 of $2"
@@ -415,9 +469,9 @@ onboarding:
   aiGenerated: AI generated
   aiGeneratedDescription: AI-generated description
   voiceTitle: Talk, then act
-  voiceMessage: Say what you are about to do, then do it. Mimik matches your narration to the action that follows it, so the order matters more than anything else.
+  voiceMessage: Say what you are about to do, then do it. Ghideon matches your narration to the action that follows it, so the order matters more than anything else.
   voiceRecordHint: Narration stays off until you turn it on. Use the microphone button in the side panel while recording, so you choose per guide.
-  voiceDataNotice: Your audio is sent to the provider you pick here, using your own API key. Nothing else in Mimik leaves your browser.
+  voiceDataNotice: Your audio is sent to the provider you pick here, using your own API key. Nothing else in Ghideon leaves your browser.
   voiceDemoLabel: How narration lands
   voiceDemoSay: You say
   voiceDemoQuote: "Now I'll open the billing settings"
@@ -429,28 +483,28 @@ onboarding:
   screenshotPreview: Screenshot preview
   notEnabled: Not enabled
   categoriesProtected: "$1 categories protected"
-  pinTitle: Pin Mimik
-  pinMessage: Pin the extension to your toolbar for quick access. Click the puzzle icon in Chrome, then pin Mimik.
+  pinTitle: Pin Ghideon
+  pinMessage: Pin the extension to your toolbar for quick access. Click the puzzle icon in Chrome, then pin Ghideon.
   pinStep1Title: Click the puzzle icon
   pinStep1Sub: In the top-right of your browser toolbar
-  pinStep2Title: Find Mimik
+  pinStep2Title: Find Ghideon
   pinStep2Sub: In the extensions dropdown
   pinStep3Title: Click the pin icon
-  pinStep3Sub: Mimik will appear in your toolbar
-  pinScreenshotAlt: Pin Mimik extension
+  pinStep3Sub: Ghideon will appear in your toolbar
+  pinScreenshotAlt: Pin Ghideon extension
   starTitle: Mind giving us a star?
-  starMessage: "Mimik is free and open source. A star is the easiest way to say thanks, and it helps other people find it."
+  starMessage: "Ghideon is free and open source. A star is the easiest way to say thanks, and it helps other people find it."
   starAction: Star on GitHub
   starLater: Maybe later
   doneTitle: "You're all set!"
-  doneMessage: "Mimik is ready to capture your workflows. Click \"Start Capture\" in the extension to record your first guide."
+  doneMessage: "Ghideon is ready to capture your workflows. Click \"Start Capture\" in the extension to record your first guide."
   featureAutoCapture: Auto-capture
   featureAIAssist: AI assist
   featureVoice: Voice narration
   featureAnnotate: Annotate & redact
   featureExports: Export anywhere
   featureSmartBlur: Smart blur
-  openMimik: Open Mimik
+  openGhideon: Open Ghideon
 
 steps:
   pressKey: "Press $1 on $2"
@@ -467,6 +521,8 @@ steps:
   cutFrom: "Cut from $1"
   drag: "Drag $1"
   navigate: Navigate to page
+  navigateTo: "Navigate to $1"
+  openPage: "Open $1"
   defaultAction: "$1 $2"
 
 export:
@@ -474,9 +530,10 @@ export:
   endLabel: "GUIDE COMPLETE"
   stepsRange: "Steps $1–$2 of $3"
   stepOf: "Step $1 of $2"
-  madeWith: "Made with Mimik"
+  madeWith: "Made with Ghideon"
   created: Created
   source: Source
+  author: Author
   step: Step
   steps: Steps
   stepLabel: "Step $1"
@@ -516,11 +573,11 @@ voice:
 
 micPermission:
   title: Allow microphone access
-  checkingMessage: Checking whether Mimik already has microphone access...
-  promptingMessage: Your browser is asking for permission. Choose Allow so Mimik can record your narration while you capture a guide. This tab closes on its own.
+  checkingMessage: Checking whether Ghideon already has microphone access...
+  promptingMessage: Your browser is asking for permission. Choose Allow so Ghideon can record your narration while you capture a guide. This tab closes on its own.
   grantedTitle: Microphone ready
   grantedMessage: Taking you back to what you were doing.
   deniedTitle: Microphone access is blocked
-  deniedMessage: Your browser is blocking the microphone for Mimik, so voice narration cannot record. Open the site settings from the icon at the left of the address bar, set Microphone to Allow, then try again. Capturing guides keeps working without it.
+  deniedMessage: Your browser is blocking the microphone for Ghideon, so voice narration cannot record. Open the site settings from the icon at the left of the address bar, set Microphone to Allow, then try again. Capturing guides keeps working without it.
   retry: Try again
-  privacy: Audio is held in memory only while you record and is sent to the transcription provider you configured. Mimik never stores it.
+  privacy: Audio is held in memory only while you record and is sent to the transcription provider you configured. Ghideon never stores it.

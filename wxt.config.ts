@@ -6,7 +6,7 @@ export default defineConfig({
   srcDir: "src",
   imports: false,
   webExt: {
-    chromiumArgs: ['--user-data-dir=/tmp/mimik-dev-profile', '--window-size=1280,800', '--window-position=0,0', '--force-device-scale-factor=1.25'],
+    chromiumArgs: ['--user-data-dir=/tmp/ghideon-dev-profile', '--window-size=1280,800', '--window-position=0,0', '--force-device-scale-factor=1.25'],
   },
   zip: {
     excludeSources: [
@@ -22,6 +22,7 @@ export default defineConfig({
   },
   alias: {
     '@': 'src',
+    '@wxt-dev/i18n': 'src/lib/wxt-i18n.ts',
   },
   vite: () => ({
     plugins: [tailwindcss()],
@@ -58,18 +59,20 @@ export default defineConfig({
         48: 'icon48.png',
         128: 'icon128.png',
       },
-      action: {},
+      action: {
+        default_title: "Ghideon",
+      },
       ...(isFirefox
         ? {
             sidebar_action: {
               default_panel: "sidepanel.html",
               default_icon: "icon32.png",
-              default_title: "Mimik",
+              default_title: "Ghideon",
               open_at_install: false,
             },
             browser_specific_settings: {
               gecko: {
-                id: "mimik@westpoint.io",
+                id: "ghideon@westpoint.io",
                 strict_min_version: "128.0",
                 data_collection_permissions: {
                   required: ["websiteActivity"],

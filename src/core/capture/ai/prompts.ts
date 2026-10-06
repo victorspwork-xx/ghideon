@@ -68,6 +68,7 @@ export const AI_LANGUAGES = [
   { code: 'pt-BR', label: 'Português (Brasil)' },
   { code: 'fr', label: 'Français' },
   { code: 'de', label: 'Deutsch' },
+  { code: 'ro', label: 'Română' },
 ] as const;
 
 export type AILanguageCode = (typeof AI_LANGUAGES)[number]['code'];
@@ -80,6 +81,7 @@ const LANGUAGE_NAMES: Record<string, string> = {
   ja: 'Japanese',
   ko: 'Korean',
   zh: 'Chinese',
+  ro: 'Romanian',
 };
 
 export function getLanguageSuffix(locale: string): string {

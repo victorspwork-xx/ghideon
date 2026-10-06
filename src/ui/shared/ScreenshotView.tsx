@@ -258,7 +258,7 @@ export default function ScreenshotView({
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `mimik-screenshot-${screenshot.id}-${which}.${ext}`;
+    a.download = `ghideon-screenshot-${screenshot.id}-${which}.${ext}`;
     a.click();
     URL.revokeObjectURL(url);
   };

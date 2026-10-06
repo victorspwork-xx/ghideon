@@ -5,6 +5,7 @@ export interface Guide {
   id: string;
   title: string;
   description?: string;
+  author?: string;
   createdAt: number;
   updatedAt: number;
   stepIds: string[];
@@ -15,7 +16,7 @@ export interface Guide {
 
 export type DescriptionSource = 'narration' | 'ai' | 'heuristic';
 
-export type BlockType = 'heading' | 'callout';
+export type BlockType = 'heading' | 'callout' | 'cover';
 
 export type CalloutVariant = 'info' | 'warning' | 'error' | 'success' | 'custom';
 
@@ -23,6 +24,7 @@ export interface Step {
   id: string;
   guideId: string;
   index: number;
+  title?: string;
   description: string;
   action: string;
   url: string;
@@ -35,6 +37,9 @@ export interface Step {
   blockType?: BlockType;
   calloutVariant?: CalloutVariant;
   calloutColor?: string;
+  narration?: string;
+  audioText?: string;
+  audioMuted?: boolean;
 }
 
 export interface ScreenshotBounds {
@@ -59,7 +64,7 @@ export interface Screenshot {
 
 export interface Settings {
   aiApiKey: string;
-  aiProvider: 'openai' | 'anthropic' | 'deepseek';
+  aiProvider: 'openai' | 'anthropic' | 'deepseek' | 'groq' | 'omniroute';
   aiModel: string;
   voiceEnabled: boolean;
   voiceProvider: VoiceProvider;
@@ -94,4 +99,14 @@ export interface Snapshot {
   stepIds: string[];
   steps: Step[];
   screenshots: Omit<Screenshot, 'blob'>[];
+}
+
+export interface CachedAudio {
+  id: string;
+  stepId: string;
+  blob: Blob;
+  duration: number;
+  engine: string;
+  voiceName: string;
+  updatedAt: number;
 }

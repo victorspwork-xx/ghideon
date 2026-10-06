@@ -2,8 +2,8 @@ meta:
   locale: zh-CN
 
 app:
-  name: Mimik
-  store_title: "Mimik：分步指南与教程"
+  name: Ghideon
+  store_title: "Ghideon：分步指南与教程"
   description: "将任何浏览器工作流录制成分步指南。可编辑、添加语音讲解，并导出为视频、PDF 或 DOCX。本地优先，开源透明。"
 
 common:
@@ -22,6 +22,8 @@ common:
   restore: 恢复
   updated: "已更新到 v$1"
   whatsNew: 查看更新内容
+  previous: 上一步
+  next: 下一步
 
 sidepanel:
   connected: 已连接
@@ -29,6 +31,7 @@ sidepanel:
   heroTitle: 想要捕获什么内容？
   heroSubtitle: 自动录制任何工作流
   startCapture: 开始捕获
+  captureStartingPage: 从当前页面开始
   searchPlaceholder: 搜索指南...
   recentLabel: 最近使用
   notRecordable: 打开一个网站即可开始捕获
@@ -73,6 +76,9 @@ recording:
   recordingPlural: "正在录制 · $1 个步骤"
   readyTitle: 已准备好捕获！
   readySub: 点击页面开始
+  captureCurrentPage: 捕获当前页面
+  captureStartingPage: 捕获起始页面
+  captureCurrentPageHint: "将当前页面捕获为步骤（用于指示起点）"
   finishRecording: 完成录制
   smartBlur: 智能模糊
   discard: 丢弃
@@ -87,10 +93,23 @@ settings:
   provider: 提供商
   model: 模型
   modelCustom: 自定义模型
+  omnirouteBaseUrl: "OmniRoute 基础 URL"
+  omnirouteBaseUrlHint: "本地或远程 OpenAI 兼容网关 (例如 http://localhost:20128/v1)"
+  omnirouteKeyOptional: "对于本地 OmniRoute 部署，API 密钥是可选的。"
+  omnirouteDetectModels: "检测模型"
+  omnirouteDetectVoiceModels: "检测语音模型"
+  omnirouteTranscriptionModel: "OmniRoute 转录模型"
+  omnirouteTtsModel: "OmniRoute 语音合成模型"
+  omnirouteGeminiGroup: "Google Gemini 与 Antigravity"
+  omnirouteOtherGroup: "其他网关模型"
+  omnirouteDiscoveredGroup: "从 OmniRoute 发现"
+  apiKeyOptional: "API 密钥 (本地 OmniRoute 可选)"
   apiKey: API 密钥
   aiLanguage: 描述语言
+  uiLanguage: 界面语言
+  uiLanguageAuto: 系统默认
   voiceNarration: 语音讲解
-  voiceUsingAiKey: "未设置语音密钥，因此 Mimik 会使用上方 AI 描述中的 OpenAI 密钥。"
+  voiceUsingAiKey: "未设置语音密钥，因此 Ghideon 会使用上方 AI 描述中的 OpenAI 密钥。"
   aiNoKey: "未设置 API 密钥，步骤将使用普通的规则描述。"
   voiceNoKey: "未设置 API 密钥，因此录制不会生成语音讲解。"
   microphone: 麦克风
@@ -99,12 +118,12 @@ settings:
   microphoneGrantAccess: 允许麦克风访问
   microphoneNone: 未找到麦克风。接入麦克风后会显示在这里。
   microphoneUnavailable: 不可用的麦克风
-  microphoneMissing: 你选择的麦克风当前不可用，Mimik 将使用系统默认设备。
+  microphoneMissing: 你选择的麦克风当前不可用，Ghideon 将使用系统默认设备。
   microphoneTest: 测试麦克风
   microphoneStatusAllowed: 已允许
   microphoneStatusBlocked: 已阻止
   microphoneStatusPending: 尚未允许
-  microphoneBlocked: 浏览器正在阻止 Mimik 使用麦克风。请从地址栏左侧图标打开网站设置，并将麦克风设为允许。
+  microphoneBlocked: 浏览器正在阻止 Ghideon 使用麦克风。请从地址栏左侧图标打开网站设置，并将麦克风设为允许。
   microphoneUnblockHow: 如何解除阻止？
   microphoneTestStop: 停止测试
   microphoneTestFailed: 无法打开该麦克风。请选择另一个后重试。
@@ -119,7 +138,7 @@ settings:
   footerLinePlaceholder: "例如：机密，仅供内部使用"
   footerPresetConfidential: "机密，仅供内部使用"
   footerPresetNoDistribute: "请勿分发"
-  attribution: '显示“Made with Mimik”'
+  attribution: '显示“Made with Ghideon”'
   saveSettings: 保存设置
   saved: 已保存
   validatingKey: "正在检查密钥..."
@@ -130,8 +149,8 @@ settings:
   smartBlur: 智能模糊
   privacyNotice: "你的密钥和音频只会发送给你选择的提供商。除此之外，没有任何内容会离开你的浏览器。"
   bugReport: "发现问题？在 GitHub 上报告"
-  starCtaTitle: "喜欢 Mimik 吗？"
-  starCtaMessage: 给 GitHub star 可以帮助更多人发现 Mimik，也会让我们更有动力！
+  starCtaTitle: "喜欢 Ghideon 吗？"
+  starCtaMessage: 给 GitHub star 可以帮助更多人发现 Ghideon，也会让我们更有动力！
   starOnGithub: 在 GitHub 上加星
 
 blurPresets:
@@ -219,6 +238,34 @@ editor:
   rewriteErrorNoApiKey: 请在设置中添加 AI API 密钥以改写文本。
   rewriteErrorFailed: 无法改写选中文本。请重试。
   rewriteErrorStale: 文本已变化。请重新选择。
+  coverTitlePlaceholder: 指南标题
+  coverDescPlaceholder: 添加此指南的简短描述
+  coverAuthorPlaceholder: 作者
+  assistedNarration: 辅助旁白
+  useAsDescription: 用作步骤描述
+  useAsDescriptionHint: 将步骤描述替换为此转录的旁白
+  copyNarration: 复制旁白
+  textToVoice: 朗读指南
+  playGuide: 播放指南语音
+  pauseVoice: 暂停
+  resumeVoice: 继续
+  stopVoice: 停止
+  voiceStepProgress: "第 $1 步，共 $2 步"
+  step: 步
+  steps: 步
+  listenStep: 朗读此步骤
+  stepTitle: 标题
+  stepTitlePlaceholder: "步骤标题（用于视频步骤）..."
+  stepDescription: 描述
+  stepDescriptionPlaceholder: "步骤描述（指南中可见）..."
+  audioText: 语音文本
+  audioTextPlaceholder: "录制的语音文本（用于朗读）..."
+  audioMutedBadge: 已静音
+  audioMute: 静音音频
+  audioUnmute: 取消静音
+  audioMuteNotice: 静音此步骤的语音文本（将改为朗读标题）
+  audioMutedNotice: 此步骤音频已静音。将改为朗读标题。
+  audioMutedFallbackNotice: "语音文本已静音。朗读将读取标题："
 
 capture:
   recordSteps: 录制步骤
@@ -231,6 +278,7 @@ blocks:
   add: 添加区块
   heading: 标题
   callout: 备注
+  capturePage: 当前页面
   headingPlaceholder: 章节标题
   calloutPlaceholder: 写一条备注
   deleteHeading: "删除此标题？"
@@ -389,6 +437,11 @@ exportPreview:
   modeVideo: "视频"
   encodingVideo: "正在编码视频预览"
   videoFailed: "无法创建视频预览"
+  includeVoice: "在视频中包含声音"
+  includeVoiceHint: "在视频中渲染同步语音音轨"
+  browserVoiceWarning: "浏览器本地系统声音无法直接录制到视频文件中。若要在视频中获得自然的 AI 语音，请在语音栏中选择 Gemini DeepMind（免费）、OpenAI 或 ElevenLabs。"
+  copyEmbedCode: "复制嵌入代码 (iframe)"
+  embedCopied: "嵌入代码已复制！"
 videoPlayer:
   stepCount: "$1 个步骤"
   previousStep: "上一步"
@@ -402,11 +455,12 @@ exportMenu:
   pdf: PDF
   gif: GIF
   video: 视频
+  embedVideo: "嵌入视频 (HTML)"
   cancelProgress: "取消 · $1%"
 
 onboarding:
   welcomeBadge: 欢迎
-  welcomeTitle: "你已成功安装 Mimik！"
+  welcomeTitle: "你已成功安装 Ghideon！"
   welcomeMessage: "只需几步即可开始自动捕获浏览器工作流并生成分步指南。无需账号，一切都保留在你的浏览器中。"
   getStarted: 开始使用
   stepOf: "第 $1 步，共 $2 步"
@@ -415,9 +469,9 @@ onboarding:
   aiGenerated: AI 生成
   aiGeneratedDescription: AI 生成的描述
   voiceTitle: 先说，再操作
-  voiceMessage: 先说出你将要做的事，然后执行操作。Mimik 会将你的语音讲解匹配到紧随其后的动作，因此顺序最重要。
+  voiceMessage: 先说出你将要做的事，然后执行操作。Ghideon 会将你的语音讲解匹配到紧随其后的动作，因此顺序最重要。
   voiceRecordHint: 语音讲解默认关闭，直到你主动开启。录制时使用侧边栏中的麦克风按钮，这样每份指南都可以单独选择。
-  voiceDataNotice: 你的音频会使用你自己的 API 密钥发送到这里选择的提供商。除此之外，Mimik 中没有任何内容会离开你的浏览器。
+  voiceDataNotice: 你的音频会使用你自己的 API 密钥发送到这里选择的提供商。除此之外，Ghideon 中没有任何内容会离开你的浏览器。
   voiceDemoLabel: 语音讲解如何落到步骤上
   voiceDemoSay: 你说
   voiceDemoQuote: "现在我要打开账单设置"
@@ -429,28 +483,28 @@ onboarding:
   screenshotPreview: 截图预览
   notEnabled: 未启用
   categoriesProtected: "已保护 $1 个类别"
-  pinTitle: 固定 Mimik
-  pinMessage: 将扩展固定到工具栏以便快速访问。点击 Chrome 中的拼图图标，然后固定 Mimik。
+  pinTitle: 固定 Ghideon
+  pinMessage: 将扩展固定到工具栏以便快速访问。点击 Chrome 中的拼图图标，然后固定 Ghideon。
   pinStep1Title: 点击拼图图标
   pinStep1Sub: 位于浏览器工具栏右上角
-  pinStep2Title: 找到 Mimik
+  pinStep2Title: 找到 Ghideon
   pinStep2Sub: 在扩展下拉菜单中
   pinStep3Title: 点击固定图标
-  pinStep3Sub: Mimik 会出现在工具栏中
-  pinScreenshotAlt: 固定 Mimik 扩展
+  pinStep3Sub: Ghideon 会出现在工具栏中
+  pinScreenshotAlt: 固定 Ghideon 扩展
   starTitle: 愿意给我们一个 star 吗？
-  starMessage: "Mimik 是免费开源的。star 是最简单的感谢方式，也能帮助更多人发现它。"
+  starMessage: "Ghideon 是免费开源的。star 是最简单的感谢方式，也能帮助更多人发现它。"
   starAction: 在 GitHub 上加星
   starLater: 稍后再说
   doneTitle: "全部设置完成！"
-  doneMessage: "Mimik 已准备好捕获你的工作流。点击扩展中的“开始捕获”来录制第一份指南。"
+  doneMessage: "Ghideon 已准备好捕获你的工作流。点击扩展中的“开始捕获”来录制第一份指南。"
   featureAutoCapture: 自动捕获
   featureAIAssist: AI 辅助
   featureVoice: 语音讲解
   featureAnnotate: 标注与遮盖
   featureExports: 随处导出
   featureSmartBlur: 智能模糊
-  openMimik: 打开 Mimik
+  openGhideon: 打开 Ghideon
 
 steps:
   pressKey: "在 $2 上按 $1"
@@ -467,6 +521,8 @@ steps:
   cutFrom: "从 $1 剪切"
   drag: "拖动 $1"
   navigate: 导航到页面
+  navigateTo: "导航至 $1"
+  openPage: "打开 $1"
   defaultAction: "$1 $2"
 
 export:
@@ -474,9 +530,10 @@ export:
   endLabel: "指南完成"
   stepsRange: "步骤 $1-$2，共 $3 步"
   stepOf: "第 $1 步，共 $2 步"
-  madeWith: "使用 Mimik 制作"
+  madeWith: "使用 Ghideon 制作"
   created: 创建时间
   source: 来源
+  author: 作者
   step: 步骤
   steps: 步骤
   stepLabel: "步骤 $1"
@@ -516,11 +573,11 @@ voice:
 
 micPermission:
   title: 允许麦克风访问
-  checkingMessage: 正在检查 Mimik 是否已有麦克风访问权限...
-  promptingMessage: 浏览器正在请求权限。请选择允许，让 Mimik 在你捕获指南时录制语音讲解。此标签页会自动关闭。
+  checkingMessage: 正在检查 Ghideon 是否已有麦克风访问权限...
+  promptingMessage: 浏览器正在请求权限。请选择允许，让 Ghideon 在你捕获指南时录制语音讲解。此标签页会自动关闭。
   grantedTitle: 麦克风已就绪
   grantedMessage: 正在带你回到刚才的操作。
   deniedTitle: 麦克风访问被阻止
-  deniedMessage: 浏览器正在阻止 Mimik 使用麦克风，因此无法录制语音讲解。请从地址栏左侧图标打开网站设置，将麦克风设为允许，然后重试。即使没有麦克风，捕获指南仍可继续使用。
+  deniedMessage: 浏览器正在阻止 Ghideon 使用麦克风，因此无法录制语音讲解。请从地址栏左侧图标打开网站设置，将麦克风设为允许，然后重试。即使没有麦克风，捕获指南仍可继续使用。
   retry: 重试
-  privacy: 音频只会在录制期间保存在内存中，并会发送到你配置的转写提供商。Mimik 永远不会存储它。
+  privacy: 音频只会在录制期间保存在内存中，并会发送到你配置的转写提供商。Ghideon 永远不会存储它。
