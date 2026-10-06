@@ -104,8 +104,9 @@ export const sessionStorage = {
 };
 
 export const localStorage = {
-  get: (keys: string[]) => browser.storage.local.get(keys),
+  get: (keys: string[] | string | null) => browser.storage.local.get(keys),
   set: (items: Record<string, unknown>) => browser.storage.local.set(items),
+  getAll: () => browser.storage.local.get(null),
 };
 
 export function setSidePanelBehavior(openOnActionClick: boolean): void {

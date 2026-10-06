@@ -18,6 +18,8 @@ import {
   Trash2,
   TriangleAlert,
   Volume2,
+  Download,
+  Upload,
 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { i18n } from '#imports';
@@ -504,6 +506,43 @@ export default function SettingsView({ onBack }: SettingsViewProps) {
     creditCard: 'blurPresets.creditCard',
     ipAddress: 'blurPresets.ipAddress',
     macAddress: 'blurPresets.macAddress',
+  };
+
+  const handleExportConfig = async () => {
+    try {
+      const allData = await localStorage.getAll();
+      const blob = new Blob([JSON.stringify(allData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `ghideon-config-${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Failed to export config', err);
+    }
+  };
+
+  const handleImportConfig = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = async (event) => {
+      try {
+        const text = event.target?.result as string;
+        const data = JSON.parse(text);
+        if (typeof data === 'object' && data !== null) {
+          await localStorage.set(data);
+          alert(i18n.t('settings.importSuccess') || 'Configuration imported successfully! Please reload the extension.');
+          window.location.reload();
+        }
+      } catch (err) {
+        console.error('Failed to parse config file', err);
+        alert(i18n.t('settings.importError') || 'Invalid configuration file.');
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = '';
   };
 
   return (
@@ -2048,6 +2087,35 @@ export default function SettingsView({ onBack }: SettingsViewProps) {
               </button>
             </div>
           ))}
+        </div>
+
+        <div className="pt-2 border-t border-border">
+          <div className="flex flex-col gap-2">
+            <button
+              onClick={handleExportConfig}
+              className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-border text-[11px] font-medium text-muted-foreground hover:text-foreground hover:border-accent transition-colors w-full"
+            >
+              <Download size={13} className="shrink-0" />
+              <div className="flex flex-col text-left">
+                <span>{i18n.t('settings.exportConfig') || 'Export Settings'}</span>
+                <span className="text-[9px] text-muted-foreground opacity-80">{i18n.t('settings.exportConfigHint') || 'Backup all settings and API keys'}</span>
+              </div>
+            </button>
+
+            <label className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-border text-[11px] font-medium text-muted-foreground hover:text-foreground hover:border-accent transition-colors w-full cursor-pointer">
+              <Upload size={13} className="shrink-0" />
+              <div className="flex flex-col text-left">
+                <span>{i18n.t('settings.importConfig') || 'Import Settings'}</span>
+                <span className="text-[9px] text-muted-foreground opacity-80">{i18n.t('settings.importConfigHint') || 'Restore settings from a backup file'}</span>
+              </div>
+              <input
+                type="file"
+                accept=".json"
+                className="hidden"
+                onChange={handleImportConfig}
+              />
+            </label>
+          </div>
         </div>
 
         <div className="flex items-start gap-2 px-3 py-2.5 rounded-lg bg-secondary text-[10px] text-muted-foreground leading-relaxed">
