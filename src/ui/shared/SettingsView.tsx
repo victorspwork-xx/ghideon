@@ -4,6 +4,7 @@ import {
   Check,
   ChevronDown,
   ChevronRight,
+  Download,
   Eye,
   EyeOff,
   Globe,
@@ -17,9 +18,8 @@ import {
   Target,
   Trash2,
   TriangleAlert,
-  Volume2,
-  Download,
   Upload,
+  Volume2,
 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { i18n } from '#imports';
@@ -533,7 +533,9 @@ export default function SettingsView({ onBack }: SettingsViewProps) {
         const data = JSON.parse(text);
         if (typeof data === 'object' && data !== null) {
           await localStorage.set(data);
-          alert(i18n.t('settings.importSuccess') || 'Configuration imported successfully! Please reload the extension.');
+          alert(
+            i18n.t('settings.importSuccess') || 'Configuration imported successfully! Please reload the extension.',
+          );
           window.location.reload();
         }
       } catch (err) {
@@ -2098,7 +2100,9 @@ export default function SettingsView({ onBack }: SettingsViewProps) {
               <Download size={13} className="shrink-0" />
               <div className="flex flex-col text-left">
                 <span>{i18n.t('settings.exportConfig') || 'Export Settings'}</span>
-                <span className="text-[9px] text-muted-foreground opacity-80">{i18n.t('settings.exportConfigHint') || 'Backup all settings and API keys'}</span>
+                <span className="text-[9px] text-muted-foreground opacity-80">
+                  {i18n.t('settings.exportConfigHint') || 'Backup all settings and API keys'}
+                </span>
               </div>
             </button>
 
@@ -2106,14 +2110,11 @@ export default function SettingsView({ onBack }: SettingsViewProps) {
               <Upload size={13} className="shrink-0" />
               <div className="flex flex-col text-left">
                 <span>{i18n.t('settings.importConfig') || 'Import Settings'}</span>
-                <span className="text-[9px] text-muted-foreground opacity-80">{i18n.t('settings.importConfigHint') || 'Restore settings from a backup file'}</span>
+                <span className="text-[9px] text-muted-foreground opacity-80">
+                  {i18n.t('settings.importConfigHint') || 'Restore settings from a backup file'}
+                </span>
               </div>
-              <input
-                type="file"
-                accept=".json"
-                className="hidden"
-                onChange={handleImportConfig}
-              />
+              <input type="file" accept=".json" className="hidden" onChange={handleImportConfig} />
             </label>
           </div>
         </div>

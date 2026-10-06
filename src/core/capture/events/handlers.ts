@@ -5,7 +5,7 @@ import { HoverRing } from '@/lib/hover-ring';
 import { logger } from '@/lib/logger';
 import { sendMessage } from '@/lib/messaging';
 import { extractDOMContext } from '../dom/context';
-import { extractElementMeta, freezeRect } from '../dom/element-meta';
+import { extractElementMeta, type FrozenRect, freezeRect } from '../dom/element-meta';
 import {
   eventTarget,
   findFocusableAncestor,
@@ -63,6 +63,12 @@ class CaptureController {
   private dragStartX: number | null = null;
   private dragStartY: number | null = null;
   private dragStartElement: Element | null = null;
+  private lastDownTarget: Element | null = null;
+  private lastDownFocusable: HTMLElement | null = null;
+  private lastDownRect: FrozenRect | null = null;
+  private lastDownX: number = 0;
+  private lastDownY: number = 0;
+  private lastDownTime: number = 0;
   private ring = new HoverRing(DEFAULT_TARGET_COLOR);
   private hovered: HTMLElement | null = null;
   private busy = false;
@@ -103,8 +109,8 @@ class CaptureController {
     }
   }
 
-  private capture(action: string, target: HTMLElement, point?: { x: number; y: number }) {
-    const atEvent = freezeRect(target);
+  private capture(action: string, target: HTMLElement, point?: { x: number; y: number }, preFrozenRect?: FrozenRect) {
+    const atEvent = preFrozenRect ?? freezeRect(target);
     return async () => {
       const elementMeta = extractElementMeta(target, atEvent);
       await sendMessage('captureStep', {
@@ -156,9 +162,30 @@ class CaptureController {
 
   private onClick(e: Event) {
     const me = e as MouseEvent;
+    if (isReplayedClick(me) || me.shiftKey) return;
+
     const raw = eventTarget(me);
-    if (!raw || !(raw instanceof Element) || isReplayedClick(me) || me.shiftKey) return;
-    const target = findFocusableAncestor(raw);
+    let target: HTMLElement;
+    let preFrozenRect: FrozenRect | undefined;
+
+    const dx = Math.abs(me.clientX - this.lastDownX);
+    const dy = Math.abs(me.clientY - this.lastDownY);
+    const movedSlightly = dx < 10 && dy < 10;
+
+    if (
+      this.lastDownTarget &&
+      this.lastDownFocusable &&
+      raw !== this.lastDownTarget &&
+      movedSlightly &&
+      Date.now() - this.lastDownTime < 1000
+    ) {
+      target = this.lastDownFocusable;
+      preFrozenRect = this.lastDownRect!;
+    } else {
+      if (!raw || !(raw instanceof Element)) return;
+      target = findFocusableAncestor(raw);
+    }
+
     if (isMimikElement(target)) return;
 
     const now = Date.now();
@@ -167,7 +194,7 @@ class CaptureController {
     lastClickTime = now;
 
     if (isTextField(target)) {
-      const atEvent = freezeRect(target);
+      const atEvent = preFrozenRect ?? freezeRect(target);
       this.enqueue(async () => {
         if (this.input.active && this.input.target !== target) await this.input.finalize();
         if (!this.input.active) await this.input.start(target, atEvent);
@@ -178,7 +205,7 @@ class CaptureController {
     if (isNavigatingClick(target)) {
       me.preventDefault();
       me.stopImmediatePropagation();
-      this.enqueue(this.capture('click', target, { x: me.clientX, y: me.clientY }));
+      this.enqueue(this.capture('click', target, { x: me.clientX, y: me.clientY }, preFrozenRect));
       const anchor = target.closest('a[href]') as HTMLAnchorElement;
       if (anchor) {
         const href = anchor.href;
@@ -191,7 +218,7 @@ class CaptureController {
       return;
     }
 
-    const task = this.capture('click', target, { x: me.clientX, y: me.clientY });
+    const task = this.capture('click', target, { x: me.clientX, y: me.clientY }, preFrozenRect);
 
     if (!shouldInterceptClick(target, me)) {
       this.enqueue(task);
@@ -310,7 +337,18 @@ class CaptureController {
     const pe = e as PointerEvent;
     this.dragStartX = pe.pageX;
     this.dragStartY = pe.pageY;
-    this.dragStartElement = eventTarget(pe);
+    const raw = eventTarget(pe);
+    this.dragStartElement = raw;
+
+    this.lastDownTarget = raw;
+    this.lastDownX = pe.clientX;
+    this.lastDownY = pe.clientY;
+    if (raw instanceof Element) {
+      const focusable = findFocusableAncestor(raw);
+      this.lastDownFocusable = focusable;
+      this.lastDownRect = freezeRect(focusable);
+    }
+    this.lastDownTime = Date.now();
   }
 
   private onPointerUp(e: Event) {
